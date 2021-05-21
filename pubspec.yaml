@@ -39,6 +39,9 @@ dependencies:
   provider: ^5.0.0
   shared_preferences: ^0.5.6+1
   image_picker: ^0.7.5
+  firebase_storage: ^8.0.3
+  velocity_x: ^3.0.0
+  
   
   
 

@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidcheck/DialogBox/loadignDialog.dart';
 import 'package:covidcheck/Screen/Auth/reset.dart';
 import 'package:covidcheck/Screen/Auth/signUp.dart';
+import 'package:covidcheck/Screen/home.dart';
 import 'package:covidcheck/services/authservices.dart';
+import 'package:covidcheck/services/error_handler.dart';
+import 'package:covidcheck/services/ser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -12,8 +18,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final formKey = new GlobalKey<FormState>();
   String email, password, name;
+  final TextEditingController _emailController = new TextEditingController();
+  final TextEditingController _passwordController = new TextEditingController();
 
   Color greenColor = Color(0xFF00AF19);
 
@@ -75,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ))),
           SizedBox(height: 25.0),
           TextFormField(
+              controller: _emailController,
               decoration: InputDecoration(
                   labelText: 'EMAIL',
                   labelStyle: TextStyle(
@@ -90,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
               validator: (value) =>
                   value.isEmpty ? 'Email is required' : validateEmail(value)),
           TextFormField(
+              controller: _passwordController,
               decoration: InputDecoration(
                   labelText: 'PASSWORD',
                   labelStyle: TextStyle(
@@ -123,8 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(height: 50.0),
           GestureDetector(
             onTap: () {
-              // if (checkFields())
-              //   AuthService().signIn(email, password, name, context);
+              if (checkFields()) loginUser();
             },
             child: Container(
                 height: height * 0.06,
@@ -147,17 +157,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: height * 0.06,
                 width: width * 0.58,
                 decoration: BoxDecoration(
-                    color: Color(0xFF3B5998),
+                    color: Colors.grey[600],
                     borderRadius: BorderRadius.circular(30.0)),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(FontAwesomeIcons.facebook),
+                    Icon(Icons.phone),
                     SizedBox(
                       width: width * 0.03,
                     ),
-                    Text("Login with Facebook",
+                    Text("Login with Phone Number",
                         style: GoogleFonts.notoSans(
                             color: Color(0xFFFFFFFF), fontSize: 15.0))
                   ],
@@ -178,5 +188,58 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: TextDecoration.underline)))
           ])
         ]));
+  }
+
+  void loginUser() async {
+    showDialog(
+        context: context,
+        builder: (c) {
+          return LoadingAlertDialog(
+            message: "Authenticating, Please wait......",
+          );
+        });
+    User user;
+    await _firebaseAuth
+        .signInWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim())
+        .then((value) {
+      user = value.user;
+    }).catchError((e) {
+      ErrorHandler().errorDialog(context, e);
+    });
+    if (user != null) {
+      readData(user).then((s) {
+        Navigator.pop(context);
+        Route route = MaterialPageRoute(builder: (c) => HomePage());
+        Navigator.pushReplacement(context, route);
+      });
+    }
+  }
+
+  Future readData(User fuser) async {
+    FirebaseFirestore.instance
+        .collection("user")
+        .doc(fuser.uid)
+        .get()
+        .then((dataSnapshot) async {
+      await CovidCheckApp.sharedPreferences
+          .setString("uid", dataSnapshot.data()[CovidCheckApp.userUID]);
+
+      await CovidCheckApp.sharedPreferences.setString(CovidCheckApp.userEmail,
+          dataSnapshot.data()[CovidCheckApp.userEmail]);
+
+      await CovidCheckApp.sharedPreferences.setString(
+          CovidCheckApp.userName, dataSnapshot.data()[CovidCheckApp.userName]);
+
+      await CovidCheckApp.sharedPreferences.setString(
+          CovidCheckApp.userAvatarUrl,
+          dataSnapshot.data()[CovidCheckApp.userAvatarUrl]);
+
+      List<String> cartList =
+          dataSnapshot.data()[CovidCheckApp.userCartList].cast<String>();
+      await CovidCheckApp.sharedPreferences
+          .setStringList(CovidCheckApp.userCartList, cartList);
+    });
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/Screen/Auth/login.dart';
 import 'package:covidcheck/Screen/home.dart';
 import 'package:covidcheck/services/ser.dart';
@@ -7,10 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  CovidCheckApp.sharedPreferences = await SharedPreferences.getInstance();
+  CovidCheckApp.firestore = FirebaseFirestore.instance;
   runApp(MyApp());
 }
 

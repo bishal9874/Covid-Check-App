@@ -1,4 +1,5 @@
 import 'package:covidcheck/services/authservices.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +11,8 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPasswordState extends State<ResetPassword> {
   final formKey = new GlobalKey<FormState>();
-
+  final TextEditingController _emailController = new TextEditingController();
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   String email;
 
   Color greenColor = Color(0xFF00AF19);
@@ -59,6 +61,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           ),
           SizedBox(height: 25.0),
           TextFormField(
+              controller: _emailController,
               decoration: InputDecoration(
                   labelText: 'EMAIL',
                   labelStyle:
@@ -74,8 +77,8 @@ class _ResetPasswordState extends State<ResetPassword> {
           SizedBox(height: 50.0),
           GestureDetector(
             onTap: () {
-              // if (checkFields()) AuthService().resetPasswordLink(email);
-              // Navigator.of(context).pop();
+              if (checkFields()) resetPasswordLink();
+              Navigator.of(context).pop();
             },
             child: Container(
                 height: height * 0.06,
@@ -102,5 +105,10 @@ class _ResetPasswordState extends State<ResetPassword> {
                         decoration: TextDecoration.underline)))
           ])
         ]));
+  }
+
+  resetPasswordLink() {
+    return _firebaseAuth.sendPasswordResetEmail(
+        email: _emailController.text.trim());
   }
 }

@@ -1,6 +1,12 @@
-import 'dart:ffi';
 import 'dart:io';
-import 'package:covidcheck/services/authservices.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidcheck/DialogBox/dialogBox.dart';
+import 'package:covidcheck/DialogBox/loadignDialog.dart';
+import 'package:covidcheck/Screen/home.dart';
+import 'package:covidcheck/services/error_handler.dart';
+import 'package:covidcheck/services/ser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +18,8 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   final formKey = new GlobalKey<FormState>();
+  FirebaseStorage fstorage = FirebaseStorage.instance;
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   String email, password, name;
   final TextEditingController _nameController = new TextEditingController();
@@ -74,16 +82,20 @@ class _SignupPageState extends State<SignupPage> {
                 SizedBox(height: 15.0),
                 Container(
                   child: Center(
-                    child: CircleAvatar(
-                      radius: width * 0.15,
-                      backgroundColor: Colors.white,
-                      backgroundImage: _file == null ? null : FileImage(_file),
-                      child: _file == null
-                          ? Icon(
-                              Icons.add_photo_alternate,
-                              size: width * 0.15,
-                            )
-                          : null,
+                    child: InkWell(
+                      onTap: selectandPickImage,
+                      child: CircleAvatar(
+                        radius: width * 0.15,
+                        backgroundColor: Colors.white,
+                        backgroundImage:
+                            _file == null ? null : FileImage(_file),
+                        child: _file == null
+                            ? Icon(
+                                Icons.add_photo_alternate,
+                                size: width * 0.15,
+                              )
+                            : null,
+                      ),
                     ),
                   ),
                 ),
@@ -151,8 +163,8 @@ class _SignupPageState extends State<SignupPage> {
           SizedBox(height: 50.0),
           GestureDetector(
             onTap: () {
-              // if (checkFields())
               //   AuthService().signUp(email, password, name, context);
+              uploadAndSaveImage();
             },
             child: Container(
                 height: height * 0.06,
@@ -182,6 +194,105 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   Future<void> selectandPickImage() async {
-    _file = (await ImagePicker().getImage(source: ImageSource.gallery)) as File;
+    _file = File(await ImagePicker()
+        .getImage(source: ImageSource.gallery)
+        .then((pickedFile) => pickedFile.path));
+  }
+
+  Future<void> uploadAndSaveImage() async {
+    if (_file == null) {
+      showDialog(
+          context: context,
+          builder: (c) {
+            return ErrorAlertDialog(
+              message: "Please select an iamge file",
+            );
+          });
+    } else {
+      _passwordController.text == _cpassController.text
+          ? _emailController.text.isNotEmpty &&
+                  _passwordController.text.isNotEmpty &&
+                  _cpassController.text.isNotEmpty &&
+                  _nameController.text.isNotEmpty
+              ? uploadtoStorage()
+              : displayDialog(
+                  "Please fill up the reg complete form",
+                )
+          : displayDialog(
+              "Password do not match",
+            );
+    }
+  }
+
+  displayDialog(
+    String msg,
+  ) {
+    showDialog(
+        context: context,
+        builder: (c) {
+          return ErrorAlertDialog(
+            message: msg,
+          );
+        });
+  }
+
+  uploadtoStorage() async {
+    showDialog(
+        context: context,
+        builder: (c) {
+          return LoadingAlertDialog(
+            message: "Registering, Please wait......",
+          );
+        });
+
+    String imageFileName = DateTime.now().millisecondsSinceEpoch.toString();
+    Reference reference = fstorage.ref().child(imageFileName);
+    UploadTask uploadTask = reference.putFile(_file);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    await taskSnapshot.ref.getDownloadURL().then((url) {
+      userImageUrl = url;
+      _registerUser();
+    });
+  }
+
+  void _registerUser() async {
+    User userfire;
+    await _firebaseAuth
+        .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim())
+        .then((userCrads) {
+      userfire = userCrads.user;
+    }).catchError((e) {
+      ErrorHandler().errorDialog(context, e);
+    });
+
+    if (userfire != null) {
+      saveUserInfoToFirestore(userfire).then((value) {
+        Navigator.pop(context);
+        Route route = MaterialPageRoute(builder: (c) => HomePage());
+        Navigator.pushReplacement(context, route);
+      });
+    }
+  }
+
+  Future saveUserInfoToFirestore(User fuser) async {
+    FirebaseFirestore.instance.collection("user").doc(fuser.uid).set({
+      "uid": fuser.uid,
+      "eamil": fuser.email,
+      "name": _nameController.text.trim(),
+      "url": userImageUrl,
+      CovidCheckApp.userCartList: ["garbageValue"],
+    });
+    await CovidCheckApp.sharedPreferences
+        .setString(CovidCheckApp.userUID, fuser.uid);
+    await CovidCheckApp.sharedPreferences
+        .setString(CovidCheckApp.userEmail, fuser.email);
+    await CovidCheckApp.sharedPreferences
+        .setString(CovidCheckApp.userName, _nameController.text);
+    await CovidCheckApp.sharedPreferences
+        .setString(CovidCheckApp.userAvatarUrl, userImageUrl);
+    await CovidCheckApp.sharedPreferences
+        .setStringList(CovidCheckApp.userCartList, ["garbageValue"]);
   }
 }
