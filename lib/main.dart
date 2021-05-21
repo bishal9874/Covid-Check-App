@@ -1,0 +1,83 @@
+import 'dart:async';
+import 'package:covidcheck/Screen/Auth/login.dart';
+import 'package:covidcheck/Screen/home.dart';
+import 'package:covidcheck/services/ser.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData.dark(),
+      // home: AuthService().handleAuth(),
+      home: SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    diplaySplash();
+  }
+
+  diplaySplash() {
+    Timer(Duration(seconds: 5), () async {
+      if (await CovidCheckApp.auth.currentUser != null) {
+        Route route = MaterialPageRoute(builder: (_) => HomePage());
+        Navigator.pushReplacement(context, route);
+      } else {
+        Route route = MaterialPageRoute(builder: (_) => LoginScreen());
+        Navigator.pushReplacement(context, route);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        RichText(
+          text: TextSpan(
+            style: TextStyle(fontSize: 40.0),
+            children: <TextSpan>[
+              TextSpan(
+                  text: 'Covid',
+                  style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.w700, color: Colors.white)),
+              TextSpan(
+                  text: 'Check!',
+                  style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.w700, color: Colors.blue)),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 15.0,
+        ),
+        CircularProgressIndicator()
+      ],
+    ));
+  }
+}
