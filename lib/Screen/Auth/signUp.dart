@@ -279,7 +279,7 @@ class _SignupPageState extends State<SignupPage> {
   Future saveUserInfoToFirestore(User fuser) async {
     FirebaseFirestore.instance.collection("user").doc(fuser.uid).set({
       "uid": fuser.uid,
-      "eamil": fuser.email,
+      "eamil": _emailController.text.trim(),
       "name": _nameController.text.trim(),
       "url": userImageUrl,
       CovidCheckApp.userCartList: ["garbageValue"],
@@ -287,7 +287,7 @@ class _SignupPageState extends State<SignupPage> {
     await CovidCheckApp.sharedPreferences
         .setString(CovidCheckApp.userUID, fuser.uid);
     await CovidCheckApp.sharedPreferences
-        .setString(CovidCheckApp.userEmail, fuser.email);
+        .setString(CovidCheckApp.userEmail, _emailController.text);
     await CovidCheckApp.sharedPreferences
         .setString(CovidCheckApp.userName, _nameController.text);
     await CovidCheckApp.sharedPreferences
