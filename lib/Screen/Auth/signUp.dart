@@ -20,6 +20,7 @@ class _SignupPageState extends State<SignupPage> {
   final formKey = new GlobalKey<FormState>();
   FirebaseStorage fstorage = FirebaseStorage.instance;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  bool ishiddenpass = true;
 
   String email, password, name;
   final TextEditingController _nameController = new TextEditingController();
@@ -133,13 +134,19 @@ class _SignupPageState extends State<SignupPage> {
           TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.visibility),
+                    onPressed: () {
+                      _togglepassword();
+                    },
+                  ),
                   labelText: 'PASSWORD',
                   labelStyle:
                       GoogleFonts.raleway(fontSize: 12.0, color: Colors.white),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: greenColor),
                   )),
-              obscureText: true,
+              obscureText: ishiddenpass,
               onChanged: (value) {
                 this.password = value;
               },
@@ -148,13 +155,19 @@ class _SignupPageState extends State<SignupPage> {
           TextFormField(
               controller: _cpassController,
               decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.visibility),
+                    onPressed: () {
+                      _togglepassword();
+                    },
+                  ),
                   labelText: 'CONFRIM PASSWORD',
                   labelStyle:
                       GoogleFonts.raleway(fontSize: 12.0, color: Colors.white),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: greenColor),
                   )),
-              obscureText: true,
+              obscureText: ishiddenpass,
               onChanged: (value) {
                 this.password = value;
               },
@@ -294,5 +307,11 @@ class _SignupPageState extends State<SignupPage> {
         .setString(CovidCheckApp.userAvatarUrl, userImageUrl);
     await CovidCheckApp.sharedPreferences
         .setStringList(CovidCheckApp.userCartList, ["garbageValue"]);
+  }
+
+  void _togglepassword() {
+    setState(() {
+      ishiddenpass = !ishiddenpass;
+    });
   }
 }

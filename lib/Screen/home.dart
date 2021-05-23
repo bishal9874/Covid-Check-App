@@ -1,4 +1,5 @@
 import 'package:covidcheck/Screen/Auth/login.dart';
+import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/services/authservices.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:covidcheck/widgets/drawer.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HomePage extends StatefulWidget {
@@ -44,6 +46,34 @@ class _HomePageState extends State<HomePage> {
                   },
                   icon: Icon(FontAwesomeIcons.bars, color: Colors.white),
                 )),
+        actions: [
+          Stack(
+            children: [
+              Positioned(
+                top: 1.0,
+                right: 4.0,
+                child: Container(
+                  height: 15.0,
+                  width: 15.0,
+                  decoration: BoxDecoration(
+                      color: Colors.white, shape: BoxShape.circle),
+                  // child:
+                  //     Consumer<BookItemCounter>(builder: (context, counter, _) {
+                  //   return Text(counter.count.toString(),
+                  //       style: GoogleFonts.raleway(
+                  //           fontSize: 12.0, color: Colors.black));
+                  // }),
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
+                onPressed: () {
+                  //Get.to(CartPage());
+                },
+              ),
+            ],
+          ),
+        ],
       ),
       drawer: Drawer(
         child: MainDrawer(),

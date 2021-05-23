@@ -3,6 +3,7 @@ import 'package:covidcheck/DialogBox/loadignDialog.dart';
 import 'package:covidcheck/Screen/Auth/reset.dart';
 import 'package:covidcheck/Screen/Auth/signUp.dart';
 import 'package:covidcheck/Screen/home.dart';
+import 'package:covidcheck/admin/adminscreen.dart';
 import 'package:covidcheck/services/authservices.dart';
 import 'package:covidcheck/services/error_handler.dart';
 import 'package:covidcheck/services/ser.dart';
@@ -18,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool ishidePassword = true;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final formKey = new GlobalKey<FormState>();
   String email, password, name;
@@ -102,6 +104,12 @@ class _LoginScreenState extends State<LoginScreen> {
           TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.visibility),
+                    onPressed: () {
+                      _togglepassword();
+                    },
+                  ),
                   labelText: 'PASSWORD',
                   labelStyle: TextStyle(
                       fontFamily: 'Trueno',
@@ -110,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: greenColor),
                   )),
-              obscureText: true,
+              obscureText: ishidePassword,
               onChanged: (value) {
                 this.password = value;
               },
@@ -185,8 +193,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                         color: greenColor,
                         fontFamily: 'Trueno',
-                        decoration: TextDecoration.underline)))
-          ])
+                        decoration: TextDecoration.underline))),
+          ]),
+          SizedBox(height: 25.0),
+          Divider(),
+          SizedBox(height: 18.0),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text("If You are "),
+            SizedBox(width: 5.0),
+            InkWell(
+                onTap: () {
+                  Get.to(Adminauth());
+                },
+                child: Text('Admin',
+                    style: GoogleFonts.raleway(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline))),
+          ]),
         ]));
   }
 
@@ -240,6 +264,12 @@ class _LoginScreenState extends State<LoginScreen> {
           dataSnapshot.data()[CovidCheckApp.userCartList].cast<String>();
       await CovidCheckApp.sharedPreferences
           .setStringList(CovidCheckApp.userCartList, cartList);
+    });
+  }
+
+  void _togglepassword() {
+    setState(() {
+      ishidePassword = !ishidePassword;
     });
   }
 }
