@@ -243,15 +243,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future readData(User fuser) async {
     FirebaseFirestore.instance
-        .collection("user")
+        .collection("users")
         .doc(fuser.uid)
         .get()
         .then((dataSnapshot) async {
       await CovidCheckApp.sharedPreferences
           .setString("uid", dataSnapshot.data()[CovidCheckApp.userUID]);
 
-      await CovidCheckApp.sharedPreferences.setString(CovidCheckApp.userEmail,
-          dataSnapshot.data()[CovidCheckApp.userEmail]);
+      await CovidCheckApp.sharedPreferences
+          .setString("email", dataSnapshot.data()[CovidCheckApp.userEmail]);
 
       await CovidCheckApp.sharedPreferences.setString(
           CovidCheckApp.userName, dataSnapshot.data()[CovidCheckApp.userName]);

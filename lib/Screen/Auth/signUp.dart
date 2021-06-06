@@ -269,19 +269,19 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void _registerUser() async {
-    User userfire;
+    User user;
     await _firebaseAuth
         .createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim())
         .then((userCrads) {
-      userfire = userCrads.user;
+      user = userCrads.user;
     }).catchError((e) {
       ErrorHandler().errorDialog(context, e);
     });
 
-    if (userfire != null) {
-      saveUserInfoToFirestore(userfire).then((value) {
+    if (user != null) {
+      saveUserInfoToFirestore(user).then((value) {
         Navigator.pop(context);
         Route route = MaterialPageRoute(builder: (c) => HomePage());
         Navigator.pushReplacement(context, route);
@@ -290,9 +290,9 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   Future saveUserInfoToFirestore(User fuser) async {
-    FirebaseFirestore.instance.collection("user").doc(fuser.uid).set({
+    FirebaseFirestore.instance.collection("users").doc(fuser.uid).set({
       "uid": fuser.uid,
-      "eamil": _emailController.text.trim(),
+      "email": _emailController.text.trim(),
       "name": _nameController.text.trim(),
       "url": userImageUrl,
       CovidCheckApp.userCartList: ["garbageValue"],
