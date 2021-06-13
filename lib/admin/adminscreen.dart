@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/admin/adminHomepage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +12,7 @@ class Adminauth extends StatefulWidget {
 
 class _AdminauthState extends State<Adminauth> {
   bool ishide = true;
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  // FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final formKey = new GlobalKey<FormState>();
   Color greenColor = Color(0xFF00AF19);
   String email, password, name;
@@ -30,7 +30,7 @@ class _AdminauthState extends State<Adminauth> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    //var width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(

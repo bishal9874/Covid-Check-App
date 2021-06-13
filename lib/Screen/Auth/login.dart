@@ -4,7 +4,7 @@ import 'package:covidcheck/Screen/Auth/reset.dart';
 import 'package:covidcheck/Screen/Auth/signUp.dart';
 import 'package:covidcheck/Screen/home.dart';
 import 'package:covidcheck/admin/adminscreen.dart';
-import 'package:covidcheck/services/authservices.dart';
+
 import 'package:covidcheck/services/error_handler.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:firebase_auth/firebase_auth.dart';

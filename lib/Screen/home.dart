@@ -1,18 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:covidcheck/Screen/Auth/login.dart';
+import 'package:covidcheck/Screen/catagories.dart';
 import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
-import 'package:covidcheck/services/authservices.dart';
-import 'package:covidcheck/services/ser.dart';
 import 'package:covidcheck/widgets/drawer.dart';
-import 'package:covidcheck/widgets/provider_widgets.dart';
 import 'package:covidcheck/widgets/searchBox.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,7 +35,8 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.w700, color: Colors.orange)),
             ],
           ),
-        ).pOnly(left: 35.0),
+        ),
+        centerTitle: true,
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         leading: Builder(
@@ -118,37 +115,91 @@ class _HomePageState extends State<HomePage> {
   Widget sourceInfo(OrgModel model, BuildContext context,
       {Color background, removeCartFunction}) {
     return InkWell(
-      splashColor: Colors.grey,
-      child: Padding(
-          padding: EdgeInsets.all(6.0),
+        onTap: () {
+          Get.to(OrgDetailPage(orgModel: model));
+        },
+        splashColor: Colors.grey,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
           child: Container(
-            height: 250.0,
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              children: [
-                Image.network(
-                  model.thumbnailUrl,
-                  width: 140.0,
-                  height: 140.0,
-                ),
-                Container(
-                  child: VStack([
-                    model.organization.text
-                        .size(15.0)
-                        .textStyle(
-                            GoogleFonts.raleway(fontWeight: FontWeight.w700))
-                        .make(),
-                    Text(model.doctor1),
-                    Text(model.doctor2),
-                    Text(model.doctor3),
-                    Text(model.vaccine1),
-                    Text(model.vaccine2),
-                    Text(model.vaccine3),
-                  ]),
-                )
-              ],
-            ),
-          )),
-    );
+              height: 150,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(model.thumbnailUrl))),
+              child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomRight,
+                        stops: [
+                          0.2,
+                          0.7
+                        ],
+                        colors: [
+                          Colors.black.withOpacity(.8),
+                          Colors.black.withOpacity(.2)
+                        ]),
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(
+                        model.organization,
+                        style: GoogleFonts.raleway(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            fontSize: 20),
+                      ),
+                    ),
+                  ))),
+        ));
+  }
+
+  Widget covidtracker(
+    BuildContext context,
+  ) {
+    return InkWell(
+        onTap: () {},
+        splashColor: Colors.grey,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage("assets/tracker.jpg"))),
+              child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomRight,
+                        stops: [
+                          0.2,
+                          0.7
+                        ],
+                        colors: [
+                          Colors.black.withOpacity(.8),
+                          Colors.black.withOpacity(.2)
+                        ]),
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(
+                        "Live Tracker",
+                        style: GoogleFonts.raleway(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            fontSize: 20),
+                      ),
+                    ),
+                  ))),
+        ));
   }
 }
