@@ -30,6 +30,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
   String seasonChoice = "";
   String aadharNumber, name, birthyear;
   DateTime dateTime = DateTime.now();
+
   //
   checkFields() {
     final form = formKey.currentState;

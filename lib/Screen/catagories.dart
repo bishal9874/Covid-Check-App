@@ -1,4 +1,4 @@
-import 'package:covidcheck/Screen/Doctor_Appoint.dart';
+import 'package:covidcheck/Screen/doctor_list.dart';
 import 'package:covidcheck/Screen/vaccineDetails.dart';
 import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
@@ -105,9 +105,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
     var width = MediaQuery.of(context).size.width;
     return InkWell(
         onTap: () {
-          Get.to(DoctorAppointment(
-            doctors: widget.orgModel,
-          ));
+          Get.to(DoctorList(doctorList: widget.orgModel));
         },
         splashColor: Colors.grey,
         child: Padding(

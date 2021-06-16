@@ -54,7 +54,6 @@ class OrgModel {
     publishedDate = json['publishedDate'];
     thumbnailUrl = json['thumbnailUrl'];
     status = json['status'];
-    // price = json['price'];
     doctor1 = json['doctor1'];
     doc1des = json['doctor1des'];
     doc1fees = json['doctor1fees'];

@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'CovidCheck',
         theme: ThemeData.dark(),
         home: SplashScreen(),
       ),
