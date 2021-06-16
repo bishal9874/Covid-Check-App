@@ -1,3 +1,4 @@
+import 'package:covidcheck/Screen/contactUs.dart';
 import 'package:covidcheck/Screen/doctor_list.dart';
 import 'package:covidcheck/Screen/vaccineDetails.dart';
 import 'package:covidcheck/counter/booking_counter.dart';
@@ -24,6 +25,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
     BuildContext context,
   ) {
     return Scaffold(
+        backgroundColor: Colors.blueGrey[900],
         appBar: AppBar(
           title: Text(
             widget.orgModel.organization,
@@ -353,7 +355,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
     var width = MediaQuery.of(context).size.width;
     return InkWell(
         onTap: () {
-          //  Get.to(VaccineDetails(vaccine: widget.orgModel));
+          Get.to(ContactUS(contact: widget.orgModel));
         },
         splashColor: Colors.grey,
         child: Padding(

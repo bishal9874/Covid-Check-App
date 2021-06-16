@@ -1,0 +1,151 @@
+import 'package:covidcheck/models/orgServiecs.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:velocity_x/velocity_x.dart';
+
+class ContactUS extends StatefulWidget {
+  OrgModel contact;
+  ContactUS({this.contact});
+  @override
+  _ContactUSState createState() => _ContactUSState();
+}
+
+class _ContactUSState extends State<ContactUS> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // backgroundColor: Colors.blueGrey[600],
+      appBar: _buildAppBar(context),
+      body: VStack([
+        _contactStatement(
+            context,
+            widget.contact.orgaddress,
+            widget.contact.orgCity,
+            widget.contact.orgDistrict,
+            widget.contact.email,
+            widget.contact.contact,
+            widget.contact.pinNumber,
+            widget.contact.organization)
+      ]),
+    );
+  }
+
+  _buildAppBar(BuildContext context) {
+    return AppBar(
+      elevation: 0.0,
+      backgroundColor: Colors.blueGrey[700],
+      automaticallyImplyLeading: false,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(FontAwesomeIcons.chevronLeft)),
+          Text(
+            "Contact Us",
+            style: GoogleFonts.raleway(),
+          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
+        ],
+      ),
+    );
+  }
+
+  _contactStatement(
+      BuildContext context,
+      String address,
+      String city,
+      String district,
+      String email,
+      int contactNumber,
+      int pinCode,
+      String orgaName) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      child: VStack([
+        Container(
+          width: width * 0.70,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Icon(
+                FontAwesomeIcons.mapMarkedAlt,
+                color: Colors.blue[100],
+              ),
+              Container(
+                child: VStack([
+                  Text(address,
+                      style: GoogleFonts.raleway(
+                          fontWeight: FontWeight.w500, fontSize: 20.0)),
+                  Text(
+                    city,
+                    style: GoogleFonts.raleway(
+                        fontWeight: FontWeight.w500, fontSize: 20.0),
+                  ),
+                  Text(
+                    district,
+                    style: GoogleFonts.raleway(
+                        fontWeight: FontWeight.w500, fontSize: 20.0),
+                  ),
+                  Text(
+                    pinCode.toString(),
+                    style: GoogleFonts.notoSans(
+                        fontWeight: FontWeight.w500, fontSize: 20.0),
+                  )
+                ]),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: height * 0.02),
+        Container(
+          width: width * 0.70,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  FontAwesomeIcons.phoneAlt,
+                  color: Colors.red,
+                ),
+              ),
+              Text(
+                '+91 ' + contactNumber.toString(),
+                style: GoogleFonts.notoSans(
+                    fontWeight: FontWeight.w500, fontSize: 20.0),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: height * 0.02),
+        Container(
+          width: width * 0.70,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  FontAwesomeIcons.envelope,
+                  color: Colors.blueGrey,
+                ),
+              ),
+              Text(
+                email,
+                style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w500, fontSize: 20.0),
+              ),
+            ],
+          ),
+        )
+      ]),
+    );
+  }
+}

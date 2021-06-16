@@ -332,7 +332,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
 
     CovidCheckApp.firestore
         .collection("vaccine")
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName))
         .set({
       "vaccineCentre_Name": oranizationName,
       "userUI":
