@@ -34,28 +34,31 @@ class _DoctorListState extends State<DoctorList> {
               widget.doctorList.doc1fees,
               "assets/doc.jpg",
               context,
-              widget.doctorList),
+              widget.doctorList,
+              widget.doctorList.organization),
           _doctors(
               widget.doctorList.doctor2,
               widget.doctorList.doc2des,
               widget.doctorList.doc2fees,
               "assets/dcotor2.jpg",
               context,
-              widget.doctorList),
+              widget.doctorList,
+              widget.doctorList.organization),
           _doctors(
               widget.doctorList.doctor3,
               widget.doctorList.doc3des,
               widget.doctorList.doc3fees,
               "assets/doctor3.jpg",
               context,
-              widget.doctorList)
+              widget.doctorList,
+              widget.doctorList.organization)
         ]),
       ),
     );
   }
 
   Widget _doctors(String name, String description, int fee, String imgeurl,
-      BuildContext context, OrgModel orgModel) {
+      BuildContext context, OrgModel orgModel, String orgname) {
     return InkWell(
       onTap: () => Get.to(DoctorDetails(
         doctorDetails: orgModel,
@@ -64,6 +67,7 @@ class _DoctorListState extends State<DoctorList> {
         herotag: name,
         fee: fee,
         image: imgeurl,
+        orgname: orgname,
       )),
       child: Container(
         padding: EdgeInsets.all(5.0),

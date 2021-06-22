@@ -23,31 +23,68 @@ class OrgModel {
   String email;
   int pinNumber;
   int contact;
+  String blood1Choice;
+  String blood2Choice;
+  String blood3Choice;
+  String blood4Choice;
+  String blood5Choice;
+  String blood6Choice;
+  String blood7Choice;
+  String blood8Choice;
+  String doctor1schedule;
+  String doctor2schedule;
+  String doctor3schedule;
+  int minimumAppointprice;
+  int minimumvaccineprice;
+  int minimumbedprice;
+  int minimumbloodprice;
+  int normalbedAvailable;
+  int emergencybedAvailable;
+  int minimumoygenprice;
+  int ambulanceNumber;
 
-  OrgModel({
-    this.organization,
-    this.doctor1,
-    this.doc1des,
-    this.doc1fees,
-    this.publishedDate,
-    this.thumbnailUrl,
-    this.doctor2,
-    this.doc2des,
-    this.doc2fees,
-    this.status,
-    this.doctor3,
-    this.doc3des,
-    this.doc3fees,
-    this.vaccine1,
-    this.vaccine2,
-    this.vaccine3,
-    this.orgaddress,
-    this.orgCity,
-    this.orgDistrict,
-    this.pinNumber,
-    this.contact,
-    this.email,
-  });
+  OrgModel(
+      {this.organization,
+      this.doctor1,
+      this.doc1des,
+      this.doc1fees,
+      this.publishedDate,
+      this.thumbnailUrl,
+      this.doctor2,
+      this.doc2des,
+      this.doc2fees,
+      this.status,
+      this.doctor3,
+      this.doc3des,
+      this.doc3fees,
+      this.vaccine1,
+      this.vaccine2,
+      this.vaccine3,
+      this.orgaddress,
+      this.orgCity,
+      this.orgDistrict,
+      this.pinNumber,
+      this.contact,
+      this.email,
+      this.blood1Choice,
+      this.blood2Choice,
+      this.blood3Choice,
+      this.blood4Choice,
+      this.blood5Choice,
+      this.blood6Choice,
+      this.blood7Choice,
+      this.blood8Choice,
+      this.doctor1schedule,
+      this.doctor2schedule,
+      this.doctor3schedule,
+      this.ambulanceNumber,
+      this.emergencybedAvailable,
+      this.minimumAppointprice,
+      this.minimumbedprice,
+      this.minimumbloodprice,
+      this.minimumoygenprice,
+      this.minimumvaccineprice,
+      this.normalbedAvailable});
 
   OrgModel.fromJson(Map<String, dynamic> json) {
     organization = json['organization'];
@@ -72,6 +109,25 @@ class OrgModel {
     pinNumber = json['pin_number'];
     contact = json['contact'];
     email = json['email'];
+    blood1Choice = json["blood1Choice"];
+    blood2Choice = json["blood2Choice"];
+    blood3Choice = json["blood3Choice"];
+    blood4Choice = json["blood4Choice"];
+    blood5Choice = json["blood5Choice"];
+    blood6Choice = json["blood6Choice"];
+    blood7Choice = json["blood7Choice"];
+    blood8Choice = json["blood8Choice"];
+    doctor1schedule = json["doctor1schedule"];
+    doctor2schedule = json["doctor2schedule"];
+    doctor3schedule = json["doctor3schedule"];
+    minimumAppointprice = json["minimumAppointprice"];
+    minimumvaccineprice = json["minimumvaccineprice"];
+    minimumbedprice = json["minimumbedprice"];
+    minimumbloodprice = json["minimumbloodprice"];
+    minimumoygenprice = json["minimumoygenprice"];
+    normalbedAvailable = json["normalbedAvailable"];
+    emergencybedAvailable = json["emergencybedAvailable"];
+    ambulanceNumber = json["AmbulanceNumber"];
   }
 
   Map<String, dynamic> toJson() {
@@ -95,6 +151,27 @@ class OrgModel {
     data['pin_number'] = this.pinNumber;
     data['contact'] = this.contact;
     data['email'] = this.email;
+    data['blood1Choice'] = this.blood1Choice;
+    data['blood2Choice'] = this.blood2Choice;
+    data['blood3Choice'] = this.blood3Choice;
+    data['blood4Choice'] = this.blood4Choice;
+    data['blood5Choice'] = this.blood5Choice;
+    data['blood6Choice'] = this.blood6Choice;
+    data['blood7Choice'] = this.blood7Choice;
+    data['blood8Choice'] = this.blood8Choice;
+    data['doctor1schedule'] = this.doctor1schedule;
+    data['doctor2schedule'] = this.doctor2schedule;
+    data['doctor3schedule'] = this.doctor3schedule;
+    data['minimumAppointprice'] = this.minimumAppointprice;
+    data['minimumvaccineprice'] = this.minimumvaccineprice;
+    data['minimumbedprice'] = this.minimumbedprice;
+    data['minimumbloodprice'] = this.minimumbloodprice;
+    data['normalbedAvailable'] = this.normalbedAvailable;
+    data['emergencybedAvailable'] = this.emergencybedAvailable;
+    data['minimumoygenprice'] = this.minimumoygenprice;
+    data['minimumbloodprice'] = this.minimumbloodprice;
+    data['AmbulanceNumber'] = this.ambulanceNumber;
+
     // data['price'] = this.price;
 
     if (this.publishedDate != null) {

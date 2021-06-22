@@ -1,8 +1,10 @@
+import 'package:covidcheck/Screen/bloodbook.dart';
 import 'package:covidcheck/Screen/contactUs.dart';
 import 'package:covidcheck/Screen/doctor_list.dart';
 import 'package:covidcheck/Screen/vaccineDetails.dart';
 import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
+import 'package:covidcheck/models/vaccinationModel.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -13,8 +15,9 @@ import 'package:velocity_x/velocity_x.dart';
 
 class OrgDetailPage extends StatefulWidget {
   final OrgModel orgModel;
+  VaccineModel vaccineModel;
 
-  OrgDetailPage({this.orgModel});
+  OrgDetailPage({this.orgModel, this.vaccineModel});
   @override
   _OrgDetailPageState createState() => _OrgDetailPageState();
 }
@@ -306,7 +309,9 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
     var width = MediaQuery.of(context).size.width;
     return InkWell(
         onTap: () {
-          //  Get.to(VaccineDetails(vaccine: widget.orgModel));
+          Get.to(BloodServices(
+            bloodservice: widget.orgModel,
+          ));
         },
         splashColor: Colors.grey,
         child: Padding(

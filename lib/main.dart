@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/Screen/Auth/login.dart';
 import 'package:covidcheck/Screen/home.dart';
+import 'package:covidcheck/blocs/application_bloc.dart';
 import 'package:covidcheck/counter/Addresschanger.dart';
 import 'package:covidcheck/counter/BookQuantity.dart';
 import 'package:covidcheck/counter/booking_counter.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (c) => BookQuantity()),
         ChangeNotifierProvider(create: (c) => AddressChanger()),
         ChangeNotifierProvider(create: (c) => TotalAmount()),
+        ChangeNotifierProvider(create: (c) => ApplicationBlocs())
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

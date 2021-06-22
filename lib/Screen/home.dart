@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidcheck/Screen/cart_page.dart';
 import 'package:covidcheck/Screen/catagories.dart';
 import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
+import 'package:covidcheck/services/ser.dart';
 import 'package:covidcheck/widgets/drawer.dart';
 import 'package:covidcheck/widgets/searchBox.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +63,12 @@ class _HomePageState extends State<HomePage> {
                 left: 6.0,
                 child:
                     Consumer<BookItemCounter>(builder: (context, counter, _) {
-                  return Text(counter.count.toString(),
+                  return Text(
+                      (CovidCheckApp.sharedPreferences
+                                  .getStringList(CovidCheckApp.userCartList)
+                                  .length -
+                              1)
+                          .toString(),
                       style: GoogleFonts.raleway(
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,
@@ -71,7 +78,7 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
                 onPressed: () {
-                  //Get.to(CartPage());
+                  // Get.to(CartPage());
                 },
               ),
             ],
@@ -112,95 +119,50 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
 
-  Widget sourceInfo(OrgModel model, BuildContext context,
-      {Color background, removeCartFunction}) {
-    return InkWell(
-        onTap: () {
-          Get.to(OrgDetailPage(orgModel: model));
-        },
-        splashColor: Colors.grey,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-              height: 150,
-              decoration: BoxDecoration(
+Widget sourceInfo(OrgModel model, BuildContext context,
+    {Color background, removeCartFunction}) {
+  return InkWell(
+      onTap: () {
+        Get.to(OrgDetailPage(orgModel: model));
+      },
+      splashColor: Colors.grey,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+            height: 150,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(model.thumbnailUrl))),
+            child: Container(
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(model.thumbnailUrl))),
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomRight,
-                        stops: [
-                          0.2,
-                          0.7
-                        ],
-                        colors: [
-                          Colors.black.withOpacity(.8),
-                          Colors.black.withOpacity(.2)
-                        ]),
-                  ),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(
-                        model.organization,
-                        style: GoogleFonts.raleway(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            fontSize: 20),
-                      ),
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomRight,
+                      stops: [
+                        0.2,
+                        0.7
+                      ],
+                      colors: [
+                        Colors.black.withOpacity(.8),
+                        Colors.black.withOpacity(.2)
+                      ]),
+                ),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      model.organization,
+                      style: GoogleFonts.raleway(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          fontSize: 20),
                     ),
-                  ))),
-        ));
-  }
-
-  Widget covidtracker(
-    BuildContext context,
-  ) {
-    return InkWell(
-        onTap: () {},
-        splashColor: Colors.grey,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage("assets/tracker.jpg"))),
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomRight,
-                        stops: [
-                          0.2,
-                          0.7
-                        ],
-                        colors: [
-                          Colors.black.withOpacity(.8),
-                          Colors.black.withOpacity(.2)
-                        ]),
                   ),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(
-                        "Live Tracker",
-                        style: GoogleFonts.raleway(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            fontSize: 20),
-                      ),
-                    ),
-                  ))),
-        ));
-  }
+                ))),
+      ));
 }

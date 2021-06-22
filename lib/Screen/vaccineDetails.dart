@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:covidcheck/services/ser.dart';
@@ -30,6 +29,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
   String seasonChoice = "";
   String aadharNumber, name, birthyear;
   DateTime dateTime = DateTime.now();
+  String vaccinationID = DateTime.now().millisecondsSinceEpoch.toString();
 
   //
   checkFields() {
@@ -126,7 +126,6 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                 } else if (value.length != 4) {
                   return "please enter a valid Birth Year";
                 }
-
                 return null;
               }),
           SizedBox(
@@ -226,8 +225,56 @@ class _VaccineDetailsState extends State<VaccineDetails> {
           GestureDetector(
             onTap: () {
               if (checkFields())
-                checkvaccineBookCart(widget.vaccine.organization, context,
-                    widget.vaccine.organization);
+                showDialog(
+                    context: context,
+                    builder: (c) {
+                      return AlertDialog(
+                        contentPadding: EdgeInsets.all(8.0),
+                        content: Container(
+                            height: height * 0.25,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Container(
+                                //   child: Image(
+                                //       height: height * 0.25,
+                                //       width: width * 0.30,
+                                //       image: AssetImage(
+                                //           "assets/gettingvaccine.png")),
+                                // ),
+                                Text(
+                                    "You Just Pay ₹ ${widget.vaccine.minimumvaccineprice} for Vaccination"),
+                                SizedBox(
+                                  height: height * 0.05,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    checkvaccineBookCart(
+                                        _aadharNumberController.text.trim(),
+                                        context,
+                                        widget.vaccine.organization);
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                      height: height * 0.06,
+                                      width: width * 0.40,
+                                      child: Material(
+                                          borderRadius:
+                                              BorderRadius.circular(5.0),
+                                          color: Color(0xFF2877ed),
+                                          elevation: 0.0,
+                                          child: Center(
+                                              child: Text('Pay',
+                                                  style: GoogleFonts.raleway(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 18.0))))),
+                                ),
+                              ],
+                            )),
+                      );
+                    });
             },
             child: Container(
                 height: height * 0.06,
@@ -294,6 +341,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     );
   }
 
+  //// blood choice
   __seasonChoice(String name) {
     return Container(
       padding: const EdgeInsets.all(2.0),
@@ -322,17 +370,37 @@ class _VaccineDetailsState extends State<VaccineDetails> {
             .getStringList(CovidCheckApp.userCartList)
             .contains(org)
         ? Fluttertoast.showToast(msg: "Book is Already in Cart")
-        : addBookToCart(org, context, orgName);
+        : addBookToCart(
+            org,
+            context,
+            orgName,
+          );
   }
 
-  addBookToCart(String org, BuildContext context, String oranizationName) {
+  addBookToCart(
+    String org,
+    BuildContext context,
+    String oranizationName,
+  ) async {
     List vaccineList = CovidCheckApp.sharedPreferences
         .getStringList(CovidCheckApp.userCartList);
     vaccineList.add(org);
 
     CovidCheckApp.firestore
+        .collection(CovidCheckApp.collectionUser)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .update({
+      CovidCheckApp.userCartList: vaccineList,
+    }).then((value) {
+      Fluttertoast.showToast(msg: "Vaccine Book  Successfully");
+      CovidCheckApp.sharedPreferences
+          .setStringList(CovidCheckApp.userCartList, vaccineList);
+      Provider.of<BookItemCounter>(context, listen: false).displayResult();
+    });
+
+    CovidCheckApp.firestore
         .collection("vaccine")
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName))
+        .doc(_aadharNumberController.text.trim())
         .set({
       "vaccineCentre_Name": oranizationName,
       "userUI":
@@ -340,26 +408,18 @@ class _VaccineDetailsState extends State<VaccineDetails> {
       "username":
           CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
       "useremail":
-          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
       "name": _nameController.text.trim(),
-      "aadharnumber": _aadharNumberController.text.trim(),
-      "birthyear": _birthyearController.text.trim(),
+      "aadharnumber": int.parse(_aadharNumberController.text.trim()),
+      "birthyear": int.parse(_birthyearController.text.trim()),
       "vaccineChoice": selectedChoice,
       "underAge": ageselectedChoice,
       "seasonChoice": seasonChoice,
-      "dateSelection": dateTime
+      "dateSelection": dateTime,
+      "publishDate": DateTime.now(),
     });
-    CovidCheckApp.firestore
-        .collection(CovidCheckApp.collectionUser)
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
-        .update({
-      CovidCheckApp.userCartList: vaccineList,
-    }).then((value) {
-      Fluttertoast.showToast(msg: "Book Added to Cart Successfully");
-      CovidCheckApp.sharedPreferences
-          .setStringList(CovidCheckApp.userCartList, vaccineList);
-      Provider.of<BookItemCounter>(context, listen: false).displayResult();
-    });
+    await CovidCheckApp.sharedPreferences
+        .setString(CovidCheckApp.vaccineUI, _aadharNumberController.text);
     setState(() {
       _nameController.clear();
       _birthyearController.clear();
@@ -367,3 +427,5 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     });
   }
 }
+
+///// vakin duto dose

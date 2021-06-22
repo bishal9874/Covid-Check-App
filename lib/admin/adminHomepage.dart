@@ -64,6 +64,25 @@ class AdminHome extends StatelessWidget {
                   .makeCentered(),
             ).centered(),
           ),
+          SizedBox(
+            height: 20.0,
+          ),
+          InkWell(
+            onTap: () {
+              // Get.to(Vaccineadmin());
+            },
+            child: Container(
+              height: 199,
+              width: 344,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(28),
+                  color: Color(0xFF2877ed)),
+              child: "vaccine Details"
+                  .text
+                  .textStyle(GoogleFonts.raleway(fontSize: 20.0))
+                  .makeCentered(),
+            ).centered(),
+          ),
         ]),
       ).p(10),
     );

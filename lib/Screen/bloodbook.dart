@@ -1,88 +1,57 @@
-import 'package:covidcheck/counter/booking_counter.dart';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
-import 'package:covidcheck/services/ser.dart';
-import 'package:covidcheck/widgets/link_icon.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:flutter_progress_button/flutter_progress_button.dart';
 
-// ignore: must_be_immutable
-class DoctorDetails extends StatefulWidget {
-  OrgModel doctorDetails;
-  final fee, doctorName, doctordes, herotag, image, orgname;
-  DoctorDetails(
-      {this.doctorDetails,
-      this.fee,
-      this.doctorName,
-      this.doctordes,
-      this.herotag,
-      this.image,
-      this.orgname});
+class BloodServices extends StatefulWidget {
+  OrgModel bloodservice;
+  BloodServices({Key key, this.bloodservice}) : super(key: key);
 
   @override
-  _DoctorDetailsState createState() => _DoctorDetailsState();
+  _BloodServicesState createState() => _BloodServicesState();
 }
 
-class _DoctorDetailsState extends State<DoctorDetails> {
-  final formKey = new GlobalKey<FormState>();
+class _BloodServicesState extends State<BloodServices> {
+  String genderChoice = "";
+  String bloodgroupChoice = "";
+  DateTime dateTime = DateTime.now();
+  String name, phonenumber, aadhar;
+  String bloobankID = DateTime.now().millisecondsSinceEpoch.toString();
+  String imageUrl = "";
+  File _file;
   final TextEditingController _nameController = new TextEditingController();
-  final TextEditingController _birthyearController =
-      new TextEditingController();
   final TextEditingController _phonenumberController =
       new TextEditingController();
-  String genderChoice = "";
-  String seasonChoice = "";
-  String name, birthyear, phonenumber;
-  DateTime dateTime = DateTime.now();
-  String doctorid = DateTime.now().millisecondsSinceEpoch.toString();
-  @override
-  Widget build(BuildContext context) {
-    return Hero(
-        tag: widget.image,
-        child: Scaffold(
-          appBar: _buildAppBar(context),
-          backgroundColor: Colors.blueGrey[700],
+  final TextEditingController _aadharnumberController =
+      new TextEditingController();
 
-          // appBar: _buildAppBar(context),
-          body: Form(
-            key: formKey,
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                // _buildBackground(),
-                VStack(
-                  [
-                    _buildHeading(context, widget.doctorName, widget.doctordes,
-                        widget.fee, widget.image),
-                    _buildCoursePanel(context),
-                  ],
-                ),
-                //_buildCourseFooter(),
-              ],
-            ),
-          ),
-        ));
+  Future<void> selectandPickImage() async {
+    _file = File(await ImagePicker()
+        .getImage(source: ImageSource.gallery)
+        .then((pickedFile) => pickedFile.path));
   }
 
-  checkFields() {
-    final form = formKey.currentState;
-    if (form.validate()) {
-      form.save();
-      return true;
-    }
-    return false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.blueGrey[700],
+        appBar: _buildAppBar(context),
+        body: VStack([_buildHeading(context), _buildCoursePanel(context)]));
   }
 
   _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.blueGrey[700],
+      backgroundColor: Colors.blueGrey[800],
       automaticallyImplyLeading: false,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,10 +61,163 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 Get.back();
               },
               icon: Icon(FontAwesomeIcons.chevronLeft)),
+          Text(
+            "BloodBank",
+            style: GoogleFonts.raleway(),
+          ),
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
         ],
       ),
     );
+  }
+
+  _buildHeading(
+    BuildContext context,
+  ) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    return Container(
+      // height: height * 0.25,
+      margin: EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text("Upload Doctor Recommended Prescription",
+              style: GoogleFonts.raleway(
+                fontSize: width * 0.04,
+              )),
+          SizedBox(
+            height: height * 0.02,
+          ),
+          Container(
+            child: InkWell(
+              onTap: selectandPickImage,
+              child: CircleAvatar(
+                radius: width * 0.10,
+                backgroundColor: Colors.white,
+                backgroundImage: _file == null ? null : FileImage(_file),
+                child: _file == null
+                    ? Icon(
+                        Icons.add_photo_alternate,
+                        size: width * 0.10,
+                      )
+                    : null,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ).centered();
+  }
+
+  upload_data() async {
+    String imageDownURl = await uploadImage();
+    updateDetails(imageDownURl);
+  }
+
+  Future<String> uploadImage() async {
+    final Reference ref = FirebaseStorage.instance.ref().child("prescription");
+    UploadTask uploadTask =
+        ref.child("organization_$bloobankID.jpg").putFile(_file);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    imageUrl = await taskSnapshot.ref.getDownloadURL();
+    return imageUrl;
+  }
+
+  updateDetails(String downloadUrl) {
+    final details = FirebaseFirestore.instance.collection("bloodbank");
+
+    details.doc(bloobankID).set({
+      // "organization": _organizationName.text.trim(),
+      // "doctor1": _doctor1Name.text.trim(),
+      // "doctor1des": _doctor1description.text.trim(),
+      // "doctor1fees": int.parse(_doctorfees1.text.trim()),
+      // "doctor2": _doctor2Name.text.trim(),
+      // "doctor2des": _doctor2description.text.trim(),
+      // "doctor2fees": int.parse(_doctorfees2.text.trim()),
+      // "doctor3": _doctor3Name.text.trim(),
+      // "doctor3des": _doctor3description.text.trim(),
+      // "doctor3fees": int.parse(_doctorfees3.text.trim()),
+      // "vaccine1": _vaccine1Name.text.trim(),
+      // "vaccine2": _vaccine2Name.text.trim(),
+      // "vaccine3": _vaccine3Name.text.trim(),
+      // "address": _organizationAddress.text.trim(),
+      // "city": _organizationcity.text.trim(),
+      // "district": _organizationDistrict.text.trim(),
+      // "pin_number": int.parse(_organizationAddresspin.text.trim()),
+      // "contact": int.parse(_organizationcontact.text.trim()),
+      // "email": _organizationemail.text.trim(),
+      // "thumbnailUrl": downloadUrl,
+      // "publishedDate": DateTime.now(),
+      // "status": "available",
+      // "blood1Choice": blood1Choice,
+      // "blood2Choice": blood2Choice,
+      // "blood3Choice": blood3Choice,
+      // "blood4Choice": blood4Choice,
+      // "blood5Choice": blood5Choice,
+      // "blood6Choice": blood6Choice,
+      // "blood7Choice": blood7Choice,
+      // "blood8Choice": blood8Choice,
+      // "doctor1schedule": doctor1schedule,
+      // "doctor2schedule": doctor2schedule,
+      // "doctor3schedule": doctor3schedule,
+      // "minimumAppointprice":
+      //     int.parse(_minimun_price_of_Appointment.text.trim()),
+      // "minimumvaccineprice":
+      //     int.parse(_minimun_price_of_vacination.text.trim()),
+      // "minimumbedprice": int.parse(_minimun_price_of_bedBooking.text.trim()),
+      // "minimumbloodprice":
+      //     int.parse(_minimun_price_of_bloodbankServices.text.trim()),
+      // "normalbedAvailable": int.parse(_normalBed.text.trim()),
+      // "emergencybedAvailable": int.parse(_emergencyBed.text.trim()),
+      // "minimumoygenprice":
+      //     int.parse(_minimun_price_of_oxygenServices.text.trim()),
+      // "AmbulanceNumber": int.parse(_phoneNumber_of_ambulance.text.trim())
+    });
+
+    setState(() {
+      _file = null;
+      // oranizationID = DateTime.now().millisecondsSinceEpoch.toString();
+      // _organizationName.clear();
+      // _doctor1Name.clear();
+      // _doctor1description.clear();
+      // _doctorfees1.clear();
+      // _doctor2Name.clear();
+      // _doctor2description.clear();
+      // _doctorfees2.clear();
+      // _doctor3Name.clear();
+      // _doctor3description.clear();
+      // _doctorfees3.clear();
+      // _vaccine1Name.clear();
+      // _vaccine2Name.clear();
+      // _vaccine3Name.clear();
+      // _organizationAddress.clear();
+      // _organizationcity.clear();
+      // _organizationDistrict.clear();
+      // _organizationAddresspin.clear();
+      // _organizationcontact.clear();
+      // _organizationemail.clear();
+      // _normalBed.clear();
+      // _emergencyBed.clear();
+      // _minimun_price_of_Appointment.clear();
+      // _minimun_price_of_bedBooking.clear();
+      // _minimun_price_of_bloodbankServices.clear();
+      // _minimun_price_of_vacination.clear();
+    });
+  }
+
+  Future<Null> selectTimePicker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != dateTime) {
+      setState(() {
+        dateTime = picked;
+        print(dateTime.toString());
+      });
+    }
   }
 
   _buildCoursePanel(BuildContext context) {
@@ -111,7 +233,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             color: Colors.black26,
             child: VStack([
               Padding(
-                padding: EdgeInsets.only(bottom: 24, top: 25),
+                padding: EdgeInsets.only(bottom: 15, top: 15),
                 child: Center(
                   child: Text(
                     'Patient Details',
@@ -197,11 +319,11 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       height: height * 0.01,
                     ),
                     TextFormField(
-                        controller: _birthyearController,
+                        controller: _aadharnumberController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.blue[80],
-                          hintText: " Age",
+                          hintText: " Aadhar Number",
                           hintStyle: GoogleFonts.raleway(),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
@@ -223,14 +345,16 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         onChanged: (value) {
-                          this.birthyear = value;
+                          this.aadhar = value;
                         },
                         validator: (value) {
                           if (value.isEmpty) {
-                            return "please enter your age";
-                          } else {
-                            return null;
+                            return "please enter a Aadhar number";
+                          } else if (value.length != 12) {
+                            return "please enter a valid Aadhar number";
                           }
+
+                          return null;
                         }),
                     SizedBox(
                       height: height * 0.01,
@@ -246,6 +370,21 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       _genderChoiceList("Male"),
                       _genderChoiceList("Female"),
                     ]),
+
+                    Text("Blood Group Select",
+                            style: GoogleFonts.raleway(
+                                fontSize: 15.0, fontWeight: FontWeight.w700))
+                        .p1(),
+                    HStack([
+                      _bloodgroupChoice(widget.bloodservice.blood1Choice),
+                      _bloodgroupChoice(widget.bloodservice.blood2Choice),
+                      _bloodgroupChoice(widget.bloodservice.blood3Choice),
+                      _bloodgroupChoice(widget.bloodservice.blood4Choice),
+                      _bloodgroupChoice(widget.bloodservice.blood5Choice),
+                      _bloodgroupChoice(widget.bloodservice.blood6Choice),
+                      _bloodgroupChoice(widget.bloodservice.blood7Choice),
+                      _bloodgroupChoice(widget.bloodservice.blood8Choice),
+                    ]).scrollHorizontal(),
                     Text("Select Schedule",
                             style: GoogleFonts.raleway(
                                 fontSize: 15.0, fontWeight: FontWeight.w700))
@@ -277,12 +416,6 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                               fontWeight: FontWeight.w600,
                                               fontSize: 15.0)),
                                     )))),
-                        Container(
-                          child: HStack([
-                            _seasonChoice("Morning"),
-                            _seasonChoice("Afternoon")
-                          ]),
-                        )
                       ],
                     ),
                     SizedBox(
@@ -307,9 +440,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       ),
                       width: width * 0.9,
                       onPressed: () async {
-                        if (checkFields())
-                          checkdoctorBookCart(doctorid, context, widget.orgname,
-                              widget.doctorName, widget.fee.toString());
+                        // if (checkFields())
+                        //   checkdoctorBookCart(doctorid, context, widget.orgname,
+                        //       widget.doctorName, widget.fee.toString());
                       },
                     ).centered(),
                   ])).p8()
@@ -317,102 +450,6 @@ class _DoctorDetailsState extends State<DoctorDetails> {
               ),
             ]).scrollVertical(),
           )),
-    );
-  }
-
-  _buildHeading(
-    BuildContext context,
-    String name,
-    String description,
-    int fee,
-    String imgeurl,
-  ) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    return Container(
-      width: width * 1.0,
-      margin: EdgeInsets.only(top: 8, bottom: 15),
-      padding: EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(10.0),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  height: height * 0.08,
-                  width: width * 0.16,
-                  decoration: BoxDecoration(
-                    color: Colors.blue[900],
-                    shape: BoxShape.circle,
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.all(3.0),
-                    child: Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(40.0),
-                        child: Image(
-                          height: height * 0.10,
-                          width: width * 0.16,
-                          image: AssetImage(imgeurl),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10.0,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      name,
-                      style: GoogleFonts.raleway(
-                          fontSize: 19.0, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Text(
-                      description,
-                      style: GoogleFonts.raleway(
-                          fontSize: 15.0,
-                          textStyle: TextStyle(
-                            color: Colors.white,
-                          )),
-                    ),
-                    Text(
-                      "₹ " + fee.toString(),
-                      style: GoogleFonts.notoSans(
-                          fontSize: 16.0,
-                          color: Colors.yellow,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      widget.doctorDetails.status,
-                      style: GoogleFonts.notoSans(
-                          fontSize: 16.0,
-                          color: Colors.lightGreenAccent,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              FontAwesomeIcons.phone,
-              color: Colors.red,
-              size: 30.0,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -439,7 +476,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     );
   }
 
-  _seasonChoice(String name) {
+  _bloodgroupChoice(String name) {
     return Container(
       padding: const EdgeInsets.all(4.0),
       child: ChoiceChip(
@@ -451,92 +488,14 @@ class _DoctorDetailsState extends State<DoctorDetails> {
         ),
         backgroundColor: Color(0xffededed),
         selectedColor: Color(0xffe6aab7),
-        selected: seasonChoice == name,
+        selected: bloodgroupChoice == name,
         onSelected: (selected) {
           setState(() {
-            seasonChoice = name;
-            print(seasonChoice);
+            bloodgroupChoice = name;
+            print(bloodgroupChoice);
           });
         },
       ),
     );
-  }
-
-  Future<Null> selectTimePicker(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: dateTime,
-        firstDate: DateTime(2021),
-        lastDate: DateTime(2050));
-    if (picked != null && picked != dateTime) {
-      setState(() {
-        dateTime = picked;
-        print(dateTime.toString());
-      });
-    }
-  }
-
-  void checkdoctorBookCart(
-    String doc,
-    BuildContext context,
-    String orgName,
-    String docname,
-    String docFee,
-  ) {
-    CovidCheckApp.sharedPreferences
-            .getStringList(CovidCheckApp.userCartList)
-            .contains(doc)
-        ? Fluttertoast.showToast(msg: "Appoint Booking is Already in Cart")
-        : addBookToCart(doc, context, orgName, docname, docFee);
-  }
-
-  addBookToCart(
-    String org,
-    BuildContext context,
-    String oranizationName,
-    String doctorname,
-    String doctorFee,
-  ) {
-    List doctorList = CovidCheckApp.sharedPreferences
-        .getStringList(CovidCheckApp.userCartList);
-    doctorList.add(org);
-
-    CovidCheckApp.firestore
-        .collection("DoctorAppoint")
-        .doc(_phonenumberController.text.trim())
-        .set({
-      "doctorAppointCentre": oranizationName,
-      "phone_number": _phonenumberController.text.trim(),
-      "userUI":
-          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
-      "username":
-          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
-      "useremail":
-          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
-      "name": _nameController.text.trim(),
-      "age": _birthyearController.text.trim(),
-      "seasonChoice": seasonChoice,
-      "gender": genderChoice,
-      "dateSelection": dateTime,
-      "doctorName": doctorname,
-      "doctorFee": doctorFee,
-      "submit_time": doctorid,
-    });
-    CovidCheckApp.firestore
-        .collection(CovidCheckApp.collectionUser)
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
-        .update({
-      CovidCheckApp.userCartList: doctorList,
-    }).then((value) {
-      Fluttertoast.showToast(msg: "Appoint Book Added to Cart Successfully");
-      CovidCheckApp.sharedPreferences
-          .setStringList(CovidCheckApp.userCartList, doctorList);
-      Provider.of<BookItemCounter>(context, listen: false).displayResult();
-    });
-    setState(() {
-      _nameController.clear();
-      _birthyearController.clear();
-      _phonenumberController.clear();
-    });
   }
 }

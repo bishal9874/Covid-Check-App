@@ -1,7 +1,9 @@
 import 'package:covidcheck/Screen/Auth/login.dart';
+import 'package:covidcheck/helperScreen/vaccineBook.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -53,7 +55,9 @@ class MainDrawer extends StatelessWidget {
           ),
         ),
         ListTile(
-          onTap: () {},
+          onTap: () {
+            Get.to(VaccineBook());
+          },
           leading: Icon(FontAwesomeIcons.bookMedical),
           title: Text(
             "Your Booking",

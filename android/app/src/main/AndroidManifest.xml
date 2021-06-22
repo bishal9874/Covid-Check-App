@@ -8,6 +8,8 @@
    <application
         android:label="covidcheck"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyB7zIAYkZsVMTSGJFw4gDCCkXRZ2WVo0UE"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -62,4 +64,5 @@
     </activity>
 
     </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 </manifest>

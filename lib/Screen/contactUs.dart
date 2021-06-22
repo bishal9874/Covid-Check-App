@@ -1,9 +1,15 @@
+import 'package:covidcheck/blocs/application_bloc.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:covidcheck/services/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactUS extends StatefulWidget {
   OrgModel contact;
@@ -15,21 +21,48 @@ class ContactUS extends StatefulWidget {
 class _ContactUSState extends State<ContactUS> {
   @override
   Widget build(BuildContext context) {
+    final applicationBloc = Provider.of<ApplicationBlocs>(context);
     return Scaffold(
       // backgroundColor: Colors.blueGrey[600],
       appBar: _buildAppBar(context),
-      body: VStack([
-        _contactStatement(
-            context,
-            widget.contact.orgaddress,
-            widget.contact.orgCity,
-            widget.contact.orgDistrict,
-            widget.contact.email,
-            widget.contact.contact,
-            widget.contact.pinNumber,
-            widget.contact.organization)
-      ]),
+      body: (applicationBloc.currentLoaction == null)
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : VStack([
+              _contactStatement(
+                  context,
+                  widget.contact.orgaddress,
+                  widget.contact.orgCity,
+                  widget.contact.orgDistrict,
+                  widget.contact.email,
+                  widget.contact.contact,
+                  widget.contact.pinNumber,
+                  widget.contact.organization),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                height: 300.0,
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  myLocationEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        applicationBloc.currentLoaction.latitude,
+                        applicationBloc.currentLoaction.longitude,
+                      ),
+                      zoom: 14),
+                ),
+              )
+            ]),
     );
+  }
+
+  void customLaunch(comand) async {
+    if (await canLaunch(comand)) {
+      await launch(comand);
+    } else {
+      Fluttertoast.showToast(msg: 'could not Launch $comand');
+    }
   }
 
   _buildAppBar(BuildContext context) {
@@ -110,7 +143,9 @@ class _ContactUSState extends State<ContactUS> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  customLaunch('tel:${contactNumber.toString()}');
+                },
                 icon: Icon(
                   FontAwesomeIcons.phoneAlt,
                   color: Colors.red,
@@ -131,7 +166,10 @@ class _ContactUSState extends State<ContactUS> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  customLaunch(
+                      'mailto:$email?subject=test%20subject&body=test%20body');
+                },
                 icon: Icon(
                   FontAwesomeIcons.envelope,
                   color: Colors.blueGrey,
