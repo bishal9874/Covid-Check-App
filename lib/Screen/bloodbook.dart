@@ -1,16 +1,18 @@
+import 'dart:async';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
+import 'package:covidcheck/services/ser.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:toast/toast.dart';
 
 class BloodServices extends StatefulWidget {
   OrgModel bloodservice;
@@ -21,6 +23,7 @@ class BloodServices extends StatefulWidget {
 }
 
 class _BloodServicesState extends State<BloodServices> {
+  final formKey = new GlobalKey<FormState>();
   String genderChoice = "";
   String bloodgroupChoice = "";
   DateTime dateTime = DateTime.now();
@@ -40,12 +43,24 @@ class _BloodServicesState extends State<BloodServices> {
         .then((pickedFile) => pickedFile.path));
   }
 
+  checkFields() {
+    final form = formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.blueGrey[700],
         appBar: _buildAppBar(context),
-        body: VStack([_buildHeading(context), _buildCoursePanel(context)]));
+        body: Form(
+            key: formKey,
+            child:
+                VStack([_buildHeading(context), _buildCoursePanel(context)])));
   }
 
   _buildAppBar(BuildContext context) {
@@ -63,7 +78,7 @@ class _BloodServicesState extends State<BloodServices> {
               icon: Icon(FontAwesomeIcons.chevronLeft)),
           Text(
             "BloodBank",
-            style: GoogleFonts.raleway(),
+            style: GoogleFonts.comfortaa(),
           ),
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
         ],
@@ -83,7 +98,7 @@ class _BloodServicesState extends State<BloodServices> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text("Upload Doctor Recommended Prescription",
-              style: GoogleFonts.raleway(
+              style: GoogleFonts.comfortaa(
                 fontSize: width * 0.04,
               )),
           SizedBox(
@@ -118,7 +133,7 @@ class _BloodServicesState extends State<BloodServices> {
   Future<String> uploadImage() async {
     final Reference ref = FirebaseStorage.instance.ref().child("prescription");
     UploadTask uploadTask =
-        ref.child("organization_$bloobankID.jpg").putFile(_file);
+        ref.child("bloodbank_$bloobankID.jpg").putFile(_file);
     TaskSnapshot taskSnapshot = await uploadTask;
     imageUrl = await taskSnapshot.ref.getDownloadURL();
     return imageUrl;
@@ -128,81 +143,90 @@ class _BloodServicesState extends State<BloodServices> {
     final details = FirebaseFirestore.instance.collection("bloodbank");
 
     details.doc(bloobankID).set({
-      // "organization": _organizationName.text.trim(),
-      // "doctor1": _doctor1Name.text.trim(),
-      // "doctor1des": _doctor1description.text.trim(),
-      // "doctor1fees": int.parse(_doctorfees1.text.trim()),
-      // "doctor2": _doctor2Name.text.trim(),
-      // "doctor2des": _doctor2description.text.trim(),
-      // "doctor2fees": int.parse(_doctorfees2.text.trim()),
-      // "doctor3": _doctor3Name.text.trim(),
-      // "doctor3des": _doctor3description.text.trim(),
-      // "doctor3fees": int.parse(_doctorfees3.text.trim()),
-      // "vaccine1": _vaccine1Name.text.trim(),
-      // "vaccine2": _vaccine2Name.text.trim(),
-      // "vaccine3": _vaccine3Name.text.trim(),
-      // "address": _organizationAddress.text.trim(),
-      // "city": _organizationcity.text.trim(),
-      // "district": _organizationDistrict.text.trim(),
-      // "pin_number": int.parse(_organizationAddresspin.text.trim()),
-      // "contact": int.parse(_organizationcontact.text.trim()),
-      // "email": _organizationemail.text.trim(),
-      // "thumbnailUrl": downloadUrl,
-      // "publishedDate": DateTime.now(),
-      // "status": "available",
-      // "blood1Choice": blood1Choice,
-      // "blood2Choice": blood2Choice,
-      // "blood3Choice": blood3Choice,
-      // "blood4Choice": blood4Choice,
-      // "blood5Choice": blood5Choice,
-      // "blood6Choice": blood6Choice,
-      // "blood7Choice": blood7Choice,
-      // "blood8Choice": blood8Choice,
-      // "doctor1schedule": doctor1schedule,
-      // "doctor2schedule": doctor2schedule,
-      // "doctor3schedule": doctor3schedule,
-      // "minimumAppointprice":
-      //     int.parse(_minimun_price_of_Appointment.text.trim()),
-      // "minimumvaccineprice":
-      //     int.parse(_minimun_price_of_vacination.text.trim()),
-      // "minimumbedprice": int.parse(_minimun_price_of_bedBooking.text.trim()),
-      // "minimumbloodprice":
-      //     int.parse(_minimun_price_of_bloodbankServices.text.trim()),
-      // "normalbedAvailable": int.parse(_normalBed.text.trim()),
-      // "emergencybedAvailable": int.parse(_emergencyBed.text.trim()),
-      // "minimumoygenprice":
-      //     int.parse(_minimun_price_of_oxygenServices.text.trim()),
-      // "AmbulanceNumber": int.parse(_phoneNumber_of_ambulance.text.trim())
-    });
+      "vaccineCentre_Name": widget.bloodservice.organization,
+      "userUI":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
+      "username":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
+      "useremail":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
+      "name": _nameController.text.trim(),
+      "aadharnumber": int.parse(_aadharnumberController.text.trim()),
+      "phoneNumber": int.parse(_phonenumberController.text.trim()),
+      "bloodbankCentre": bloodgroupChoice,
+      "dateSelection": dateTime,
+      "publishDate": DateTime.now(),
+    }).then((value) {
+      return showDialog(
+          context: context,
+          builder: (c) {
+            Future.delayed(Duration(seconds: 5), () {
+              Navigator.of(context).pop(true);
+            });
+            return AlertDialog(
+                contentPadding: EdgeInsets.all(5.0),
+                content: Container(
+                  height: 100.0,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          backgroundColor: Colors.cyanAccent,
+                          valueColor:
+                              new AlwaysStoppedAnimation<Color>(Colors.red),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          "Uploading.........",
+                          style: GoogleFonts.comfortaa(),
+                        )
+                      ]),
+                ));
+          });
+    }).whenComplete(() => showDialog(
+        context: context,
+        builder: (c) {
+          Future.delayed(Duration(seconds: 12), () {
+            Navigator.of(context).pop(true);
+          });
+          return AlertDialog(
+              backgroundColor: Color(0xffd0f2e7),
+              contentPadding: EdgeInsets.all(10.0),
+              content: Container(
+                height: 120.0,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 2.0,
+                      ),
+                      Text(
+                        "Blood Booking Successfully !! Please Kindly received your registerd blood from ${widget.bloodservice.organization} ",
+                        style: GoogleFonts.comfortaa(
+                            fontSize: 15.0, color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      LinearProgressIndicator(
+                        backgroundColor: Colors.cyanAccent,
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(Colors.red),
+                      ),
+                      SizedBox(
+                        height: 2.0,
+                      ),
+                    ]),
+              ));
+        }));
 
     setState(() {
       _file = null;
-      // oranizationID = DateTime.now().millisecondsSinceEpoch.toString();
-      // _organizationName.clear();
-      // _doctor1Name.clear();
-      // _doctor1description.clear();
-      // _doctorfees1.clear();
-      // _doctor2Name.clear();
-      // _doctor2description.clear();
-      // _doctorfees2.clear();
-      // _doctor3Name.clear();
-      // _doctor3description.clear();
-      // _doctorfees3.clear();
-      // _vaccine1Name.clear();
-      // _vaccine2Name.clear();
-      // _vaccine3Name.clear();
-      // _organizationAddress.clear();
-      // _organizationcity.clear();
-      // _organizationDistrict.clear();
-      // _organizationAddresspin.clear();
-      // _organizationcontact.clear();
-      // _organizationemail.clear();
-      // _normalBed.clear();
-      // _emergencyBed.clear();
-      // _minimun_price_of_Appointment.clear();
-      // _minimun_price_of_bedBooking.clear();
-      // _minimun_price_of_bloodbankServices.clear();
-      // _minimun_price_of_vacination.clear();
+      _nameController.clear();
+      _phonenumberController.clear();
+      _aadharnumberController.clear();
     });
   }
 
@@ -237,9 +261,9 @@ class _BloodServicesState extends State<BloodServices> {
                 child: Center(
                   child: Text(
                     'Patient Details',
-                    style: GoogleFonts.raleway(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w400,
+                    style: GoogleFonts.comfortaa(
+                      fontSize: width * 0.04,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -254,7 +278,7 @@ class _BloodServicesState extends State<BloodServices> {
                           filled: true,
                           fillColor: Colors.blue[80],
                           hintText: " Patient Name",
-                          hintStyle: GoogleFonts.raleway(),
+                          hintStyle: GoogleFonts.comfortaa(),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -284,7 +308,7 @@ class _BloodServicesState extends State<BloodServices> {
                           filled: true,
                           fillColor: Colors.blue[80],
                           hintText: " Phone Number",
-                          hintStyle: GoogleFonts.raleway(),
+                          hintStyle: GoogleFonts.comfortaa(),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -324,7 +348,7 @@ class _BloodServicesState extends State<BloodServices> {
                           filled: true,
                           fillColor: Colors.blue[80],
                           hintText: " Aadhar Number",
-                          hintStyle: GoogleFonts.raleway(),
+                          hintStyle: GoogleFonts.comfortaa(),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -360,7 +384,7 @@ class _BloodServicesState extends State<BloodServices> {
                       height: height * 0.01,
                     ),
                     Text("Gender",
-                            style: GoogleFonts.raleway(
+                            style: GoogleFonts.comfortaa(
                                 fontSize: 15.0, fontWeight: FontWeight.w700))
                         .p1(),
                     // SizedBox(
@@ -372,7 +396,7 @@ class _BloodServicesState extends State<BloodServices> {
                     ]),
 
                     Text("Blood Group Select",
-                            style: GoogleFonts.raleway(
+                            style: GoogleFonts.comfortaa(
                                 fontSize: 15.0, fontWeight: FontWeight.w700))
                         .p1(),
                     HStack([
@@ -386,7 +410,7 @@ class _BloodServicesState extends State<BloodServices> {
                       _bloodgroupChoice(widget.bloodservice.blood8Choice),
                     ]).scrollHorizontal(),
                     Text("Select Schedule",
-                            style: GoogleFonts.raleway(
+                            style: GoogleFonts.comfortaa(
                                 fontSize: 15.0, fontWeight: FontWeight.w700))
                         .p1(),
                     SizedBox(
@@ -411,7 +435,7 @@ class _BloodServicesState extends State<BloodServices> {
                                               dateTime.month.toString() +
                                               '/' +
                                               dateTime.year.toString(),
-                                          style: GoogleFonts.montserrat(
+                                          style: GoogleFonts.comfortaa(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
                                               fontSize: 15.0)),
@@ -421,29 +445,80 @@ class _BloodServicesState extends State<BloodServices> {
                     SizedBox(
                       height: height * 0.03,
                     ),
-                    ProgressButton(
-                      type: ProgressButtonType.Raised,
-                      color: Color(0xff101beb),
-                      height: height * 0.07,
-                      defaultWidget: Text(
-                        'Book Appointment',
-                        style: GoogleFonts.raleway(
-                          fontSize: width * 0.05,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1,
-                          color: Colors.white,
-                        ),
-                      ),
-                      progressWidget: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.orange),
-                      ),
-                      width: width * 0.9,
-                      onPressed: () async {
-                        // if (checkFields())
-                        //   checkdoctorBookCart(doctorid, context, widget.orgname,
-                        //       widget.doctorName, widget.fee.toString());
+                    GestureDetector(
+                      onTap: () {
+                        if (checkFields() && _file != null)
+                          showDialog(
+                              context: context,
+                              builder: (c) {
+                                return AlertDialog(
+                                  content: Container(
+                                      height: height * 0.25,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                              width: width * 0.43,
+                                              child: Text(
+                                                  "You Just Pay ₹ ${widget.bloodservice.minimumbloodprice} for BloodBank Registration",
+                                                  style: GoogleFonts.comfortaa(
+                                                      fontSize: 13.0,
+                                                      fontWeight:
+                                                          FontWeight.w700))),
+                                          SizedBox(
+                                            height: height * 0.05,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              upload_data();
+
+                                              Navigator.pop(context);
+                                            },
+                                            child: Container(
+                                                height: height * 0.06,
+                                                width: width * 0.40,
+                                                child: Material(
+                                                    borderRadius: BorderRadius
+                                                        .circular(5.0),
+                                                    color: Color(0xFF2877ed),
+                                                    elevation: 0.0,
+                                                    child: Center(
+                                                        child: Text('Pay',
+                                                            style: GoogleFonts
+                                                                .comfortaa(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        18.0))))),
+                                          ),
+                                        ],
+                                      )),
+                                );
+                              });
+                        else
+                          Toast.show(
+                              "Please upload recommended Doctor Prescription",
+                              context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.TOP);
                       },
+                      child: Container(
+                          height: height * 0.06,
+                          width: width * 0.40,
+                          child: Material(
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: Color(0xFF2877ed),
+                              elevation: 0.0,
+                              child: Center(
+                                  child: Text('Submit',
+                                      style: GoogleFonts.comfortaa(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18.0))))),
                     ).centered(),
                   ])).p8()
                 ],
@@ -458,7 +533,7 @@ class _BloodServicesState extends State<BloodServices> {
       padding: const EdgeInsets.all(4.0),
       child: ChoiceChip(
         label: Text(name),
-        labelStyle: GoogleFonts.raleway(
+        labelStyle: GoogleFonts.comfortaa(
             color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -481,7 +556,7 @@ class _BloodServicesState extends State<BloodServices> {
       padding: const EdgeInsets.all(4.0),
       child: ChoiceChip(
         label: Text(name),
-        labelStyle: GoogleFonts.raleway(
+        labelStyle: GoogleFonts.comfortaa(
             color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),

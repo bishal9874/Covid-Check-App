@@ -4,18 +4,19 @@ import 'package:covidcheck/services/ser.dart';
 import 'package:covidcheck/widgets/link_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
 
 // ignore: must_be_immutable
 class DoctorDetails extends StatefulWidget {
   OrgModel doctorDetails;
-  final fee, doctorName, doctordes, herotag, image, orgname;
+  final fee, doctorName, doctordes, herotag, image, orgname, avail;
   DoctorDetails(
       {this.doctorDetails,
       this.fee,
@@ -23,7 +24,8 @@ class DoctorDetails extends StatefulWidget {
       this.doctordes,
       this.herotag,
       this.image,
-      this.orgname});
+      this.orgname,
+      this.avail});
 
   @override
   _DoctorDetailsState createState() => _DoctorDetailsState();
@@ -115,7 +117,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 child: Center(
                   child: Text(
                     'Patient Details',
-                    style: GoogleFonts.raleway(
+                    style: GoogleFonts.comfortaa(
                       fontSize: 25,
                       fontWeight: FontWeight.w400,
                     ),
@@ -132,7 +134,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                           filled: true,
                           fillColor: Colors.blue[80],
                           hintText: " Patient Name",
-                          hintStyle: GoogleFonts.raleway(),
+                          hintStyle: GoogleFonts.comfortaa(),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -162,7 +164,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                           filled: true,
                           fillColor: Colors.blue[80],
                           hintText: " Phone Number",
-                          hintStyle: GoogleFonts.raleway(),
+                          hintStyle: GoogleFonts.comfortaa(),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -202,7 +204,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                           filled: true,
                           fillColor: Colors.blue[80],
                           hintText: " Age",
-                          hintStyle: GoogleFonts.raleway(),
+                          hintStyle: GoogleFonts.comfortaa(),
                           errorBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
@@ -236,7 +238,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       height: height * 0.01,
                     ),
                     Text("Gender",
-                            style: GoogleFonts.raleway(
+                            style: GoogleFonts.comfortaa(
                                 fontSize: 15.0, fontWeight: FontWeight.w700))
                         .p1(),
                     // SizedBox(
@@ -247,7 +249,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       _genderChoiceList("Female"),
                     ]),
                     Text("Select Schedule",
-                            style: GoogleFonts.raleway(
+                            style: GoogleFonts.comfortaa(
                                 fontSize: 15.0, fontWeight: FontWeight.w700))
                         .p1(),
                     SizedBox(
@@ -272,7 +274,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                               dateTime.month.toString() +
                                               '/' +
                                               dateTime.year.toString(),
-                                          style: GoogleFonts.montserrat(
+                                          style: GoogleFonts.comfortaa(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
                                               fontSize: 15.0)),
@@ -288,29 +290,116 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     SizedBox(
                       height: height * 0.03,
                     ),
-                    ProgressButton(
-                      type: ProgressButtonType.Raised,
-                      color: Color(0xff101beb),
-                      height: height * 0.07,
-                      defaultWidget: Text(
-                        'Book Appointment',
-                        style: GoogleFonts.raleway(
-                          fontSize: width * 0.05,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1,
-                          color: Colors.white,
-                        ),
-                      ),
-                      progressWidget: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.orange),
-                      ),
-                      width: width * 0.9,
-                      onPressed: () async {
+                    // ProgressButton(
+                    //   type: ProgressButtonType.Raised,
+                    //   color: Color(0xff101beb),
+                    //   height: height * 0.07,
+                    //   defaultWidget: Text(
+                    //     'Book Appointment',
+                    //     style: GoogleFonts.comfortaa(
+                    //       fontSize: width * 0.05,
+                    //       fontWeight: FontWeight.w500,
+                    //       letterSpacing: 1,
+                    //       color: Colors.white,
+                    //     ),
+                    //   ),
+                    //   progressWidget: CircularProgressIndicator(
+                    //     valueColor:
+                    //         AlwaysStoppedAnimation<Color>(Colors.orange),
+                    //   ),
+                    //   width: width * 0.9,
+                    //   onPressed: () async {
+                    //     if (checkFields())
+                    //       addBookToCart(doctorid, context, widget.orgname,
+                    //           widget.doctorName, widget.fee.toString());
+                    //   },
+                    // ).centered(),
+                    GestureDetector(
+                      onTap: () {
                         if (checkFields())
-                          checkdoctorBookCart(doctorid, context, widget.orgname,
-                              widget.doctorName, widget.fee.toString());
+                          showDialog(
+                              context: context,
+                              builder: (c) {
+                                return AlertDialog(
+                                  contentPadding: EdgeInsets.all(10.0),
+                                  content: Container(
+                                      height: height * 0.25,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: width * 0.40,
+                                            child: Text(
+                                              "You Just Pay ₹ ${widget.doctorDetails.minimumAppointprice} for Appointment Booking",
+                                              style: GoogleFonts.comfortaa(
+                                                fontSize: 14.0,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.02,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (checkFields())
+                                                addBookToCart(
+                                                    doctorid,
+                                                    context,
+                                                    widget.orgname,
+                                                    widget.doctorName,
+                                                    widget.fee.toString());
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Container(
+                                                height: height * 0.06,
+                                                width: width * 0.40,
+                                                child: Material(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Color(0xFF2877ed),
+                                                    elevation: 0.0,
+                                                    child: Center(
+                                                        child: Text('Pay',
+                                                            style: GoogleFonts.raleway(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize:
+                                                                    18.0))))),
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.01,
+                                          ),
+                                          Text(
+                                            "After click pay Button wait for few Second",
+                                            style: GoogleFonts.comfortaa(
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.w200),
+                                          ),
+                                        ],
+                                      )),
+                                );
+                              });
                       },
+                      child: Container(
+                          height: height * 0.06,
+                          width: width * 0.50,
+                          child: Material(
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: Color(0xFF2877ed),
+                              elevation: 0.0,
+                              child: Center(
+                                  child: Text('Book Appointment',
+                                      style: GoogleFonts.raleway(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18.0))))),
                     ).centered(),
                   ])).p8()
                 ],
@@ -370,7 +459,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                   children: <Widget>[
                     Text(
                       name,
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontSize: 19.0, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
@@ -378,7 +467,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     ),
                     Text(
                       description,
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontSize: 15.0,
                           textStyle: TextStyle(
                             color: Colors.white,
@@ -386,17 +475,27 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     ),
                     Text(
                       "₹ " + fee.toString(),
-                      style: GoogleFonts.notoSans(
+                      style: GoogleFonts.comfortaa(
                           fontSize: 16.0,
                           color: Colors.yellow,
                           fontWeight: FontWeight.w600),
                     ),
-                    Text(
-                      widget.doctorDetails.status,
-                      style: GoogleFonts.notoSans(
-                          fontSize: 16.0,
-                          color: Colors.lightGreenAccent,
-                          fontWeight: FontWeight.w600),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(fontSize: 15.0),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'Availablity: ',
+                              style: GoogleFonts.comfortaa(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.greenAccent)),
+                          TextSpan(
+                              text: widget.avail,
+                              style: GoogleFonts.comfortaa(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.orange)),
+                        ],
+                      ),
                     ),
                   ],
                 )
@@ -421,7 +520,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       padding: const EdgeInsets.all(4.0),
       child: ChoiceChip(
         label: Text(name),
-        labelStyle: GoogleFonts.raleway(
+        labelStyle: GoogleFonts.comfortaa(
             color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -444,7 +543,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       padding: const EdgeInsets.all(4.0),
       child: ChoiceChip(
         label: Text(name),
-        labelStyle: GoogleFonts.raleway(
+        labelStyle: GoogleFonts.comfortaa(
             color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -476,19 +575,21 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     }
   }
 
-  void checkdoctorBookCart(
-    String doc,
-    BuildContext context,
-    String orgName,
-    String docname,
-    String docFee,
-  ) {
-    CovidCheckApp.sharedPreferences
-            .getStringList(CovidCheckApp.userCartList)
-            .contains(doc)
-        ? Fluttertoast.showToast(msg: "Appoint Booking is Already in Cart")
-        : addBookToCart(doc, context, orgName, docname, docFee);
-  }
+  // void checkdoctorBookCart(
+  //   String doc,
+  //   BuildContext context,
+  //   String orgName,
+  //   String docname,
+  //   String docFee,
+  // ) {
+  //   CovidCheckApp.sharedPreferences
+  //           .getStringList(CovidCheckApp.userCartList)
+  //           .contains(doc)
+  //       ? Toast.show(
+  //           "Your Aadhar Card is Already Registration For Vaccination", context,
+  //           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM)
+  //       : addBookToCart(doc, context, orgName, docname, docFee);
+  // }
 
   addBookToCart(
     String org,
@@ -497,14 +598,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     String doctorname,
     String doctorFee,
   ) {
-    List doctorList = CovidCheckApp.sharedPreferences
-        .getStringList(CovidCheckApp.userCartList);
-    doctorList.add(org);
-
-    CovidCheckApp.firestore
-        .collection("DoctorAppoint")
-        .doc(_phonenumberController.text.trim())
-        .set({
+    CovidCheckApp.firestore.collection("DoctorAppoint").doc(doctorid).set({
       "doctorAppointCentre": oranizationName,
       "phone_number": _phonenumberController.text.trim(),
       "userUI":
@@ -521,18 +615,72 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       "doctorName": doctorname,
       "doctorFee": doctorFee,
       "submit_time": doctorid,
-    });
-    CovidCheckApp.firestore
-        .collection(CovidCheckApp.collectionUser)
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
-        .update({
-      CovidCheckApp.userCartList: doctorList,
     }).then((value) {
-      Fluttertoast.showToast(msg: "Appoint Book Added to Cart Successfully");
-      CovidCheckApp.sharedPreferences
-          .setStringList(CovidCheckApp.userCartList, doctorList);
-      Provider.of<BookItemCounter>(context, listen: false).displayResult();
-    });
+      return showDialog(
+          context: context,
+          builder: (c) {
+            Future.delayed(Duration(seconds: 5), () {
+              Navigator.of(context).pop(true);
+            });
+            return AlertDialog(
+                contentPadding: EdgeInsets.all(5.0),
+                content: Container(
+                  height: 100.0,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          backgroundColor: Colors.cyanAccent,
+                          valueColor:
+                              new AlwaysStoppedAnimation<Color>(Colors.red),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          "Appointment Booking.........",
+                          style: GoogleFonts.comfortaa(),
+                        )
+                      ]),
+                ));
+          });
+    }).whenComplete(() => showDialog(
+        context: context,
+        builder: (c) {
+          Future.delayed(Duration(seconds: 12), () {
+            Navigator.of(context).pop(true);
+          });
+          return AlertDialog(
+              backgroundColor: Color(0xffd0f2e7),
+              contentPadding: EdgeInsets.all(10.0),
+              content: Container(
+                height: 120.0,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 2.0,
+                      ),
+                      Text(
+                        "Your Appointment Booking Successfully Done!! Please Kindly Visit Our Hospital/Organization on your mentioned Date and Time Thank You",
+                        style: GoogleFonts.comfortaa(
+                            fontSize: 15.0, color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      LinearProgressIndicator(
+                        backgroundColor: Colors.cyanAccent,
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(Colors.red),
+                      ),
+                      SizedBox(
+                        height: 2.0,
+                      ),
+                    ]),
+              ));
+        }));
+
     setState(() {
       _nameController.clear();
       _birthyearController.clear();

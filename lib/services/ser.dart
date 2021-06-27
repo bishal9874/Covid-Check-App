@@ -19,6 +19,7 @@ class CovidCheckApp {
   static String subCollectionAddress = 'userAddress';
 
   static final String userName = 'name';
+  static final String phoneNumber = 'phoneNumber';
   static final String userEmail = 'email';
   static final String userPhotoUrl = 'photoUrl';
   static final String userUID = 'uid';

@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:toast/toast.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class ResetPassword extends StatefulWidget {
   @override
@@ -37,10 +41,43 @@ class _ResetPasswordState extends State<ResetPassword> {
       return null;
   }
 
+  _buildAppBar(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.blueGrey[800],
+      automaticallyImplyLeading: false,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(FontAwesomeIcons.chevronLeft)),
+          Text(
+            "Sign Up",
+            style: GoogleFonts.comfortaa(),
+          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.blueGrey[800],
+          leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(FontAwesomeIcons.chevronLeft)),
+        ),
         body: Container(
+            color: Colors.blueGrey[800],
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Form(key: formKey, child: _buildResetForm(context))));
@@ -51,23 +88,43 @@ class _ResetPasswordState extends State<ResetPassword> {
     var width = MediaQuery.of(context).size.width;
     return Padding(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-        child: ListView(children: [
-          SizedBox(height: 75.0),
+        child: VStack([
+          SizedBox(height: height * 0.08),
           Container(
             child: Center(
-              child: Text('Reset', style: GoogleFonts.raleway(fontSize: 60.0)),
+              child: Text('Reset Password',
+                  style: GoogleFonts.raleway(fontSize: 40.0)),
             ),
           ),
           SizedBox(height: 25.0),
           TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
-                  labelText: 'EMAIL',
-                  labelStyle:
-                      GoogleFonts.raleway(color: Colors.white, fontSize: 12.0),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: greenColor),
-                  )),
+                filled: true,
+                fillColor: Colors.blue[80],
+                hintText: "Email",
+                hintStyle: GoogleFonts.comfortaa(
+                  fontSize: 13.0,
+                ),
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(width: 1, color: Colors.red)),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(10.0),
+                  ),
+                ),
+                // labelText: 'EMAIL',
+                // labelStyle:
+                //     GoogleFonts.raleway(color: Colors.white, fontSize: 12.0),
+                // focusedBorder: UnderlineInputBorder(
+                //   borderSide: BorderSide(color: greenColor),
+                // )
+              ),
               onChanged: (value) {
                 this.email = value;
               },
@@ -78,32 +135,35 @@ class _ResetPasswordState extends State<ResetPassword> {
             onTap: () {
               if (checkFields()) resetPasswordLink();
               Navigator.of(context).pop();
+              Toast.show(
+                  "please check your mail Box for reset your password", context,
+                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
             },
             child: Container(
                 height: height * 0.06,
-                // width: width * 0.10,
+                width: width * 0.85,
                 child: Material(
-                    borderRadius: BorderRadius.circular(25.0),
-                    color: greenColor,
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Color(0xFF2877ed),
                     elevation: 0.0,
                     child: Center(
                         child: Text('Reset',
-                            style: GoogleFonts.raleway(
+                            style: GoogleFonts.comfortaa(
                                 color: Colors.white, fontSize: 18.0))))),
-          ),
+          ).centered(),
           SizedBox(height: 20.0),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Go back',
-                    style: TextStyle(
-                        color: greenColor,
-                        fontFamily: 'Trueno',
-                        decoration: TextDecoration.underline)))
-          ])
-        ]));
+          // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          //   InkWell(
+          //       onTap: () {
+          //         Navigator.of(context).pop();
+          //       },
+          //       child: Text('Go back',
+          //           style: TextStyle(
+          //               color: greenColor,
+          //               fontFamily: 'Trueno',
+          //               decoration: TextDecoration.underline)))
+          // ])
+        ]).scrollVertical());
   }
 
   resetPasswordLink() {

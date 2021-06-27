@@ -5,6 +5,7 @@ import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:covidcheck/widgets/drawer.dart';
+import 'package:covidcheck/widgets/profile.dart';
 import 'package:covidcheck/widgets/searchBox.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,71 +24,73 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey[900],
-      appBar: AppBar(
-        title: RichText(
-          text: TextSpan(
-            style: TextStyle(fontSize: 30.0),
-            children: <TextSpan>[
-              TextSpan(
-                  text: 'Covid',
-                  style: GoogleFonts.raleway(
-                      fontWeight: FontWeight.w700, color: Colors.white)),
-              TextSpan(
-                  text: 'Check!',
-                  style: GoogleFonts.raleway(
-                      fontWeight: FontWeight.w700, color: Colors.orange)),
-            ],
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-        leading: Builder(
-            builder: (context) => IconButton(
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  icon: Icon(FontAwesomeIcons.bars, color: Colors.white),
-                )),
-        actions: [
-          Stack(
-            children: [
-              Icon(
-                Icons.brightness_1_rounded,
-                size: 20.0,
-                color: Colors.red,
-              ),
-              Positioned(
-                top: 2.0,
-                bottom: 4.0,
-                left: 6.0,
-                child:
-                    Consumer<BookItemCounter>(builder: (context, counter, _) {
-                  return Text(
-                      (CovidCheckApp.sharedPreferences
-                                  .getStringList(CovidCheckApp.userCartList)
-                                  .length -
-                              1)
-                          .toString(),
-                      style: GoogleFonts.raleway(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white));
-                }),
-              ),
-              IconButton(
-                icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
-                onPressed: () {
-                  // Get.to(CartPage());
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: MainDrawer(),
-      ),
+      appBar: _buildAppBar(context),
+      // appBar: AppBar(
+      //   title: RichText(
+      //     text: TextSpan(
+      //       style: TextStyle(fontSize: 30.0),
+      //       children: <TextSpan>[
+      //         TextSpan(
+      //             text: 'Covid',
+      //             style: GoogleFonts.raleway(
+      //                 fontWeight: FontWeight.w700, color: Colors.white)),
+      //         TextSpan(
+      //             text: 'Check!',
+      //             style: GoogleFonts.raleway(
+      //                 fontWeight: FontWeight.w700, color: Colors.orange)),
+      //       ],
+      //     ),
+      //   ),
+      //   centerTitle: true,
+      //   elevation: 0.0,
+      //   backgroundColor: Colors.transparent,
+
+      //   // leading: Builder(
+      //   //     builder: (context) => IconButton(
+      //   //           onPressed: () {
+      //   //             Scaffold.of(context).openDrawer();
+      //   //           },
+      //   //           icon: Icon(FontAwesomeIcons.bars, color: Colors.white),
+      //   //         )),
+      //   // actions: [
+      //   //   Stack(
+      //   //     children: [
+      //   //       Icon(
+      //   //         Icons.brightness_1_rounded,
+      //   //         size: 20.0,
+      //   //         color: Colors.red,
+      //   //       ),
+      //   //       Positioned(
+      //   //         top: 2.0,
+      //   //         bottom: 4.0,
+      //   //         left: 6.0,
+      //   //         child:
+      //   //             Consumer<BookItemCounter>(builder: (context, counter, _) {
+      //   //           return Text(
+      //   //               (CovidCheckApp.sharedPreferences
+      //   //                           .getStringList(CovidCheckApp.userCartList)
+      //   //                           .length -
+      //   //                       1)
+      //   //                   .toString(),
+      //   //               style: GoogleFonts.raleway(
+      //   //                   fontSize: 12.0,
+      //   //                   fontWeight: FontWeight.bold,
+      //   //                   color: Colors.white));
+      //   //         }),
+      //   //       ),
+      //   //       IconButton(
+      //   //         icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
+      //   //         onPressed: () {
+      //   //           // Get.to(CartPage());
+      //   //         },
+      //   //       ),
+      //   //     ],
+      //   //   ),
+      //   // ],
+      // ),
+      // drawer: Drawer(
+      //   child: MainDrawer(),
+      // ),
       body: CustomScrollView(
         slivers: [
           SliverPersistentHeader(pinned: true, delegate: SearchBoxDelegate()),
@@ -119,6 +122,42 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+_buildAppBar(BuildContext context) {
+  return AppBar(
+    elevation: 0,
+    backgroundColor: Colors.blueGrey[900],
+    automaticallyImplyLeading: false,
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        RichText(
+          text: TextSpan(
+            style: TextStyle(fontSize: 30.0),
+            children: <TextSpan>[
+              TextSpan(
+                  text: 'Covid',
+                  style: GoogleFonts.comfortaa(
+                      fontWeight: FontWeight.w600, color: Colors.white)),
+              TextSpan(
+                  text: 'Check!',
+                  style: GoogleFonts.comfortaa(
+                      fontWeight: FontWeight.w600, color: Colors.orange)),
+            ],
+          ),
+        ),
+        InkWell(
+          onTap: () => Get.to(ProfileScreen()),
+          child: CircleAvatar(
+            radius: 20.0,
+            backgroundImage: NetworkImage(CovidCheckApp.sharedPreferences
+                .getString(CovidCheckApp.userAvatarUrl)),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 Widget sourceInfo(OrgModel model, BuildContext context,
@@ -157,7 +196,7 @@ Widget sourceInfo(OrgModel model, BuildContext context,
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       model.organization,
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 20),

@@ -18,16 +18,18 @@ class _DoctorListState extends State<DoctorList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //backgroundColor: Colors.blueGrey[1000],
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey[700],
         title: Text(
           widget.doctorList.organization + " " + "Doctor List",
-          style: GoogleFonts.raleway(fontSize: 18.0),
+          style: GoogleFonts.comfortaa(fontSize: 18.0),
         ),
         centerTitle: true,
       ),
       body: Container(
         padding: EdgeInsets.all(8.0),
-        child: VStack([
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           _doctors(
               widget.doctorList.doctor1,
               widget.doctorList.doc1des,
@@ -35,7 +37,8 @@ class _DoctorListState extends State<DoctorList> {
               "assets/doc.jpg",
               context,
               widget.doctorList,
-              widget.doctorList.organization),
+              widget.doctorList.organization,
+              widget.doctorList.doctor1schedule),
           _doctors(
               widget.doctorList.doctor2,
               widget.doctorList.doc2des,
@@ -43,7 +46,8 @@ class _DoctorListState extends State<DoctorList> {
               "assets/dcotor2.jpg",
               context,
               widget.doctorList,
-              widget.doctorList.organization),
+              widget.doctorList.organization,
+              widget.doctorList.doctor2schedule),
           _doctors(
               widget.doctorList.doctor3,
               widget.doctorList.doc3des,
@@ -51,14 +55,15 @@ class _DoctorListState extends State<DoctorList> {
               "assets/doctor3.jpg",
               context,
               widget.doctorList,
-              widget.doctorList.organization)
+              widget.doctorList.organization,
+              widget.doctorList.doctor2schedule)
         ]),
       ),
     );
   }
 
   Widget _doctors(String name, String description, int fee, String imgeurl,
-      BuildContext context, OrgModel orgModel, String orgname) {
+      BuildContext context, OrgModel orgModel, String orgname, String doctime) {
     return InkWell(
       onTap: () => Get.to(DoctorDetails(
         doctorDetails: orgModel,
@@ -68,12 +73,13 @@ class _DoctorListState extends State<DoctorList> {
         fee: fee,
         image: imgeurl,
         orgname: orgname,
+        avail: doctime,
       )),
       child: Container(
         padding: EdgeInsets.all(5.0),
         margin: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-          color: Color(0xFF48544c),
+          color: Colors.blueGrey[800],
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Row(
@@ -121,7 +127,7 @@ class _DoctorListState extends State<DoctorList> {
                     children: <Widget>[
                       Text(
                         name,
-                        style: GoogleFonts.raleway(
+                        style: GoogleFonts.comfortaa(
                             fontSize: 16.0, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
@@ -131,7 +137,7 @@ class _DoctorListState extends State<DoctorList> {
                         children: <Widget>[
                           Text(
                             description,
-                            style: GoogleFonts.raleway(
+                            style: GoogleFonts.comfortaa(
                                 fontSize: 12.0,
                                 textStyle: TextStyle(
                                   color: Colors.white,

@@ -1,41 +1,42 @@
-import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
-import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
-import 'package:fluttertoast/fluttertoast.dart';
 
-class VaccineDetails extends StatefulWidget {
-  final OrgModel vaccine;
-  final List<String> reportList;
-  VaccineDetails({this.vaccine, this.reportList});
+class NormalBed extends StatefulWidget {
+  OrgModel normalbed;
+  final wardname, bedavailable, minimumBookingPrice;
+  NormalBed({
+    Key key,
+    this.bedavailable,
+    this.minimumBookingPrice,
+    this.normalbed,
+    this.wardname,
+  }) : super(key: key);
 
   @override
-  _VaccineDetailsState createState() => _VaccineDetailsState();
+  _NormalBedState createState() => _NormalBedState();
 }
 
-class _VaccineDetailsState extends State<VaccineDetails> {
+class _NormalBedState extends State<NormalBed> {
   final formKey = new GlobalKey<FormState>();
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _aadharNumberController =
       new TextEditingController();
-  final TextEditingController _birthyearController =
+  final TextEditingController _phonenumberController =
       new TextEditingController();
+  final TextEditingController _symptomsController = new TextEditingController();
   String selectedChoice = "";
   String ageselectedChoice = "";
   String genderChoice = "";
-  String seasonChoice = "";
-  String aadharNumber, name, birthyear;
+  String aadharNumber, name, reason, phonenumber;
+  DateTime birthDate = DateTime.now();
   DateTime dateTime = DateTime.now();
-  String vaccinationID = DateTime.now().millisecondsSinceEpoch.toString();
+  String bedbookingID = DateTime.now().millisecondsSinceEpoch.toString();
 
-  //
   checkFields() {
     final form = formKey.currentState;
     if (form.validate()) {
@@ -43,6 +44,20 @@ class _VaccineDetailsState extends State<VaccineDetails> {
       return true;
     }
     return false;
+  }
+
+  Future<Null> selectbirthPicker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: dateTime,
+        firstDate: DateTime(1920),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != dateTime) {
+      setState(() {
+        birthDate = picked;
+        print(birthDate.toString());
+      });
+    }
   }
 
   //Date and time picker
@@ -61,27 +76,6 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     }
   }
 
-  _buildAppBar(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      backgroundColor: Colors.blueGrey[700],
-      automaticallyImplyLeading: false,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(FontAwesomeIcons.chevronLeft)),
-          Text("Vaccine Registration",
-              style: GoogleFonts.comfortaa(fontSize: 18.0)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -92,201 +86,27 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     );
   }
 
-  _buildChoiceList(String name) {
-    return Container(
-      padding: const EdgeInsets.all(2.0),
-      child: ChoiceChip(
-        label: Text(name),
-        labelStyle: GoogleFonts.comfortaa(
-            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        backgroundColor: Color(0xffededed),
-        selectedColor: Color(0xffffc107),
-        selected: selectedChoice == name,
-        onSelected: (selected) {
-          setState(() {
-            selectedChoice = name;
-            print(selectedChoice);
-          });
-        },
+  _buildAppBar(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.blueGrey[800],
+      automaticallyImplyLeading: false,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(FontAwesomeIcons.chevronLeft)),
+          Text(
+            widget.wardname,
+            style: GoogleFonts.raleway(),
+          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
+        ],
       ),
     );
-  }
-
-  _ageChoiceList(String name) {
-    return Container(
-      padding: const EdgeInsets.all(2.0),
-      child: ChoiceChip(
-        label: Text(name),
-        labelStyle: GoogleFonts.comfortaa(
-            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        backgroundColor: Color(0xffededed),
-        selectedColor: Color(0xff03fcca),
-        selected: ageselectedChoice == name,
-        onSelected: (selected) {
-          setState(() {
-            ageselectedChoice = name;
-            print(ageselectedChoice);
-          });
-        },
-      ),
-    );
-  }
-
-  //// blood choice
-  __seasonChoice(String name) {
-    return Container(
-      padding: const EdgeInsets.all(2.0),
-      child: ChoiceChip(
-        label: Text(name),
-        labelStyle: GoogleFonts.comfortaa(
-            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        backgroundColor: Color(0xffededed),
-        selectedColor: Color(0xff9ee892),
-        selected: seasonChoice == name,
-        onSelected: (selected) {
-          setState(() {
-            seasonChoice = name;
-            print(seasonChoice);
-          });
-        },
-      ),
-    );
-  }
-
-  void checkvaccineBookCart(String org, BuildContext context, String orgName) {
-    CovidCheckApp.sharedPreferences
-            .getStringList(CovidCheckApp.userCartList)
-            .contains(org)
-        ? Fluttertoast.showToast(
-            msg: "Your Aadharnumber is already registered  for Vaccination")
-        : addBookToCart(
-            org,
-            context,
-            orgName,
-          );
-  }
-
-  addBookToCart(
-    String org,
-    BuildContext context,
-    String oranizationName,
-  ) async {
-    List vaccineList = CovidCheckApp.sharedPreferences
-        .getStringList(CovidCheckApp.userCartList);
-    vaccineList.add(org);
-
-    CovidCheckApp.firestore
-        .collection(CovidCheckApp.collectionUser)
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
-        .update({
-      CovidCheckApp.userCartList: vaccineList,
-    }).then((value) {
-      Fluttertoast.showToast(msg: "Your aadhar Card resgister Successfully");
-      CovidCheckApp.sharedPreferences
-          .setStringList(CovidCheckApp.userCartList, vaccineList);
-      //Provider.of<BookItemCounter>(context, listen: false).displayResult();
-    });
-
-    CovidCheckApp.firestore
-        .collection("vaccine")
-        .doc(_aadharNumberController.text.trim())
-        .set({
-      "vaccineCentre_Name": oranizationName,
-      "userUI":
-          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
-      "username":
-          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
-      "useremail":
-          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
-      "name": _nameController.text.trim(),
-      "aadharnumber": int.parse(_aadharNumberController.text.trim()),
-      "birthyear": int.parse(_birthyearController.text.trim()),
-      "vaccineChoice": selectedChoice,
-      "underAge": ageselectedChoice,
-      "seasonChoice": seasonChoice,
-      "dateSelection": dateTime,
-      "genderChoice": genderChoice,
-      "publishDate": DateTime.now(),
-    }).then((value) {
-      return showDialog(
-          context: context,
-          builder: (c) {
-            Future.delayed(Duration(seconds: 5), () {
-              Navigator.of(context).pop(true);
-            });
-            return AlertDialog(
-                contentPadding: EdgeInsets.all(5.0),
-                content: Container(
-                  height: 100.0,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          backgroundColor: Colors.cyanAccent,
-                          valueColor:
-                              new AlwaysStoppedAnimation<Color>(Colors.red),
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Text(
-                          "Uploading.........",
-                          style: GoogleFonts.comfortaa(),
-                        )
-                      ]),
-                ));
-          });
-    }).whenComplete(() => showDialog(
-            context: context,
-            builder: (c) {
-              Future.delayed(Duration(seconds: 8), () {
-                Navigator.of(context).pop(true);
-              });
-              return AlertDialog(
-                  backgroundColor: Color(0xffd0f2e7),
-                  contentPadding: EdgeInsets.all(10.0),
-                  content: Container(
-                    height: 120.0,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 2.0,
-                          ),
-                          Text(
-                            "Vaccine Booking Successfully !! Please Kindly received your registerd Vaccine from Our Hospital/Organization ",
-                            style: GoogleFonts.comfortaa(color: Colors.black),
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          LinearProgressIndicator(
-                            backgroundColor: Colors.cyanAccent,
-                            valueColor:
-                                new AlwaysStoppedAnimation<Color>(Colors.red),
-                          ),
-                          SizedBox(
-                            height: 2.0,
-                          ),
-                        ]),
-                  ));
-            }));
-    await CovidCheckApp.sharedPreferences
-        .setString(CovidCheckApp.vaccineUI, _aadharNumberController.text);
-    setState(() {
-      _nameController.clear();
-      _birthyearController.clear();
-      _aadharNumberController.clear();
-    });
   }
 
   _buildCoursePanel(BuildContext context) {
@@ -298,10 +118,38 @@ class _VaccineDetailsState extends State<VaccineDetails> {
         color: Colors.blueGrey[800],
         child: VStack([
           SizedBox(
-            height: height * 0.05,
+            height: height * 0.02,
           ),
           VStack(
             [
+              Container(
+                  height: height * 0.03,
+                  width: width * 0.30,
+                  margin: EdgeInsets.only(left: 20.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey[800],
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Center(
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(fontSize: 12.0),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'Availablity: ',
+                              style: GoogleFonts.raleway(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white)),
+                          TextSpan(
+                              text: widget.normalbed.normalbedAvailable
+                                  .toString(),
+                              style: GoogleFonts.notoSans(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.orange)),
+                        ],
+                      ),
+                    ),
+                  )).centered(),
               Container(
                   child: VStack([
                 TextFormField(
@@ -310,7 +158,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                       filled: true,
                       fillColor: Colors.blue[80],
                       hintText: " Patient Name",
-                      hintStyle: GoogleFonts.comfortaa(),
+                      hintStyle: GoogleFonts.raleway(),
                       errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(width: 1, color: Colors.red)),
@@ -338,7 +186,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                       filled: true,
                       fillColor: Colors.blue[80],
                       hintText: " Aadhar number",
-                      hintStyle: GoogleFonts.comfortaa(),
+                      hintStyle: GoogleFonts.raleway(),
                       errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(width: 1, color: Colors.red)),
@@ -371,12 +219,12 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                   height: height * 0.01,
                 ),
                 TextFormField(
-                    controller: _birthyearController,
+                    controller: _phonenumberController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.blue[80],
-                      hintText: "Birth Year",
-                      hintStyle: GoogleFonts.comfortaa(),
+                      hintText: "Phone Number",
+                      hintStyle: GoogleFonts.raleway(),
                       errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(width: 1, color: Colors.red)),
@@ -395,58 +243,110 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     onChanged: (value) {
-                      this.birthyear = value;
+                      this.phonenumber = value;
                     },
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "please enter your birth year";
-                      } else if (value.length != 4) {
-                        return "please enter your valid birth year";
+                        return "please enter your Phone Number";
+                      } else if (value.length != 10) {
+                        return "please enter your valid Phone Number";
                       }
                       return null;
                     }),
                 SizedBox(
                   height: height * 0.01,
                 ),
-                Container(
-                  child: Wrap(
-                    spacing: 8.0,
-                    children: <Widget>[
-                      _buildChoiceList(widget.vaccine.vaccine1),
-                      _buildChoiceList(widget.vaccine.vaccine2),
-                      _buildChoiceList(widget.vaccine.vaccine3),
-                    ],
-                  ),
-                ),
+                TextFormField(
+                    maxLines: 4,
+                    controller: _symptomsController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Symptoms",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      this.reason = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter your Symptoms for Hospital Bed Registration";
+                      }
+                      return null;
+                    }),
                 SizedBox(
-                  height: 15.0,
-                ),
-                Container(
-                  child: Wrap(
-                    spacing: 8.0,
-                    children: <Widget>[
-                      _ageChoiceList("18+"),
-                      _ageChoiceList("45+"),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15.0,
+                  height: height * 0.01,
                 ),
 
-                Text("Gender",
-                        style: GoogleFonts.comfortaa(
-                            fontSize: 15.0, fontWeight: FontWeight.w700))
-                    .p1(),
                 // SizedBox(
                 //   height: height * 0.01,
                 // ),
-                HStack([
-                  _genderChoiceList("Male"),
-                  _genderChoiceList("Female"),
-                ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child: VStack([
+                        Text("Gender",
+                                style: GoogleFonts.raleway(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w700))
+                            .p1(),
+                        HStack([
+                          _genderChoiceList("Male"),
+                          _genderChoiceList("Female"),
+                        ]),
+                      ]),
+                    ),
+                    Container(
+                      child: VStack([
+                        Text("Date of Birth",
+                                style: GoogleFonts.raleway(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w700))
+                            .p1(),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        GestureDetector(
+                            onTap: () => selectbirthPicker(context),
+                            child: Container(
+                                height: height * 0.05,
+                                width: width * 0.25,
+                                child: Material(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    color: Colors.blue[800],
+                                    elevation: 0.0,
+                                    child: Center(
+                                      child: Text(
+                                          dateTime.day.toString() +
+                                              '/' +
+                                              dateTime.month.toString() +
+                                              '/' +
+                                              dateTime.year.toString(),
+                                          style: GoogleFonts.montserrat(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15.0)),
+                                    )))),
+                      ]),
+                    ),
+                  ],
+                ),
+
                 Text("Select Schedule",
-                        style: GoogleFonts.comfortaa(
+                        style: GoogleFonts.raleway(
                             fontSize: 15.0, fontWeight: FontWeight.w700))
                     .p1(),
                 SizedBox(
@@ -471,7 +371,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                                           dateTime.month.toString() +
                                           '/' +
                                           dateTime.year.toString(),
-                                      style: GoogleFonts.comfortaa(
+                                      style: GoogleFonts.montserrat(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 15.0)),
@@ -480,8 +380,8 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                       child: Wrap(
                         spacing: 8.0,
                         children: <Widget>[
-                          __seasonChoice("Morning"),
-                          __seasonChoice("Afternoon"),
+                          // __seasonChoice("Morning"),
+                          // __seasonChoice("Afternoon"),
                         ],
                       ),
                     ),
@@ -504,18 +404,18 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                          "You Just Pay ₹ ${widget.vaccine.minimumvaccineprice} for Vaccination"),
+                                          "You Just Pay ₹ ${widget.minimumBookingPrice} for Vaccination"),
                                       SizedBox(
                                         height: height * 0.05,
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          checkvaccineBookCart(
-                                              _aadharNumberController.text
-                                                  .trim(),
-                                              context,
-                                              widget.vaccine.organization);
-                                          Navigator.of(context).pop();
+                                          // checkvaccineBookCart(
+                                          //     _aadharNumberController.text
+                                          //         .trim(),
+                                          //     context,
+                                          //     widget.vaccine.organization);
+                                          // Navigator.of(context).pop();
                                         },
                                         child: Container(
                                             height: height * 0.06,
@@ -527,8 +427,8 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                                                 elevation: 0.0,
                                                 child: Center(
                                                     child: Text('Pay',
-                                                        style: GoogleFonts
-                                                            .comfortaa(
+                                                        style:
+                                                            GoogleFonts.raleway(
                                                                 color: Colors
                                                                     .white,
                                                                 fontWeight:
@@ -551,7 +451,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                           elevation: 0.0,
                           child: Center(
                               child: Text('Submit',
-                                  style: GoogleFonts.comfortaa(
+                                  style: GoogleFonts.raleway(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18.0))))),
@@ -569,7 +469,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
       padding: const EdgeInsets.all(4.0),
       child: ChoiceChip(
         label: Text(name),
-        labelStyle: GoogleFonts.comfortaa(
+        labelStyle: GoogleFonts.raleway(
             color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -587,5 +487,3 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     );
   }
 }
-
-///// vakin duto dose

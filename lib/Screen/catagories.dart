@@ -1,3 +1,4 @@
+import 'package:covidcheck/Screen/bedBooking.dart';
 import 'package:covidcheck/Screen/bloodbook.dart';
 import 'package:covidcheck/Screen/contactUs.dart';
 import 'package:covidcheck/Screen/doctor_list.dart';
@@ -93,7 +94,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       "Vaccine",
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 20),
@@ -144,7 +145,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       "Dcotor Appointments",
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 16),
@@ -160,7 +161,9 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
     var width = MediaQuery.of(context).size.width;
     return InkWell(
         onTap: () {
-          //  Get.to(VaccineDetails(vaccine: widget.orgModel));
+          Get.to(BedBooking(
+            bedbooking: widget.orgModel,
+          ));
         },
         splashColor: Colors.grey,
         child: Padding(
@@ -193,7 +196,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       "Bed Booking",
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 16),
@@ -242,7 +245,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       "Oxygen Services",
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 16),
@@ -292,7 +295,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       "Ambulance",
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 20),
@@ -344,7 +347,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       "Blood Bank",
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 16),
@@ -393,7 +396,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       "Contact Us",
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.comfortaa(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 16),

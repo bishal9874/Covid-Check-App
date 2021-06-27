@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -61,9 +62,10 @@ class _LoginScreenState extends State<LoginScreen> {
   _buildLoginForm(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return Padding(
+    return Container(
+        color: Colors.blueGrey[800],
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-        child: ListView(children: [
+        child: VStack([
           SizedBox(height: 75.0),
           Container(
               height: height * 0.19,
@@ -74,50 +76,81 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: <TextSpan>[
                     TextSpan(
                         text: 'Covid',
-                        style: GoogleFonts.raleway(
+                        style: GoogleFonts.comfortaa(
                             fontWeight: FontWeight.w700, color: Colors.white)),
                     TextSpan(
                         text: 'Check!',
-                        style: TextStyle(
+                        style: GoogleFonts.comfortaa(
                             fontWeight: FontWeight.bold,
                             color: Colors.blueAccent[200])),
                   ],
                 ),
               ))),
-          SizedBox(height: 25.0),
+          SizedBox(height: height * 0.10),
           TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
-                  labelText: 'EMAIL',
-                  labelStyle: TextStyle(
-                      fontFamily: 'Trueno',
-                      fontSize: 12.0,
-                      color: Colors.white),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: greenColor),
-                  )),
+                filled: true,
+                fillColor: Colors.blue[80],
+                hintText: "Email",
+                hintStyle: GoogleFonts.comfortaa(
+                  fontSize: 13.0,
+                ),
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(width: 1, color: Colors.red)),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(10.0),
+                  ),
+                ),
+                // labelText: 'EMAIL',
+                // labelStyle: TextStyle(
+                //     fontFamily: 'Trueno',
+                //     fontSize: 12.0,
+                //     color: Colors.white),
+                // focusedBorder: UnderlineInputBorder(
+                //   borderSide: BorderSide(color: greenColor),
+                // )
+              ),
               onChanged: (value) {
                 this.email = value;
               },
               validator: (value) =>
                   value.isEmpty ? 'Email is required' : validateEmail(value)),
+          SizedBox(height: height * 0.01),
           TextFormField(
               controller: _passwordController,
               decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.visibility),
-                    onPressed: () {
-                      _togglepassword();
-                    },
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.visibility),
+                  onPressed: () {
+                    _togglepassword();
+                  },
+                ),
+                filled: true,
+                fillColor: Colors.blue[80],
+                hintText: "Password",
+                hintStyle: GoogleFonts.comfortaa(
+                  fontSize: 13.0,
+                ),
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(width: 1, color: Colors.red)),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(10.0),
                   ),
-                  labelText: 'PASSWORD',
-                  labelStyle: TextStyle(
-                      fontFamily: 'Trueno',
-                      fontSize: 12.0,
-                      color: Colors.white),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: greenColor),
-                  )),
+                ),
+              ),
               obscureText: ishidePassword,
               onChanged: (value) {
                 this.password = value;
@@ -134,9 +167,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.only(top: 15.0, left: 20.0),
                   child: InkWell(
                       child: Text('Forgot Password',
-                          style: TextStyle(
+                          style: GoogleFonts.comfortaa(
                               color: Colors.white,
-                              fontFamily: 'Trueno',
                               fontSize: 11.0,
                               decoration: TextDecoration.underline))))),
           SizedBox(height: 50.0),
@@ -146,72 +178,79 @@ class _LoginScreenState extends State<LoginScreen> {
             },
             child: Container(
                 height: height * 0.06,
-                // width: width * 0.10,
+                width: width * 0.80,
                 child: Material(
-                    borderRadius: BorderRadius.circular(25.0),
-                    color: greenColor,
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Color(0xFF2877ed),
                     elevation: 0.0,
                     child: Center(
                         child: Text('Login',
-                            style: GoogleFonts.raleway(
+                            style: GoogleFonts.comfortaa(
                                 color: Colors.white, fontSize: 18.0))))),
-          ),
+          ).centered(),
           SizedBox(height: 20.0),
-          InkWell(
-              onTap: () {
-                // AuthService().fbSignIn();
-              },
-              child: Container(
-                height: height * 0.06,
-                width: width * 0.58,
-                decoration: BoxDecoration(
-                    color: Colors.grey[600],
-                    borderRadius: BorderRadius.circular(30.0)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.phone),
-                    SizedBox(
-                      width: width * 0.03,
-                    ),
-                    Text("Login with Phone Number",
-                        style: GoogleFonts.notoSans(
-                            color: Color(0xFFFFFFFF), fontSize: 15.0))
-                  ],
-                ),
-              )),
+          // InkWell(
+          //     onTap: () {
+          //       // AuthService().fbSignIn();
+          //     },
+          //     child: Container(
+          //       height: height * 0.06,
+          //       width: width * 0.58,
+          //       decoration: BoxDecoration(
+          //           color: Colors.grey[600],
+          //           borderRadius: BorderRadius.circular(30.0)),
+          //       child: Row(
+          //         crossAxisAlignment: CrossAxisAlignment.center,
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Icon(Icons.phone),
+          //           SizedBox(
+          //             width: width * 0.03,
+          //           ),
+          //           Text("Login with Phone Number",
+          //               style: GoogleFonts.comfortaa(
+          //                   color: Color(0xFFFFFFFF), fontSize: 15.0))
+          //         ],
+          //       ),
+          //     )),
           SizedBox(height: 25.0),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("Don’t have an Account ? "),
+            Text("Don’t have an Account ? ",
+                style: GoogleFonts.comfortaa(
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                )),
             SizedBox(width: 5.0),
             InkWell(
                 onTap: () {
                   Get.to(SignupPage());
                 },
                 child: Text('Register',
-                    style: TextStyle(
-                        color: greenColor,
-                        fontFamily: 'Trueno',
+                    style: GoogleFonts.comfortaa(
+                        color: Colors.blue,
                         decoration: TextDecoration.underline))),
           ]),
           SizedBox(height: 25.0),
           Divider(),
           SizedBox(height: 18.0),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("If You are "),
+            Text("If You are ",
+                style: GoogleFonts.comfortaa(
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                )),
             SizedBox(width: 5.0),
             InkWell(
                 onTap: () {
                   Get.to(Adminauth());
                 },
                 child: Text('Admin',
-                    style: GoogleFonts.raleway(
+                    style: GoogleFonts.comfortaa(
                         fontWeight: FontWeight.w600,
                         color: Colors.blue,
                         decoration: TextDecoration.underline))),
           ]),
-        ]));
+        ]).scrollVertical());
   }
 
   void loginUser() async {
