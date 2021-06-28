@@ -1,12 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:covidcheck/counter/booking_counter.dart';
-import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:covidcheck/models/vaccinationModel.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class VaccineBook extends StatefulWidget {
@@ -21,10 +16,10 @@ class _VaccineBookState extends State<VaccineBook> {
         appBar: AppBar(),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-              .collection("vaccine")
-              .where("aadharnumber",
-                  whereIn: CovidCheckApp.sharedPreferences
-                      .getStringList(CovidCheckApp.userCartList))
+              .collection(CovidCheckApp.collectionUser)
+              .doc(CovidCheckApp.sharedPreferences
+                  .getString(CovidCheckApp.userUID))
+              .collection(CovidCheckApp.vaccinecollection)
               .orderBy("publishDate", descending: true)
               .snapshots(),
           builder: (context, dataShot) {
@@ -38,7 +33,7 @@ class _VaccineBookState extends State<VaccineBook> {
               if (dataShot.data.docs.length == 0) {
                 return Container(
                   child: Center(
-                    child: Text("Cart is Empty"),
+                    child: Text("Your Vaccine Booking is Empty"),
                   ),
                 );
               } else {
@@ -79,20 +74,44 @@ class _VaccineBookState extends State<VaccineBook> {
                   Text(model.dateTime.toDate().toString()),
                   Text(model.aadherNumber.toString()),
                   Text(model.birthyr.toString()),
+                  Text(model.genderChoice)
                 ]),
                 IconButton(
                     onPressed: () {
-                      removecart();
+                      removecart(model.aadherNumber.toString());
                     },
                     icon: Icon(Icons.remove_shopping_cart))
               ]),
             )));
   }
 
-  removecart() {
-    // CovidCheckApp.firestore
-    //     .collection(CovidCheckApp.vaccinecollection)
-    //     .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.vaccineUI))
-    //     .delete();
+  removecart(String mod) {
+    List vaccineList = CovidCheckApp.sharedPreferences
+        .getStringList(CovidCheckApp.userCartList);
+    vaccineList.remove(mod);
+
+    CovidCheckApp.firestore
+        .collection(CovidCheckApp.collectionUser)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .update({
+      CovidCheckApp.userCartList: vaccineList,
+    }).then((value) {
+      VxToast.show(
+        context,
+        msg: "Your vaccine Booking Cancel Successfully",
+        showTime: 6000,
+        position: VxToastPosition.bottom,
+      );
+      CovidCheckApp.sharedPreferences
+          .setStringList(CovidCheckApp.userCartList, vaccineList);
+      //Provider.of<BookItemCounter>(context, listen: false).displayResult();
+    });
+    CovidCheckApp.firestore
+        .collection(CovidCheckApp.collectionUser)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .collection(CovidCheckApp.vaccinecollection)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
+            mod)
+        .delete();
   }
 }

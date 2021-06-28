@@ -13,6 +13,8 @@ class CovidCheckApp {
 
   static String collectionUser = "users";
   static String vaccinecollection = "vaccine";
+  static String appointmentcollection = "DoctorAppoint";
+  static String bloodbankcollection = "bloodbank";
   static String collectionOrders = "orders";
   static String userCartList = 'userCart';
   static String bloodbank = 'bloodbank';
@@ -31,5 +33,5 @@ class CovidCheckApp {
   static final String paymentDetails = 'paymentDetails';
   static final String orderTime = 'orderTime';
   static final String isSuccess = 'isSuccess';
-  static final String vaccineUI = "publishDate";
+  static String vaccineUI = "aadharnumber";
 }

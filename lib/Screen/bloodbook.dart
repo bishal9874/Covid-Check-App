@@ -140,9 +140,12 @@ class _BloodServicesState extends State<BloodServices> {
   }
 
   updateDetails(String downloadUrl) {
-    final details = FirebaseFirestore.instance.collection("bloodbank");
-
-    details.doc(bloobankID).set({
+    CovidCheckApp.firestore
+        .collection(CovidCheckApp.collectionUser)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .collection(CovidCheckApp.bloodbankcollection)
+        .doc(bloobankID)
+        .set({
       "vaccineCentre_Name": widget.bloodservice.organization,
       "userUI":
           CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
@@ -186,41 +189,41 @@ class _BloodServicesState extends State<BloodServices> {
                 ));
           });
     }).whenComplete(() => showDialog(
-        context: context,
-        builder: (c) {
-          Future.delayed(Duration(seconds: 12), () {
-            Navigator.of(context).pop(true);
-          });
-          return AlertDialog(
-              backgroundColor: Color(0xffd0f2e7),
-              contentPadding: EdgeInsets.all(10.0),
-              content: Container(
-                height: 120.0,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 2.0,
-                      ),
-                      Text(
-                        "Blood Booking Successfully !! Please Kindly received your registerd blood from ${widget.bloodservice.organization} ",
-                        style: GoogleFonts.comfortaa(
-                            fontSize: 15.0, color: Colors.black),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      LinearProgressIndicator(
-                        backgroundColor: Colors.cyanAccent,
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(Colors.red),
-                      ),
-                      SizedBox(
-                        height: 2.0,
-                      ),
-                    ]),
-              ));
-        }));
+            context: context,
+            builder: (c) {
+              Future.delayed(Duration(seconds: 12), () {
+                Navigator.of(context).pop(true);
+              });
+              return AlertDialog(
+                  backgroundColor: Color(0xffd0f2e7),
+                  contentPadding: EdgeInsets.all(10.0),
+                  content: Container(
+                    height: 120.0,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                          Text(
+                            "Blood Booking Successfully !! Please Kindly received your registerd blood from ${widget.bloodservice.organization} ",
+                            style: GoogleFonts.comfortaa(
+                                fontSize: 15.0, color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          LinearProgressIndicator(
+                            backgroundColor: Colors.cyanAccent,
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(Colors.red),
+                          ),
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                        ]),
+                  ));
+            }));
 
     setState(() {
       _file = null;

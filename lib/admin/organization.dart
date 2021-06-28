@@ -57,6 +57,9 @@ class _OrganizationState extends State<Organization> {
       bloodbank,
       oxygen,
       ambulenceNumber;
+  String day1vacine1, day2vacine1, day3vacine1, day4vacine1, day5vacine1;
+  String day1vacine2, day2vacine2, day3vacine2, day4vacine2, day5vacine2;
+  String day1vacine3, day2vacine3, day3vacine3, day4vacine3, day5vacine3;
   String imageUrl = "";
   File _file;
   TextEditingController _organizationName = new TextEditingController();
@@ -80,6 +83,7 @@ class _OrganizationState extends State<Organization> {
   TextEditingController _organizationemail = new TextEditingController();
   TextEditingController _normalBed = new TextEditingController();
   TextEditingController _emergencyBed = new TextEditingController();
+
   TextEditingController _minimun_price_of_vacination =
       new TextEditingController();
   TextEditingController _minimun_price_of_Appointment =
@@ -92,6 +96,289 @@ class _OrganizationState extends State<Organization> {
       new TextEditingController();
   TextEditingController _phoneNumber_of_ambulance = new TextEditingController();
 
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  TextEditingController _vaccine1Day1availity = new TextEditingController();
+  DateTime vaccine1Day1dateTime = DateTime.now();
+  Future<Null> selectvaccine1Day1Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine1Day1dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine1Day1dateTime) {
+      setState(() {
+        vaccine1Day1dateTime = picked;
+        print("day1vac1 " + vaccine1Day1dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine1Day2availity = new TextEditingController();
+  DateTime vaccine1Day2dateTime = DateTime.now();
+  Future<Null> selectvaccine1Day2Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine1Day2dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine1Day2dateTime) {
+      setState(() {
+        vaccine1Day2dateTime = picked;
+        print("day2vac1 " + vaccine1Day2dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine1Day3availity = new TextEditingController();
+  DateTime vaccine1Day3dateTime = DateTime.now();
+  Future<Null> selectvaccine1Day3Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine1Day3dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine1Day3dateTime) {
+      setState(() {
+        vaccine1Day3dateTime = picked;
+        print("day3vac1 " + vaccine1Day3dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine1Day4availity = new TextEditingController();
+  DateTime vaccine1Day4dateTime = DateTime.now();
+  Future<Null> selectvaccine1Day4Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine1Day4dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine1Day4dateTime) {
+      setState(() {
+        vaccine1Day4dateTime = picked;
+        print("day4vac1 " + vaccine1Day4dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine1Day5availity = new TextEditingController();
+  DateTime vaccine1Day5dateTime = DateTime.now();
+  Future<Null> selectvaccine1Day5Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine1Day5dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine1Day5dateTime) {
+      setState(() {
+        vaccine1Day5dateTime = picked;
+        print("day5vac1 " + vaccine1Day5dateTime.toString());
+      });
+    }
+  }
+
+  //
+  //
+  //
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  TextEditingController _vaccine2Day1availity = new TextEditingController();
+  DateTime vaccine2Day1dateTime = DateTime.now();
+  Future<Null> selectvaccine2Day1Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine2Day1dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine2Day1dateTime) {
+      setState(() {
+        vaccine2Day1dateTime = picked;
+        print("day1vac2 " + vaccine2Day1dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine2Day2availity = new TextEditingController();
+  DateTime vaccine2Day2dateTime = DateTime.now();
+  Future<Null> selectvaccine2Day2Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine2Day2dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine2Day2dateTime) {
+      setState(() {
+        vaccine2Day2dateTime = picked;
+        print("day2vac2 " + vaccine2Day2dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine2Day3availity = new TextEditingController();
+  DateTime vaccine2Day3dateTime = DateTime.now();
+  Future<Null> selectvaccine2Day3Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine2Day3dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine2Day3dateTime) {
+      setState(() {
+        vaccine2Day3dateTime = picked;
+        print("day3vac2 " + vaccine2Day3dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine2Day4availity = new TextEditingController();
+  DateTime vaccine2Day4dateTime = DateTime.now();
+  Future<Null> selectvaccine2Day4Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine2Day4dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine2Day4dateTime) {
+      setState(() {
+        vaccine2Day4dateTime = picked;
+        print("day4vac2 " + vaccine2Day4dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine2Day5availity = new TextEditingController();
+  DateTime vaccine2Day5dateTime = DateTime.now();
+  Future<Null> selectvaccine2Day5Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine2Day5dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine2Day5dateTime) {
+      setState(() {
+        vaccine2Day5dateTime = picked;
+        print("day5vac2 " + vaccine2Day5dateTime.toString());
+      });
+    }
+  }
+
+  //
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  //
+  TextEditingController _vaccine3Day1availity = new TextEditingController();
+  DateTime vaccine3Day1dateTime = DateTime.now();
+  Future<Null> selectvaccine3Day1Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine3Day1dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine3Day1dateTime) {
+      setState(() {
+        vaccine3Day1dateTime = picked;
+        print("day1vac3 " + vaccine3Day1dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine3Day2availity = new TextEditingController();
+  DateTime vaccine3Day2dateTime = DateTime.now();
+  Future<Null> selectvaccine3Day2Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine3Day2dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine3Day2dateTime) {
+      setState(() {
+        vaccine3Day2dateTime = picked;
+        print("day2vac3 " + vaccine3Day2dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine3Day3availity = new TextEditingController();
+  DateTime vaccine3Day3dateTime = DateTime.now();
+  Future<Null> selectvaccine3Day3Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine3Day3dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine3Day3dateTime) {
+      setState(() {
+        vaccine3Day3dateTime = picked;
+        print("day3vac3 " + vaccine3Day3dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine3Day4availity = new TextEditingController();
+  DateTime vaccine3Day4dateTime = DateTime.now();
+  Future<Null> selectvaccine3Day4Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine3Day4dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine3Day4dateTime) {
+      setState(() {
+        vaccine3Day4dateTime = picked;
+        print("day4vac3 " + vaccine3Day4dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _vaccine3Day5availity = new TextEditingController();
+  DateTime vaccine3Day5dateTime = DateTime.now();
+  Future<Null> selectvaccine3Day5Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: vaccine3Day5dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != vaccine3Day5dateTime) {
+      setState(() {
+        vaccine3Day5dateTime = picked;
+        print("day5vac3 " + vaccine3Day5dateTime.toString());
+      });
+    }
+  }
+
+////
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
   String oranizationID = DateTime.now().millisecondsSinceEpoch.toString();
   bool uploading = false;
 
@@ -489,6 +776,13 @@ class _OrganizationState extends State<Organization> {
             SizedBox(
               height: 15.0,
             ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
             TextFormField(
                 style: GoogleFonts.raleway(),
                 controller: _vaccine1Name,
@@ -509,6 +803,402 @@ class _OrganizationState extends State<Organization> {
             SizedBox(
               height: 15.0,
             ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine1Day1Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine1Day1dateTime.day.toString() +
+                                    '/' +
+                                    vaccine1Day1dateTime.month.toString() +
+                                    '/' +
+                                    vaccine1Day1dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine1Day1availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day1Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day1vacine1 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day1 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine1Day2Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine1Day2dateTime.day.toString() +
+                                    '/' +
+                                    vaccine1Day2dateTime.month.toString() +
+                                    '/' +
+                                    vaccine1Day2dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine1Day2availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day2Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day2vacine1 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day2 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+            ////
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine1Day3Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine1Day3dateTime.day.toString() +
+                                    '/' +
+                                    vaccine1Day3dateTime.month.toString() +
+                                    '/' +
+                                    vaccine1Day3dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine1Day3availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day3Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day3vacine1 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day3 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine1Day4Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine1Day4dateTime.day.toString() +
+                                    '/' +
+                                    vaccine1Day4dateTime.month.toString() +
+                                    '/' +
+                                    vaccine1Day4dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine1Day4availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day4Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day4vacine1 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day4 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine1Day5Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine1Day5dateTime.day.toString() +
+                                    '/' +
+                                    vaccine1Day5dateTime.month.toString() +
+                                    '/' +
+                                    vaccine1Day5dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine1Day5availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day5Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day5vacine1 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day5 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
             TextFormField(
                 style: GoogleFonts.raleway(),
                 controller: _vaccine2Name,
@@ -526,6 +1216,405 @@ class _OrganizationState extends State<Organization> {
                   }
                   return null;
                 }),
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine2Day1Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine2Day1dateTime.day.toString() +
+                                    '/' +
+                                    vaccine2Day1dateTime.month.toString() +
+                                    '/' +
+                                    vaccine2Day1dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine2Day1availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine2 Day1 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day1vacine2 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day1 available Minimum Vaccine2 ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine2Day2Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine2Day2dateTime.day.toString() +
+                                    '/' +
+                                    vaccine2Day2dateTime.month.toString() +
+                                    '/' +
+                                    vaccine2Day2dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine2Day2availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine2 Day2 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day2vacine2 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day2 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine2Day3Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine2Day3dateTime.day.toString() +
+                                    '/' +
+                                    vaccine2Day3dateTime.month.toString() +
+                                    '/' +
+                                    vaccine2Day3dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine2Day3availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine2 Day3 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day3vacine2 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day3 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine2Day4Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine2Day4dateTime.day.toString() +
+                                    '/' +
+                                    vaccine2Day4dateTime.month.toString() +
+                                    '/' +
+                                    vaccine2Day4dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine2Day4availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine2 Day4 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day4vacine2 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day4 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine2Day5Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine2Day5dateTime.day.toString() +
+                                    '/' +
+                                    vaccine2Day5dateTime.month.toString() +
+                                    '/' +
+                                    vaccine2Day5dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine2Day5availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine2 Day5 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day5vacine2 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day5 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
             SizedBox(
               height: 15.0,
             ),
@@ -549,6 +1638,408 @@ class _OrganizationState extends State<Organization> {
             SizedBox(
               height: 15.0,
             ),
+
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine3Day1Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine3Day1dateTime.day.toString() +
+                                    '/' +
+                                    vaccine3Day1dateTime.month.toString() +
+                                    '/' +
+                                    vaccine3Day1dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine3Day1availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine3 Day1 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day1vacine3 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day1 available Minimum Vaccine2 ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine3Day2Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine3Day2dateTime.day.toString() +
+                                    '/' +
+                                    vaccine3Day2dateTime.month.toString() +
+                                    '/' +
+                                    vaccine3Day2dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine3Day2availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine3 Day2 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day2vacine3 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day2 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine3Day3Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine3Day3dateTime.day.toString() +
+                                    '/' +
+                                    vaccine3Day3dateTime.month.toString() +
+                                    '/' +
+                                    vaccine3Day3dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine3Day3availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine3 Day3 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day3vacine3 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day3 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine3Day4Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine3Day4dateTime.day.toString() +
+                                    '/' +
+                                    vaccine3Day4dateTime.month.toString() +
+                                    '/' +
+                                    vaccine3Day4dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine3Day4availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine3 Day4 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day4vacine3 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day4 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * 0.01,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectvaccine3Day5Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                vaccine2Day3dateTime.day.toString() +
+                                    '/' +
+                                    vaccine3Day5dateTime.month.toString() +
+                                    '/' +
+                                    vaccine3Day5dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _vaccine3Day5availity,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "vacccine3 Day5 Available",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day5vacine3 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day5 available Minimum Vaccine ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+////
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            SizedBox(
+              height: height * .01,
+            ),
+            ////
+            ///
+            ///
+            ///
+            ///
+            ///
             TextFormField(
                 controller: _minimun_price_of_vacination,
                 decoration: InputDecoration(

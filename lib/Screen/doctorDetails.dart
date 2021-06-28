@@ -598,7 +598,12 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     String doctorname,
     String doctorFee,
   ) {
-    CovidCheckApp.firestore.collection("DoctorAppoint").doc(doctorid).set({
+    CovidCheckApp.firestore
+        .collection(CovidCheckApp.collectionUser)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .collection(CovidCheckApp.appointmentcollection)
+        .doc(doctorid)
+        .set({
       "doctorAppointCentre": oranizationName,
       "phone_number": _phonenumberController.text.trim(),
       "userUI":
@@ -645,41 +650,41 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 ));
           });
     }).whenComplete(() => showDialog(
-        context: context,
-        builder: (c) {
-          Future.delayed(Duration(seconds: 12), () {
-            Navigator.of(context).pop(true);
-          });
-          return AlertDialog(
-              backgroundColor: Color(0xffd0f2e7),
-              contentPadding: EdgeInsets.all(10.0),
-              content: Container(
-                height: 120.0,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 2.0,
-                      ),
-                      Text(
-                        "Your Appointment Booking Successfully Done!! Please Kindly Visit Our Hospital/Organization on your mentioned Date and Time Thank You",
-                        style: GoogleFonts.comfortaa(
-                            fontSize: 15.0, color: Colors.black),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      LinearProgressIndicator(
-                        backgroundColor: Colors.cyanAccent,
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(Colors.red),
-                      ),
-                      SizedBox(
-                        height: 2.0,
-                      ),
-                    ]),
-              ));
-        }));
+            context: context,
+            builder: (c) {
+              Future.delayed(Duration(seconds: 12), () {
+                Navigator.of(context).pop(true);
+              });
+              return AlertDialog(
+                  backgroundColor: Color(0xffd0f2e7),
+                  contentPadding: EdgeInsets.all(10.0),
+                  content: Container(
+                    height: 120.0,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                          Text(
+                            "Your Appointment Booking Successfully Done!! Please Kindly Visit Our Hospital/Organization on your mentioned Date and Time Thank You",
+                            style: GoogleFonts.comfortaa(
+                                fontSize: 15.0, color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          LinearProgressIndicator(
+                            backgroundColor: Colors.cyanAccent,
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(Colors.red),
+                          ),
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                        ]),
+                  ));
+            }));
 
     setState(() {
       _nameController.clear();

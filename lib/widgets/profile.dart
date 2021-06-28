@@ -1,4 +1,5 @@
 import 'package:covidcheck/Screen/Auth/login.dart';
+import 'package:covidcheck/helperScreen/vaccineBook.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,22 +51,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return VStack([
-      SizedBox(
-        height: height * 0.06,
-      ),
-      // Container(
-      //   child: Center(
-      //     child:"PROFILE".text.bold.size(20.0).make(),
-      //   ),
-      // ),
       Container(
-        height: height * 0.20,
-        width: width * 0.35,
-        // decoration: BoxDecoration(
-
-        // ),
+        height: height * 0.15,
+        width: width * 0.25,
         child: CircleAvatar(
-          radius: 30.0,
+          radius: 25.0,
           backgroundImage: NetworkImage(CovidCheckApp.sharedPreferences
               .getString(CovidCheckApp.userAvatarUrl)),
         ),
@@ -77,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Center(
           child: Text(
             CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
-            style: GoogleFonts.comfortaa(fontSize: 25.0),
+            style: GoogleFonts.comfortaa(fontSize: 20.0),
           ),
         ),
       ),
@@ -88,14 +78,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: VStack([
         Text(
           CovidCheckApp.sharedPreferences.getString(CovidCheckApp.phoneNumber),
-          style: GoogleFonts.comfortaa(fontSize: 18.0),
+          style: GoogleFonts.comfortaa(fontSize: 15.0),
         ).centered(),
         SizedBox(
           height: height * 0.01,
         ),
         Text(
           CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
-          style: GoogleFonts.comfortaa(fontSize: 18.0),
+          style: GoogleFonts.comfortaa(fontSize: 15.0),
         ).centered(),
         SizedBox(
           height: height * 0.01,
@@ -116,19 +106,138 @@ class _ProfileScreenState extends State<ProfileScreen> {
       SizedBox(
         height: height * 0.01,
       ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Get.to(VaccineBook());
+            },
+            child: Container(
+                height: height * 0.06,
+                width: width * 0.40,
+                child: Material(
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Color(0xFF9608a1),
+                    elevation: 0.0,
+                    child: Center(
+                        child: Text('Vaccine Booking',
+                            style: GoogleFonts.comfortaa(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15.0))))),
+          ),
+          GestureDetector(
+              onTap: () {},
+              child: Container(
+                  height: height * 0.06,
+                  width: width * 0.40,
+                  child: Material(
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Color(0xFF0838c7),
+                      elevation: 0.0,
+                      child: Center(
+                          child: Text('Appointment Booking',
+                              style: GoogleFonts.comfortaa(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13.0)))))),
+        ],
+      ),
+      SizedBox(
+        height: height * 0.02,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+                height: height * 0.06,
+                width: width * 0.40,
+                child: Material(
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Color(0xFFf51414),
+                    elevation: 0.0,
+                    child: Center(
+                        child: Text('Blood Booking',
+                            style: GoogleFonts.comfortaa(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15.0))))),
+          ),
+          GestureDetector(
+              onTap: () {},
+              child: Container(
+                  height: height * 0.06,
+                  width: width * 0.40,
+                  child: Material(
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Color(0xFF0db542),
+                      elevation: 0.0,
+                      child: Center(
+                          child: Text('Oxyzen Booking',
+                              style: GoogleFonts.comfortaa(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.0)))))),
+        ],
+      ),
+      SizedBox(
+        height: height * 0.02,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+                height: height * 0.06,
+                width: width * 0.40,
+                child: Material(
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Color(0xFFd49f0d),
+                    elevation: 0.0,
+                    child: Center(
+                        child: Text('Bed Booking',
+                            style: GoogleFonts.comfortaa(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15.0))))),
+          ),
+          GestureDetector(
+              onTap: () {},
+              child: Container(
+                  height: height * 0.06,
+                  width: width * 0.40,
+                  child: Material(
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Color(0xFFd90b2d),
+                      elevation: 0.0,
+                      child: Center(
+                          child: Text('Ambulance Booking',
+                              style: GoogleFonts.comfortaa(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.0)))))),
+        ],
+      ),
+      SizedBox(
+        height: height * 0.01,
+      ),
       InkWell(
-        onTap: () {},
+        onTap: () {
+          /// Get.to(VaccineBook());
+        },
         child:
             _contents("assets/qst.png", "FAQ'S", "Frequently asked questions"),
       ),
-
       InkWell(
         onTap: () {
           _showMyDialog(context);
         },
         child: _contents("assets/support.jpg", "Support", "Contact details"),
       ),
-
       InkWell(
         onTap: () {},
         child: _contents("assets/Terms-and-conditions.png",
@@ -237,7 +346,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Container(
-      height: height * 0.10,
+      height: height * 0.08,
       width: width * 1.0,
       margin: EdgeInsets.all(5.0),
       decoration: BoxDecoration(
@@ -254,8 +363,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: <Widget>[
                 Container(
                   //  color: Colors.amber,
-                  height: 50.0,
-                  width: 50.0,
+                  height: 40.0,
+                  width: 40.0,
                   margin: EdgeInsets.only(left: 10.0),
                   decoration: BoxDecoration(
                       color: Colors.grey[300],
@@ -283,7 +392,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Text(
                       faqSupportTerm,
                       style: GoogleFonts.comfortaa(
-                          fontSize: 18.0, fontWeight: FontWeight.w600),
+                          fontSize: 15.0, fontWeight: FontWeight.w600),
                     ),
                     Row(
                       children: <Widget>[

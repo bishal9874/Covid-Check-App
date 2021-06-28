@@ -172,13 +172,13 @@ Widget sourceInfo(OrgModel model, BuildContext context,
         child: Container(
             height: 150,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10.0),
                 image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(model.thumbnailUrl))),
             child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  // borderRadius: BorderRadius.circular(20),
                   gradient: LinearGradient(
                       begin: Alignment.bottomRight,
                       stops: [

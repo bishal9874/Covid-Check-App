@@ -1,4 +1,3 @@
-import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+
 import 'package:velocity_x/velocity_x.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
-import 'package:fluttertoast/fluttertoast.dart';
 
 class VaccineDetails extends StatefulWidget {
   final OrgModel vaccine;
@@ -166,8 +164,11 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     CovidCheckApp.sharedPreferences
             .getStringList(CovidCheckApp.userCartList)
             .contains(org)
-        ? Fluttertoast.showToast(
-            msg: "Your Aadharnumber is already registered  for Vaccination")
+        ? VxToast.show(
+            context,
+            msg: "Your Aadharnumber is already registered for Vaccination",
+            position: VxToastPosition.bottom,
+          )
         : addBookToCart(
             org,
             context,
@@ -190,15 +191,22 @@ class _VaccineDetailsState extends State<VaccineDetails> {
         .update({
       CovidCheckApp.userCartList: vaccineList,
     }).then((value) {
-      Fluttertoast.showToast(msg: "Your aadhar Card resgister Successfully");
+      VxToast.show(
+        context,
+        msg: "Your Aadharnumber registered Successfully for Vaccination",
+        position: VxToastPosition.bottom,
+      );
       CovidCheckApp.sharedPreferences
           .setStringList(CovidCheckApp.userCartList, vaccineList);
       //Provider.of<BookItemCounter>(context, listen: false).displayResult();
     });
 
     CovidCheckApp.firestore
-        .collection("vaccine")
-        .doc(_aadharNumberController.text.trim())
+        .collection(CovidCheckApp.collectionUser)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .collection(CovidCheckApp.vaccinecollection)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
+            _aadharNumberController.text.trim())
         .set({
       "vaccineCentre_Name": oranizationName,
       "userUI":
