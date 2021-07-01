@@ -82,11 +82,11 @@ class _SplashScreenState extends State<SplashScreen> {
             children: <TextSpan>[
               TextSpan(
                   text: 'Covid',
-                  style: GoogleFonts.raleway(
+                  style: GoogleFonts.comfortaa(
                       fontWeight: FontWeight.w700, color: Colors.white)),
               TextSpan(
                   text: 'Check!',
-                  style: GoogleFonts.raleway(
+                  style: GoogleFonts.comfortaa(
                       fontWeight: FontWeight.w700, color: Colors.blue)),
             ],
           ),

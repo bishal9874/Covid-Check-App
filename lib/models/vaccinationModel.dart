@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class VaccineModel {
   String organization;
   Timestamp publishedDate;
-  Timestamp dateTime;
+  String dateTime;
   String userUid;
   String useremail;
   String username;
@@ -59,9 +59,9 @@ class VaccineModel {
     data['underAge'] = this.underag;
     data['seasonChoice'] = this.season;
     data['genderChoice'] = this.genderChoice;
-    if (this.publishedDate != null) {
-      data['dateSelection'] = this.dateTime;
-    }
+
+    data['dateSelection'] = this.dateTime;
+
     // data['price'] = this.price;
     if (this.publishedDate != null) {
       data['publishDate'] = this.publishedDate;

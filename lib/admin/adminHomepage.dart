@@ -1,6 +1,8 @@
 import 'package:covidcheck/admin/organization.dart';
+import 'package:covidcheck/main.dart';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -12,15 +14,7 @@ class AdminHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
-        title: Text('Covidcheck! Admin Panel',
-                style: GoogleFonts.raleway(
-                    fontWeight: FontWeight.w700, color: Colors.white))
-            .pOnly(left: 25.0),
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: _buildAppBar(context),
       // body: Center(
       //   child: Text(),
       // ),
@@ -85,6 +79,26 @@ class AdminHome extends StatelessWidget {
           ),
         ]),
       ).p(10),
+    );
+  }
+
+  _buildAppBar(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.blueGrey[700],
+      automaticallyImplyLeading: false,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text("Covidcheck! Admin Panel",
+              style: GoogleFonts.comfortaa(fontSize: 18.0)),
+          IconButton(
+              onPressed: () {
+                Get.to(SplashScreen());
+              },
+              icon: Icon(Icons.logout_sharp)),
+        ],
+      ),
     );
   }
 }

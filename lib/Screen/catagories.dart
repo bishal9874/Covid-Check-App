@@ -2,6 +2,7 @@ import 'package:covidcheck/Screen/bedBooking.dart';
 import 'package:covidcheck/Screen/bloodbook.dart';
 import 'package:covidcheck/Screen/contactUs.dart';
 import 'package:covidcheck/Screen/doctor_list.dart';
+import 'package:covidcheck/Screen/oxyzenServies.dart';
 import 'package:covidcheck/Screen/vaccineDetails.dart';
 import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
@@ -212,7 +213,9 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
     var width = MediaQuery.of(context).size.width;
     return InkWell(
         onTap: () {
-          //  Get.to(VaccineDetails(vaccine: widget.orgModel));
+          Get.to(OxygenServices(
+            oxygen: widget.orgModel,
+          ));
         },
         splashColor: Colors.grey,
         child: Padding(

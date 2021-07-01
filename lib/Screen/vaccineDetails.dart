@@ -25,10 +25,14 @@ class _VaccineDetailsState extends State<VaccineDetails> {
       new TextEditingController();
   final TextEditingController _birthyearController =
       new TextEditingController();
+
   String selectedChoice = "";
   String ageselectedChoice = "";
   String genderChoice = "";
   String seasonChoice = "";
+  String vaccinedatechoice = "";
+  int vaccavail;
+
   String aadharNumber, name, birthyear;
   DateTime dateTime = DateTime.now();
   String vaccinationID = DateTime.now().millisecondsSinceEpoch.toString();
@@ -106,12 +110,25 @@ class _VaccineDetailsState extends State<VaccineDetails> {
         onSelected: (selected) {
           setState(() {
             selectedChoice = name;
+
             print(selectedChoice);
           });
         },
       ),
     );
   }
+
+  // _vaccine1details() {
+  //   return Container(
+  //       child: Wrap(
+  //     children: [
+  //       if (widget.vaccine.vaccine1day1available != 0)
+  //         Text(widget.vaccine.vaccine1day1available.toString())
+  //       else
+  //         Text("out of stock"),
+  //     ],
+  //   ));
+  // }
 
   _ageChoiceList(String name) {
     return Container(
@@ -160,16 +177,100 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     );
   }
 
-  void checkvaccineBookCart(String org, BuildContext context, String orgName) {
+  __vaccine1dateChoice(String name, int availVacc1) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(name),
+        labelStyle: GoogleFonts.comfortaa(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xff9ee892),
+        selected: vaccinedatechoice == name,
+        onSelected: (selected) {
+          setState(() {
+            vaccinedatechoice = name;
+            vaccavail = availVacc1;
+
+            print(vaccinedatechoice);
+            print(vaccavail);
+          });
+        },
+      ),
+    );
+  }
+
+  __vaccine2dateChoice(String name, int availVacc2) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(name),
+        labelStyle: GoogleFonts.comfortaa(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xfff27f4e),
+        selected: vaccinedatechoice == name,
+        onSelected: (selected) {
+          setState(() {
+            vaccinedatechoice = name;
+            vaccavail = availVacc2;
+
+            print(vaccinedatechoice);
+            print(vaccavail);
+          });
+        },
+      ),
+    );
+  }
+
+  __vaccine3dateChoice(String name, int availVacc3) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(name),
+        labelStyle: GoogleFonts.comfortaa(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xff7c9df7),
+        selected: vaccinedatechoice == name,
+        onSelected: (selected) {
+          setState(() {
+            vaccinedatechoice = name;
+            vaccavail = availVacc3;
+
+            print(vaccinedatechoice);
+            print(vaccavail);
+          });
+        },
+      ),
+    );
+  }
+
+  void checkvaccineBookCart(
+    String docNO,
+    String org,
+    BuildContext context,
+    String orgName,
+  ) {
     CovidCheckApp.sharedPreferences
             .getStringList(CovidCheckApp.userCartList)
             .contains(org)
-        ? VxToast.show(
-            context,
+        ? VxToast.show(context,
             msg: "Your Aadharnumber is already registered for Vaccination",
             position: VxToastPosition.bottom,
-          )
+            bgColor: Colors.red[400],
+            textColor: Colors.white)
         : addBookToCart(
+            docNO,
             org,
             context,
             orgName,
@@ -177,6 +278,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
   }
 
   addBookToCart(
+    String docNo,
     String org,
     BuildContext context,
     String oranizationName,
@@ -202,6 +304,177 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     });
 
     CovidCheckApp.firestore
+        .collection("Details")
+        .doc(docNo + oranizationName)
+        .update({
+      if (selectedChoice == widget.vaccine.vaccine1 &&
+          vaccavail == widget.vaccine.vaccine1day1available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine1day1date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day1date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day1date.toDate().year.toString())
+        "vaccine1day1available": widget.vaccine.vaccine1day1available - 1
+      else if (selectedChoice == widget.vaccine.vaccine1 &&
+          vaccavail == widget.vaccine.vaccine1day2available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine1day2date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day2date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day2date.toDate().year.toString())
+        "vaccine1day2available": widget.vaccine.vaccine1day2available - 1
+      else if (selectedChoice == widget.vaccine.vaccine1 &&
+          vaccavail == widget.vaccine.vaccine1day3available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine1day3date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day3date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day3date.toDate().year.toString())
+        "vaccine1day3available": widget.vaccine.vaccine1day3available - 1
+      else if (selectedChoice == widget.vaccine.vaccine1 &&
+          vaccavail == widget.vaccine.vaccine1day4available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine1day4date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day4date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day4date.toDate().year.toString())
+        "vaccine1day4available": widget.vaccine.vaccine1day4available - 1
+      else if (selectedChoice == widget.vaccine.vaccine1 &&
+          vaccavail == widget.vaccine.vaccine1day5available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine1day5date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day5date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine1day5date.toDate().year.toString())
+        "vaccine1day5available": widget.vaccine.vaccine1day5available - 1
+
+      ///
+      ///
+      else if (selectedChoice == widget.vaccine.vaccine2 &&
+          vaccavail == widget.vaccine.vaccine2day1available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine2day1date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day1date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day1date.toDate().year.toString())
+        "vaccine2day1available": widget.vaccine.vaccine2day1available - 1
+      else if (selectedChoice == widget.vaccine.vaccine2 &&
+          vaccavail == widget.vaccine.vaccine2day2available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine2day2date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day2date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day2date.toDate().year.toString())
+        "vaccine2day2available": widget.vaccine.vaccine2day2available - 1
+      else if (selectedChoice == widget.vaccine.vaccine2 &&
+          vaccavail == widget.vaccine.vaccine2day3available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine2day3date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day3date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day3date.toDate().year.toString())
+        "vaccine2day3available": widget.vaccine.vaccine2day3available - 1
+      else if (selectedChoice == widget.vaccine.vaccine2 &&
+          vaccavail == widget.vaccine.vaccine2day4available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine2day4date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day4date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day4date.toDate().year.toString())
+        "vaccine2day4available": widget.vaccine.vaccine2day4available - 1
+      else if (selectedChoice == widget.vaccine.vaccine2 &&
+          vaccavail == widget.vaccine.vaccine2day5available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine2day5date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day5date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine2day5date.toDate().year.toString())
+        "vaccine2day5available": widget.vaccine.vaccine2day5available - 1
+
+      ///
+      ///
+      ///
+      else if (selectedChoice == widget.vaccine.vaccine3 &&
+          vaccavail == widget.vaccine.vaccine3day1available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine3day1date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day1date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day1date.toDate().year.toString())
+        "vaccine3day1available": widget.vaccine.vaccine3day1available - 1
+      else if (selectedChoice == widget.vaccine.vaccine3 &&
+          vaccavail == widget.vaccine.vaccine3day2available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine3day2date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day2date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day2date.toDate().year.toString())
+        "vaccine3day2available": widget.vaccine.vaccine3day2available - 1
+      else if (selectedChoice == widget.vaccine.vaccine3 &&
+          vaccavail == widget.vaccine.vaccine3day3available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine3day3date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day3date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day3date.toDate().year.toString())
+        "vaccine3day3available": widget.vaccine.vaccine3day3available - 1
+      else if (selectedChoice == widget.vaccine.vaccine3 &&
+          vaccavail == widget.vaccine.vaccine3day4available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine3day4date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day4date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day4date.toDate().year.toString())
+        "vaccine3day4available": widget.vaccine.vaccine3day4available - 1
+      else if (selectedChoice == widget.vaccine.vaccine3 &&
+          vaccavail == widget.vaccine.vaccine3day5available &&
+          vaccinedatechoice ==
+              widget.vaccine.vaccine3day5date.toDate().day.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day5date.toDate().month.toString() +
+                  "/" +
+                  widget.vaccine.vaccine3day5date.toDate().year.toString())
+        "vaccine3day5available": widget.vaccine.vaccine3day5available - 1
+    });
+
+    CovidCheckApp.firestore
+        .collection("vaccine")
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
+            _aadharNumberController.text.trim())
+        .set({
+      "vaccineCentre_Name": oranizationName,
+      "userUI":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
+      "username":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
+      "useremail":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
+      "name": _nameController.text.trim(),
+      "aadharnumber": int.parse(_aadharNumberController.text.trim()),
+      "birthyear": int.parse(_birthyearController.text.trim()),
+      "vaccineChoice": selectedChoice,
+      "underAge": ageselectedChoice,
+      "seasonChoice": seasonChoice,
+      "dateSelection": vaccinedatechoice,
+      "genderChoice": genderChoice,
+      "publishDate": DateTime.now(),
+    });
+
+    CovidCheckApp.firestore
         .collection(CovidCheckApp.collectionUser)
         .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
         .collection(CovidCheckApp.vaccinecollection)
@@ -221,7 +494,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
       "vaccineChoice": selectedChoice,
       "underAge": ageselectedChoice,
       "seasonChoice": seasonChoice,
-      "dateSelection": dateTime,
+      "dateSelection": vaccinedatechoice,
       "genderChoice": genderChoice,
       "publishDate": DateTime.now(),
     }).then((value) {
@@ -416,6 +689,10 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                 SizedBox(
                   height: height * 0.01,
                 ),
+                Text("Select Vaccine",
+                        style: GoogleFonts.comfortaa(
+                            fontSize: 15.0, fontWeight: FontWeight.w700))
+                    .p1(),
                 Container(
                   child: Wrap(
                     spacing: 8.0,
@@ -426,9 +703,618 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                     ],
                   ),
                 ),
+
+                ///
+                ///
+                ///
+                ///
+                ///
+                if (widget.vaccine.vaccine1 == selectedChoice)
+                  VStack([
+                    Text("Select Schedule",
+                            style: GoogleFonts.comfortaa(
+                                fontSize: 13.0, fontWeight: FontWeight.w700))
+                        .p1(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine1dateChoice(
+                            widget.vaccine.vaccine1day1date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day1date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day1date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine1day1available),
+                        if (widget.vaccine.vaccine1day1available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine1day1available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine1dateChoice(
+                            widget.vaccine.vaccine1day2date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day2date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day2date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine1day2available),
+                        if (widget.vaccine.vaccine1day2available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine1day2available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine1dateChoice(
+                            widget.vaccine.vaccine1day3date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day3date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day3date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine1day3available),
+                        if (widget.vaccine.vaccine1day3available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine1day3available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine1dateChoice(
+                            widget.vaccine.vaccine1day4date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day4date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day4date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine1day4available),
+                        if (widget.vaccine.vaccine1day4available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine1day4available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine1dateChoice(
+                            widget.vaccine.vaccine1day5date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day5date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine1day5date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine1day5available),
+                        if (widget.vaccine.vaccine1day5available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine1day5available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                  ]),
+
+                ///
+                ///
+                ///
+                ///
+                if (widget.vaccine.vaccine2 == selectedChoice)
+                  VStack([
+                    Text("Select Schedule",
+                            style: GoogleFonts.comfortaa(
+                                fontSize: 15.0, fontWeight: FontWeight.w700))
+                        .p1(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine2dateChoice(
+                            widget.vaccine.vaccine2day1date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day1date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day1date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine2day1available),
+                        if (widget.vaccine.vaccine2day1available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine2day1available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine2dateChoice(
+                            widget.vaccine.vaccine2day2date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day2date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day2date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine2day2available),
+                        if (widget.vaccine.vaccine2day2available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine2day2available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine2dateChoice(
+                            widget.vaccine.vaccine2day3date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day3date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day3date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine2day3available),
+                        if (widget.vaccine.vaccine2day3available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine2day3available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine2dateChoice(
+                            widget.vaccine.vaccine2day4date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day4date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day4date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine2day4available),
+                        if (widget.vaccine.vaccine2day4available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine2day4available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine2dateChoice(
+                            widget.vaccine.vaccine2day5date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day5date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine2day5date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine2day5available),
+                        if (widget.vaccine.vaccine2day5available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine2day5available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                  ]),
+
+                ///
+                ///
+                ///
+                ///
+                ///
+                ///
+                if (widget.vaccine.vaccine3 == selectedChoice)
+                  VStack([
+                    Text("Select Schedule",
+                            style: GoogleFonts.comfortaa(
+                                fontSize: 15.0, fontWeight: FontWeight.w700))
+                        .p1(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine3dateChoice(
+                            widget.vaccine.vaccine3day1date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day1date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day1date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine3day1available),
+                        if (widget.vaccine.vaccine3day1available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine3day1available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine3dateChoice(
+                            widget.vaccine.vaccine3day2date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day2date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day2date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine3day2available),
+                        if (widget.vaccine.vaccine3day2available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine3day2available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine3dateChoice(
+                            widget.vaccine.vaccine3day3date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day3date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day3date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine3day3available),
+                        if (widget.vaccine.vaccine3day3available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine3day3available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine3dateChoice(
+                            widget.vaccine.vaccine3day4date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day4date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day4date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine3day4available),
+                        if (widget.vaccine.vaccine3day4available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine3day4available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        __vaccine3dateChoice(
+                            widget.vaccine.vaccine3day5date
+                                    .toDate()
+                                    .day
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day5date
+                                    .toDate()
+                                    .month
+                                    .toString() +
+                                "/" +
+                                widget.vaccine.vaccine3day5date
+                                    .toDate()
+                                    .year
+                                    .toString(),
+                            widget.vaccine.vaccine3day5available),
+                        if (widget.vaccine.vaccine3day5available != 0)
+                          Container(
+                              height: height * 0.04,
+                              width: width * 0.08,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                      widget.vaccine.vaccine3day5available
+                                          .toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white))
+                                  .centered())
+                        else
+                          Text("out of stock"),
+                      ],
+                    ),
+                  ])
+                else
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+////
+                ///
+                ///
+                ///
+                ///
+                ///
+                ///
                 SizedBox(
                   height: 15.0,
                 ),
+                Text("Under Age",
+                        style: GoogleFonts.comfortaa(
+                            fontSize: 13.0, fontWeight: FontWeight.w700))
+                    .p1(),
                 Container(
                   child: Wrap(
                     spacing: 8.0,
@@ -438,13 +1324,17 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                     ],
                   ),
                 ),
+                // if (widget.vaccine.vaccine1day1available != 0)
+                //   Text(widget.vaccine.vaccine1day1available.toString())
+                // else
+                //   Text("out of stock"),
                 SizedBox(
                   height: 15.0,
                 ),
 
                 Text("Gender",
                         style: GoogleFonts.comfortaa(
-                            fontSize: 15.0, fontWeight: FontWeight.w700))
+                            fontSize: 13.0, fontWeight: FontWeight.w700))
                     .p1(),
                 // SizedBox(
                 //   height: height * 0.01,
@@ -453,48 +1343,54 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                   _genderChoiceList("Male"),
                   _genderChoiceList("Female"),
                 ]),
-                Text("Select Schedule",
-                        style: GoogleFonts.comfortaa(
-                            fontSize: 15.0, fontWeight: FontWeight.w700))
-                    .p1(),
+
                 SizedBox(
                   height: height * 0.01,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Text("Select Season",
+                        style: GoogleFonts.comfortaa(
+                            fontSize: 13.0, fontWeight: FontWeight.w700))
+                    .p1(),
+                Wrap(
                   children: [
-                    GestureDetector(
-                        onTap: () => selectTimePicker(context),
-                        child: Container(
-                            height: height * 0.05,
-                            width: width * 0.25,
-                            child: Material(
-                                borderRadius: BorderRadius.circular(12.0),
-                                color: Color(0xFF2877ed),
-                                elevation: 0.0,
-                                child: Center(
-                                  child: Text(
-                                      dateTime.day.toString() +
-                                          '/' +
-                                          dateTime.month.toString() +
-                                          '/' +
-                                          dateTime.year.toString(),
-                                      style: GoogleFonts.comfortaa(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 15.0)),
-                                )))),
-                    Container(
-                      child: Wrap(
-                        spacing: 8.0,
-                        children: <Widget>[
-                          __seasonChoice("Morning"),
-                          __seasonChoice("Afternoon"),
-                        ],
-                      ),
-                    ),
+                    __seasonChoice("Morning"),
+                    __seasonChoice("Afternoon"),
                   ],
                 ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     // GestureDetector(
+                //     //     onTap: () => selectTimePicker(context),
+                //     //     child: Container(
+                //     //         height: height * 0.05,
+                //     //         width: width * 0.25,
+                //     //         child: Material(
+                //     //             borderRadius: BorderRadius.circular(12.0),
+                //     //             color: Color(0xFF2877ed),
+                //     //             elevation: 0.0,
+                //     //             child: Center(
+                //     //               child: Text(
+                //     //                   dateTime.day.toString() +
+                //     //                       '/' +
+                //     //                       dateTime.month.toString() +
+                //     //                       '/' +
+                //     //                       dateTime.year.toString(),
+                //     //                   style: GoogleFonts.comfortaa(
+                //     //                       color: Colors.white,
+                //     //                       fontWeight: FontWeight.w600,
+                //     //                       fontSize: 15.0)),
+                //     //             )))),
+                //     Container(
+                //       child: Wrap(
+                //         spacing: 8.0,
+                //         children: <Widget>[
+
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(
                   height: height * 0.03,
                 ),
@@ -519,6 +1415,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                                       GestureDetector(
                                         onTap: () {
                                           checkvaccineBookCart(
+                                              widget.vaccine.docnumber,
                                               _aadharNumberController.text
                                                   .trim(),
                                               context,

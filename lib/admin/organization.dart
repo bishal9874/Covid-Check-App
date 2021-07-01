@@ -1964,7 +1964,7 @@ class _OrganizationState extends State<Organization> {
                           elevation: 0.0,
                           child: Center(
                             child: Text(
-                                vaccine2Day3dateTime.day.toString() +
+                                vaccine3Day5dateTime.day.toString() +
                                     '/' +
                                     vaccine3Day5dateTime.month.toString() +
                                     '/' +
@@ -2700,7 +2700,7 @@ class _OrganizationState extends State<Organization> {
   updateDetails(String downloadUrl) {
     final details = FirebaseFirestore.instance.collection("Details");
 
-    details.doc(oranizationID).set({
+    details.doc(oranizationID + _organizationName.text.trim()).set({
       "organization": _organizationName.text.trim(),
       "doctor1": _doctor1Name.text.trim(),
       "doctor1des": _doctor1description.text.trim(),
@@ -2712,8 +2712,38 @@ class _OrganizationState extends State<Organization> {
       "doctor3des": _doctor3description.text.trim(),
       "doctor3fees": int.parse(_doctorfees3.text.trim()),
       "vaccine1": _vaccine1Name.text.trim(),
+      "vaccine1day1available": int.parse(_vaccine1Day1availity.text.trim()),
+      "vaccine1day1date": vaccine1Day1dateTime,
+      "vaccine1day2available": int.parse(_vaccine1Day2availity.text.trim()),
+      "vaccine1day2date": vaccine1Day2dateTime,
+      "vaccine1day3available": int.parse(_vaccine1Day3availity.text.trim()),
+      "vaccine1day3date": vaccine1Day3dateTime,
+      "vaccine1day4available": int.parse(_vaccine1Day4availity.text.trim()),
+      "vaccine1day4date": vaccine1Day4dateTime,
+      "vaccine1day5available": int.parse(_vaccine1Day5availity.text.trim()),
+      "vaccine1day5date": vaccine1Day5dateTime,
       "vaccine2": _vaccine2Name.text.trim(),
+      "vaccine2day1available": int.parse(_vaccine2Day1availity.text.trim()),
+      "vaccine2day1date": vaccine2Day1dateTime,
+      "vaccine2day2available": int.parse(_vaccine2Day2availity.text.trim()),
+      "vaccine2day2date": vaccine1Day2dateTime,
+      "vaccine2day3available": int.parse(_vaccine2Day3availity.text.trim()),
+      "vaccine2day3date": vaccine2Day3dateTime,
+      "vaccine2day4available": int.parse(_vaccine2Day4availity.text.trim()),
+      "vaccine2day4date": vaccine2Day4dateTime,
+      "vaccine2day5available": int.parse(_vaccine2Day5availity.text.trim()),
+      "vaccine2day5date": vaccine2Day5dateTime,
       "vaccine3": _vaccine3Name.text.trim(),
+      "vaccine3day1available": int.parse(_vaccine3Day1availity.text.trim()),
+      "vaccine3day1date": vaccine3Day1dateTime,
+      "vaccine3day2available": int.parse(_vaccine3Day2availity.text.trim()),
+      "vaccine3day2date": vaccine3Day2dateTime,
+      "vaccine3day3available": int.parse(_vaccine3Day3availity.text.trim()),
+      "vaccine3day3date": vaccine3Day3dateTime,
+      "vaccine3day4available": int.parse(_vaccine3Day4availity.text.trim()),
+      "vaccine3day4date": vaccine3Day4dateTime,
+      "vaccine3day5available": int.parse(_vaccine3Day5availity.text.trim()),
+      "vaccine3day5date": vaccine3Day5dateTime,
       "address": _organizationAddress.text.trim(),
       "city": _organizationcity.text.trim(),
       "district": _organizationDistrict.text.trim(),
@@ -2745,8 +2775,73 @@ class _OrganizationState extends State<Organization> {
       "emergencybedAvailable": int.parse(_emergencyBed.text.trim()),
       "minimumoygenprice":
           int.parse(_minimun_price_of_oxygenServices.text.trim()),
-      "AmbulanceNumber": int.parse(_phoneNumber_of_ambulance.text.trim())
-    });
+      "AmbulanceNumber": int.parse(_phoneNumber_of_ambulance.text.trim()),
+      "docnumber": oranizationID,
+    }).then((value) {
+      return showDialog(
+          context: context,
+          builder: (c) {
+            Future.delayed(Duration(seconds: 5), () {
+              Navigator.of(context).pop(true);
+            });
+            return AlertDialog(
+                contentPadding: EdgeInsets.all(5.0),
+                content: Container(
+                  height: 100.0,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          backgroundColor: Colors.cyanAccent,
+                          valueColor:
+                              new AlwaysStoppedAnimation<Color>(Colors.red),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          "Organization Added.........",
+                          style: GoogleFonts.comfortaa(),
+                        )
+                      ]),
+                ));
+          });
+    }).whenComplete(() => showDialog(
+        context: context,
+        builder: (c) {
+          Future.delayed(Duration(seconds: 8), () {
+            Navigator.of(context).pop(true);
+          });
+          return AlertDialog(
+              backgroundColor: Color(0xffd0f2e7),
+              contentPadding: EdgeInsets.all(10.0),
+              content: Container(
+                height: 120.0,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 2.0,
+                      ),
+                      Text(
+                        "Organization Add Successfully !! Congratulation !!!",
+                        style: GoogleFonts.comfortaa(color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      LinearProgressIndicator(
+                        backgroundColor: Colors.cyanAccent,
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(Colors.red),
+                      ),
+                      SizedBox(
+                        height: 2.0,
+                      ),
+                    ]),
+              ));
+        }));
+    ;
 
     setState(() {
       _file = null;

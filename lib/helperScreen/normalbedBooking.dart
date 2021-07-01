@@ -22,6 +22,8 @@ class NormalBed extends StatefulWidget {
 }
 
 class _NormalBedState extends State<NormalBed> {
+  int bed;
+
   final formKey = new GlobalKey<FormState>();
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _aadharNumberController =
@@ -74,6 +76,13 @@ class _NormalBedState extends State<NormalBed> {
         print(dateTime.toString());
       });
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    bed = int.parse(widget.bedavailable);
+    super.initState();
   }
 
   @override
@@ -141,8 +150,7 @@ class _NormalBedState extends State<NormalBed> {
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white)),
                           TextSpan(
-                              text: widget.normalbed.normalbedAvailable
-                                  .toString(),
+                              text: "$bed",
                               style: GoogleFonts.notoSans(
                                   fontWeight: FontWeight.w700,
                                   color: Colors.orange)),
@@ -330,11 +338,11 @@ class _NormalBedState extends State<NormalBed> {
                                     elevation: 0.0,
                                     child: Center(
                                       child: Text(
-                                          dateTime.day.toString() +
+                                          birthDate.day.toString() +
                                               '/' +
-                                              dateTime.month.toString() +
+                                              birthDate.month.toString() +
                                               '/' +
-                                              dateTime.year.toString(),
+                                              birthDate.year.toString(),
                                           style: GoogleFonts.montserrat(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
@@ -410,6 +418,10 @@ class _NormalBedState extends State<NormalBed> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
+                                          // setState(() {
+                                          //   bed--;
+                                          // });
+                                          // print(bed);
                                           // checkvaccineBookCart(
                                           //     _aadharNumberController.text
                                           //         .trim(),
@@ -486,4 +498,6 @@ class _NormalBedState extends State<NormalBed> {
       ),
     );
   }
+
+  counter() {}
 }

@@ -15,8 +15,38 @@ class OrgModel {
   int doc3fees;
   String status;
   String vaccine1;
+  int vaccine1day1available;
+  Timestamp vaccine1day1date;
+  int vaccine1day2available;
+  Timestamp vaccine1day2date;
+  int vaccine1day3available;
+  Timestamp vaccine1day3date;
+  int vaccine1day4available;
+  Timestamp vaccine1day4date;
+  int vaccine1day5available;
+  Timestamp vaccine1day5date;
   String vaccine2;
+  int vaccine2day1available;
+  Timestamp vaccine2day1date;
+  int vaccine2day2available;
+  Timestamp vaccine2day2date;
+  int vaccine2day3available;
+  Timestamp vaccine2day3date;
+  int vaccine2day4available;
+  Timestamp vaccine2day4date;
+  int vaccine2day5available;
+  Timestamp vaccine2day5date;
   String vaccine3;
+  int vaccine3day1available;
+  Timestamp vaccine3day1date;
+  int vaccine3day2available;
+  Timestamp vaccine3day2date;
+  int vaccine3day3available;
+  Timestamp vaccine3day3date;
+  int vaccine3day4available;
+  Timestamp vaccine3day4date;
+  int vaccine3day5available;
+  Timestamp vaccine3day5date;
   String orgaddress;
   String orgCity;
   String orgDistrict;
@@ -42,49 +72,82 @@ class OrgModel {
   int emergencybedAvailable;
   int minimumoygenprice;
   int ambulanceNumber;
+  String docnumber;
 
-  OrgModel(
-      {this.organization,
-      this.doctor1,
-      this.doc1des,
-      this.doc1fees,
-      this.publishedDate,
-      this.thumbnailUrl,
-      this.doctor2,
-      this.doc2des,
-      this.doc2fees,
-      this.status,
-      this.doctor3,
-      this.doc3des,
-      this.doc3fees,
-      this.vaccine1,
-      this.vaccine2,
-      this.vaccine3,
-      this.orgaddress,
-      this.orgCity,
-      this.orgDistrict,
-      this.pinNumber,
-      this.contact,
-      this.email,
-      this.blood1Choice,
-      this.blood2Choice,
-      this.blood3Choice,
-      this.blood4Choice,
-      this.blood5Choice,
-      this.blood6Choice,
-      this.blood7Choice,
-      this.blood8Choice,
-      this.doctor1schedule,
-      this.doctor2schedule,
-      this.doctor3schedule,
-      this.ambulanceNumber,
-      this.emergencybedAvailable,
-      this.minimumAppointprice,
-      this.minimumbedprice,
-      this.minimumbloodprice,
-      this.minimumoygenprice,
-      this.minimumvaccineprice,
-      this.normalbedAvailable});
+  OrgModel({
+    this.organization,
+    this.doctor1,
+    this.doc1des,
+    this.doc1fees,
+    this.publishedDate,
+    this.thumbnailUrl,
+    this.doctor2,
+    this.doc2des,
+    this.doc2fees,
+    this.status,
+    this.doctor3,
+    this.doc3des,
+    this.doc3fees,
+    this.vaccine1,
+    this.vaccine2,
+    this.vaccine3,
+    this.orgaddress,
+    this.orgCity,
+    this.orgDistrict,
+    this.pinNumber,
+    this.contact,
+    this.email,
+    this.blood1Choice,
+    this.blood2Choice,
+    this.blood3Choice,
+    this.blood4Choice,
+    this.blood5Choice,
+    this.blood6Choice,
+    this.blood7Choice,
+    this.blood8Choice,
+    this.doctor1schedule,
+    this.doctor2schedule,
+    this.doctor3schedule,
+    this.ambulanceNumber,
+    this.emergencybedAvailable,
+    this.minimumAppointprice,
+    this.minimumbedprice,
+    this.minimumbloodprice,
+    this.minimumoygenprice,
+    this.minimumvaccineprice,
+    this.normalbedAvailable,
+    this.vaccine1day1available,
+    this.vaccine1day1date,
+    this.vaccine1day2available,
+    this.vaccine1day2date,
+    this.vaccine1day3available,
+    this.vaccine1day3date,
+    this.vaccine1day4available,
+    this.vaccine1day4date,
+    this.vaccine1day5available,
+    this.vaccine1day5date,
+    this.vaccine2day1available,
+    this.vaccine2day1date,
+    this.vaccine2day2available,
+    this.vaccine2day2date,
+    this.vaccine2day3available,
+    this.vaccine2day3date,
+    this.vaccine2day4available,
+    this.vaccine2day4date,
+    this.vaccine2day5available,
+    this.vaccine2day5date,
+    this.vaccine3day1available,
+    this.vaccine3day1date,
+    this.vaccine3day2available,
+    this.vaccine3day2date,
+    this.vaccine3day3available,
+    this.vaccine3day3date,
+    this.vaccine3day4available,
+    this.vaccine3day4date,
+    this.vaccine3day5available,
+    this.vaccine3day5date,
+    this.docnumber,
+  });
 
   OrgModel.fromJson(Map<String, dynamic> json) {
     organization = json['organization'];
@@ -128,6 +191,40 @@ class OrgModel {
     normalbedAvailable = json["normalbedAvailable"];
     emergencybedAvailable = json["emergencybedAvailable"];
     ambulanceNumber = json["AmbulanceNumber"];
+    //
+    vaccine1day1available = json["vaccine1day1available"];
+    vaccine1day1date = json["vaccine1day1date"];
+    vaccine1day2available = json["vaccine1day2available"];
+    vaccine1day2date = json["vaccine1day2date"];
+    vaccine1day3available = json["vaccine1day3available"];
+    vaccine1day3date = json["vaccine1day3date"];
+    vaccine1day4available = json["vaccine1day4available"];
+    vaccine1day4date = json["vaccine1day4date"];
+    vaccine1day5available = json["vaccine1day5available"];
+    vaccine1day5date = json["vaccine1day5date"];
+    //
+    vaccine2day1available = json["vaccine2day1available"];
+    vaccine2day1date = json["vaccine2day1date"];
+    vaccine2day2available = json["vaccine2day2available"];
+    vaccine2day2date = json["vaccine2day2date"];
+    vaccine2day3available = json["vaccine2day3available"];
+    vaccine2day3date = json["vaccine2day3date"];
+    vaccine2day4available = json["vaccine2day4available"];
+    vaccine2day4date = json["vaccine2day4date"];
+    vaccine2day5available = json["vaccine2day5available"];
+    vaccine2day5date = json["vaccine2day5date"];
+    //
+    vaccine3day1available = json["vaccine3day1available"];
+    vaccine3day1date = json["vaccine3day1date"];
+    vaccine3day2available = json["vaccine3day2available"];
+    vaccine3day2date = json["vaccine3day2date"];
+    vaccine3day3available = json["vaccine3day3available"];
+    vaccine3day3date = json["vaccine3day3date"];
+    vaccine3day4available = json["vaccine3day4available"];
+    vaccine3day4date = json["vaccine3day4date"];
+    vaccine3day5available = json["vaccine3day5available"];
+    vaccine3day5date = json["vaccine3day5date"];
+    docnumber = json['docnumber'];
   }
 
   Map<String, dynamic> toJson() {
@@ -171,13 +268,74 @@ class OrgModel {
     data['minimumoygenprice'] = this.minimumoygenprice;
     data['minimumbloodprice'] = this.minimumbloodprice;
     data['AmbulanceNumber'] = this.ambulanceNumber;
-
+    data['vaccine1day1available'] = this.vaccine1day1available;
+    if (this.vaccine1day1date != null) {
+      data['vaccine1day1date'] = this.vaccine1day1date;
+    }
+    data['vaccine1day2available'] = this.vaccine1day2available;
+    if (this.vaccine1day2date != null) {
+      data['vaccine1day2date'] = this.vaccine1day2date;
+    }
+    data['vaccine1day3available'] = this.vaccine1day3available;
+    if (this.vaccine1day3date != null) {
+      data['vaccine1day3date'] = this.vaccine1day3date;
+    }
+    data['vaccine1day4available'] = this.vaccine1day4available;
+    if (this.vaccine1day4date != null) {
+      data['vaccine1day4date'] = this.vaccine1day4date;
+    }
+    data['vaccine1day5available'] = this.vaccine1day5available;
+    if (this.vaccine1day5date != null) {
+      data['vaccine1day5date'] = this.vaccine1day5date;
+    }
     // data['price'] = this.price;
+    data['vaccine2day1available'] = this.vaccine2day1available;
+    if (this.vaccine2day1date != null) {
+      data['vaccine2day1date'] = this.vaccine2day1date;
+    }
+    data['vaccine2day2available'] = this.vaccine2day2available;
+    if (this.vaccine2day2date != null) {
+      data['vaccine2day2date'] = this.vaccine2day2date;
+    }
+    data['vaccine2day3available'] = this.vaccine2day3available;
+    if (this.vaccine2day3date != null) {
+      data['vaccine2day3date'] = this.vaccine2day3date;
+    }
+    data['vaccine2day4available'] = this.vaccine2day4available;
+    if (this.vaccine2day4date != null) {
+      data['vaccine2day4date'] = this.vaccine2day4date;
+    }
+    data['vaccine2day5available'] = this.vaccine2day5available;
+    if (this.vaccine2day5date != null) {
+      data['vaccine2day5date'] = this.vaccine2day5date;
+    }
+    //
+    data['vaccine3day1available'] = this.vaccine3day1available;
+    if (this.vaccine3day1date != null) {
+      data['vaccine3day1date'] = this.vaccine3day1date;
+    }
+    data['vaccine3day2available'] = this.vaccine3day2available;
+    if (this.vaccine3day2date != null) {
+      data['vaccine3day2date'] = this.vaccine3day2date;
+    }
+    data['vaccine3day3available'] = this.vaccine3day3available;
+    if (this.vaccine3day3date != null) {
+      data['vaccine3day3date'] = this.vaccine3day3date;
+    }
+    data['vaccine3day4available'] = this.vaccine3day4available;
+    if (this.vaccine3day4date != null) {
+      data['vaccine3day4date'] = this.vaccine3day4date;
+    }
+    data['vaccine3day5available'] = this.vaccine3day5available;
+    if (this.vaccine3day5date != null) {
+      data['vaccine3day5date'] = this.vaccine3day5date;
+    }
 
     if (this.publishedDate != null) {
       data['publishedDate'] = this.publishedDate;
     }
     data['thumbnailUrl'] = this.thumbnailUrl;
+    data['docnumber'] = this.docnumber;
 
     data['status'] = this.status;
     return data;
