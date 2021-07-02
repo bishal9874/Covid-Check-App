@@ -7,12 +7,52 @@ class OrgModel {
   String doctor1;
   String doc1des;
   int doc1fees;
+  Timestamp doctor1day1date;
+  int doctor1day1view;
+  String doctor1day1schedule;
+  Timestamp doctor1day2date;
+  int doctor1day2view;
+  String doctor1day2schedule;
+  Timestamp doctor1day3date;
+  int doctor1day3view;
+  String doctor1day3schedule;
+
+  ///
+  ///
+  ///
   String doctor2;
   String doc2des;
   int doc2fees;
+  Timestamp doctor2day1date;
+  int doctor2day1view;
+  String doctor2day1schedule;
+  Timestamp doctor2day2date;
+  int doctor2day2view;
+  String doctor2day2schedule;
+  Timestamp doctor2day3date;
+  int doctor2day3view;
+  String doctor2day3schedule;
+
+  ///
+  ///
+  ///
   String doctor3;
   String doc3des;
   int doc3fees;
+  Timestamp doctor3day1date;
+  int doctor3day1view;
+  String doctor3day1schedule;
+  Timestamp doctor3day2date;
+  int doctor3day2view;
+  String doctor3day2schedule;
+  Timestamp doctor3day3date;
+  int doctor3day3view;
+  String doctor3day3schedule;
+
+  ///
+  ///
+  ///
+  ///
   String status;
   String vaccine1;
   int vaccine1day1available;
@@ -61,9 +101,7 @@ class OrgModel {
   String blood6Choice;
   String blood7Choice;
   String blood8Choice;
-  String doctor1schedule;
-  String doctor2schedule;
-  String doctor3schedule;
+
   int minimumAppointprice;
   int minimumvaccineprice;
   int minimumbedprice;
@@ -72,6 +110,7 @@ class OrgModel {
   int emergencybedAvailable;
   int minimumoygenprice;
   int ambulanceNumber;
+
   String docnumber;
 
   OrgModel({
@@ -79,15 +118,42 @@ class OrgModel {
     this.doctor1,
     this.doc1des,
     this.doc1fees,
+    this.doctor1day1date,
+    this.doctor1day1view,
+    this.doctor1day1schedule,
+    this.doctor1day2date,
+    this.doctor1day2view,
+    this.doctor1day2schedule,
+    this.doctor1day3date,
+    this.doctor1day3view,
+    this.doctor1day3schedule,
     this.publishedDate,
     this.thumbnailUrl,
     this.doctor2,
     this.doc2des,
     this.doc2fees,
+    this.doctor2day1date,
+    this.doctor2day1view,
+    this.doctor2day1schedule,
+    this.doctor2day2date,
+    this.doctor2day2view,
+    this.doctor2day2schedule,
+    this.doctor2day3date,
+    this.doctor2day3view,
+    this.doctor2day3schedule,
     this.status,
     this.doctor3,
     this.doc3des,
     this.doc3fees,
+    this.doctor3day1date,
+    this.doctor3day1view,
+    this.doctor3day1schedule,
+    this.doctor3day2date,
+    this.doctor3day2view,
+    this.doctor3day2schedule,
+    this.doctor3day3date,
+    this.doctor3day3view,
+    this.doctor3day3schedule,
     this.vaccine1,
     this.vaccine2,
     this.vaccine3,
@@ -105,9 +171,6 @@ class OrgModel {
     this.blood6Choice,
     this.blood7Choice,
     this.blood8Choice,
-    this.doctor1schedule,
-    this.doctor2schedule,
-    this.doctor3schedule,
     this.ambulanceNumber,
     this.emergencybedAvailable,
     this.minimumAppointprice,
@@ -180,9 +243,7 @@ class OrgModel {
     blood6Choice = json["blood6Choice"];
     blood7Choice = json["blood7Choice"];
     blood8Choice = json["blood8Choice"];
-    doctor1schedule = json["doctor1schedule"];
-    doctor2schedule = json["doctor2schedule"];
-    doctor3schedule = json["doctor3schedule"];
+
     minimumAppointprice = json["minimumAppointprice"];
     minimumvaccineprice = json["minimumvaccineprice"];
     minimumbedprice = json["minimumbedprice"];
@@ -225,6 +286,39 @@ class OrgModel {
     vaccine3day5available = json["vaccine3day5available"];
     vaccine3day5date = json["vaccine3day5date"];
     docnumber = json['docnumber'];
+    doctor1day1date = json['doctor1day1date'];
+    doctor1day1view = json['doctor1day1view'];
+    doctor1day1schedule = json['doctor1day1schedule'];
+    doctor1day2date = json['doctor1day2date'];
+    doctor1day2view = json['doctor1day2view'];
+    doctor1day2schedule = json['doctor1day2schedule'];
+    doctor1day3date = json['doctor1day3date'];
+    doctor1day3view = json['doctor1day3view'];
+    doctor1day3schedule = json['doctor1day3schedule'];
+
+    ///
+    ///
+    doctor2day1date = json['doctor2day1date'];
+    doctor2day1view = json['doctor2day1view'];
+    doctor2day1schedule = json['doctor2day1schedule'];
+    doctor2day2date = json['doctor2day2date'];
+    doctor2day2view = json['doctor2day2view'];
+    doctor2day2schedule = json['doctor2day2schedule'];
+    doctor2day3date = json['doctor2day3date'];
+    doctor2day3view = json['doctor2day3view'];
+    doctor2day3schedule = json['doctor2day3schedule'];
+
+    ///
+    ///
+    doctor3day1date = json['doctor3day1date'];
+    doctor3day1view = json['doctor3day1view'];
+    doctor3day1schedule = json['doctor3day1schedule'];
+    doctor3day2date = json['doctor3day2date'];
+    doctor3day2view = json['doctor3day2view'];
+    doctor3day2schedule = json['doctor3day2schedule'];
+    doctor3day3date = json['doctor3day3date'];
+    doctor3day3view = json['doctor3day3view'];
+    doctor3day3schedule = json['doctor3day3schedule'];
   }
 
   Map<String, dynamic> toJson() {
@@ -256,9 +350,7 @@ class OrgModel {
     data['blood6Choice'] = this.blood6Choice;
     data['blood7Choice'] = this.blood7Choice;
     data['blood8Choice'] = this.blood8Choice;
-    data['doctor1schedule'] = this.doctor1schedule;
-    data['doctor2schedule'] = this.doctor2schedule;
-    data['doctor3schedule'] = this.doctor3schedule;
+
     data['minimumAppointprice'] = this.minimumAppointprice;
     data['minimumvaccineprice'] = this.minimumvaccineprice;
     data['minimumbedprice'] = this.minimumbedprice;
@@ -269,6 +361,41 @@ class OrgModel {
     data['minimumbloodprice'] = this.minimumbloodprice;
     data['AmbulanceNumber'] = this.ambulanceNumber;
     data['vaccine1day1available'] = this.vaccine1day1available;
+
+    ///
+    ///
+    ///
+    ///
+    data['doctor1day1date'] = this.doctor1day1date;
+    data['doctor1day1view'] = this.doctor1day1view;
+    data['doctor1day1schedule'] = this.doctor1day1schedule;
+    data['doctor1day2date'] = this.doctor1day2date;
+    data['doctor1day2view'] = this.doctor1day2view;
+    data['doctor1day2schedule'] = this.doctor1day2schedule;
+    data['doctor1day3date'] = this.doctor1day3date;
+    data['doctor1day3view'] = this.doctor1day3view;
+    data['doctor1day3schedule'] = this.doctor1day3schedule;
+    //
+    data['doctor2day1date'] = this.doctor2day1date;
+    data['doctor2day1view'] = this.doctor2day1view;
+    data['doctor2day1schedule'] = this.doctor2day1schedule;
+    data['doctor2day2date'] = this.doctor2day2date;
+    data['doctor2day2view'] = this.doctor2day2view;
+    data['doctor2day2schedule'] = this.doctor2day2schedule;
+    data['doctor2day3date'] = this.doctor2day3date;
+    data['doctor2day3view'] = this.doctor2day3view;
+    data['doctor2day3schedule'] = this.doctor2day3schedule;
+    //
+    data['doctor3day1date'] = this.doctor3day1date;
+    data['doctor3day1view'] = this.doctor3day1view;
+    data['doctor3day1schedule'] = this.doctor3day1schedule;
+    data['doctor3day2date'] = this.doctor3day2date;
+    data['doctor3day2view'] = this.doctor3day2view;
+    data['doctor3day2schedule'] = this.doctor3day2schedule;
+    data['doctor3day3date'] = this.doctor3day3date;
+    data['doctor3day3view'] = this.doctor3day3view;
+    data['doctor3day3schedule'] = this.doctor3day3schedule;
+
     if (this.vaccine1day1date != null) {
       data['vaccine1day1date'] = this.vaccine1day1date;
     }

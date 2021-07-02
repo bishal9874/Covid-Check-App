@@ -17,7 +17,7 @@ class CovidCheckApp {
   static String bloodbankcollection = "bloodbank";
   static String collectionOrders = "orders";
   static String userCartList = 'userCart';
-  static String bloodbank = 'bloodbank';
+  // static String bloodbank = 'bloodbank';
   static String subCollectionAddress = 'userAddress';
 
   static final String userName = 'name';

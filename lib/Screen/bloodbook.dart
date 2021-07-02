@@ -141,12 +141,11 @@ class _BloodServicesState extends State<BloodServices> {
 
   updateDetails(String downloadUrl) {
     CovidCheckApp.firestore
-        .collection(CovidCheckApp.collectionUser)
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
-        .collection(CovidCheckApp.bloodbankcollection)
-        .doc(bloobankID)
+        .collection("BloodBank")
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
+            _aadharnumberController.text.trim())
         .set({
-      "vaccineCentre_Name": widget.bloodservice.organization,
+      "bloodCentre_Name": widget.bloodservice.organization,
       "userUI":
           CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
       "username":
@@ -156,8 +155,33 @@ class _BloodServicesState extends State<BloodServices> {
       "name": _nameController.text.trim(),
       "aadharnumber": int.parse(_aadharnumberController.text.trim()),
       "phoneNumber": int.parse(_phonenumberController.text.trim()),
-      "bloodbankCentre": bloodgroupChoice,
+      "bloodchoice": bloodgroupChoice,
       "dateSelection": dateTime,
+      "precriptionProve": downloadUrl,
+      "gender": genderChoice,
+      "publishDate": DateTime.now(),
+    });
+    CovidCheckApp.firestore
+        .collection(CovidCheckApp.collectionUser)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .collection(CovidCheckApp.bloodbankcollection)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
+            _aadharnumberController.text.trim())
+        .set({
+      "bloodCentre_Name": widget.bloodservice.organization,
+      "userUI":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
+      "username":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
+      "useremail":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
+      "name": _nameController.text.trim(),
+      "aadharnumber": int.parse(_aadharnumberController.text.trim()),
+      "phoneNumber": int.parse(_phonenumberController.text.trim()),
+      "bloodchoice": bloodgroupChoice,
+      "dateSelection": dateTime,
+      "precriptionProve": downloadUrl,
+      "gender": genderChoice,
       "publishDate": DateTime.now(),
     }).then((value) {
       return showDialog(

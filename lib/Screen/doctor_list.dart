@@ -31,39 +31,118 @@ class _DoctorListState extends State<DoctorList> {
         padding: EdgeInsets.all(8.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           _doctors(
-              widget.doctorList.doctor1,
-              widget.doctorList.doc1des,
-              widget.doctorList.doc1fees,
-              "assets/doc.jpg",
-              context,
-              widget.doctorList,
-              widget.doctorList.organization,
-              widget.doctorList.doctor1schedule),
+            widget.doctorList.doctor1,
+            widget.doctorList.doc1des,
+            widget.doctorList.doc1fees,
+            "assets/doc.jpg",
+            context,
+            widget.doctorList,
+            widget.doctorList.organization,
+            widget.doctorList.doctor1day1date.toDate().day.toString() +
+                "/" +
+                widget.doctorList.doctor1day1date.toDate().month.toString() +
+                "/" +
+                widget.doctorList.doctor1day1date.toDate().year.toString(),
+            widget.doctorList.doctor1day1view,
+            widget.doctorList.doctor1day1schedule,
+            widget.doctorList.doctor1day2date.toDate().day.toString() +
+                "/" +
+                widget.doctorList.doctor1day2date.toDate().month.toString() +
+                "/" +
+                widget.doctorList.doctor1day2date.toDate().year.toString(),
+            widget.doctorList.doctor1day2view,
+            widget.doctorList.doctor1day2schedule,
+            widget.doctorList.doctor1day3date.toDate().day.toString() +
+                "/" +
+                widget.doctorList.doctor1day3date.toDate().month.toString() +
+                "/" +
+                widget.doctorList.doctor1day3date.toDate().year.toString(),
+            widget.doctorList.doctor1day3view,
+            widget.doctorList.doctor1day3schedule,
+          ),
           _doctors(
-              widget.doctorList.doctor2,
-              widget.doctorList.doc2des,
-              widget.doctorList.doc2fees,
-              "assets/dcotor2.jpg",
-              context,
-              widget.doctorList,
-              widget.doctorList.organization,
-              widget.doctorList.doctor2schedule),
+            widget.doctorList.doctor2,
+            widget.doctorList.doc2des,
+            widget.doctorList.doc2fees,
+            "assets/dcotor2.jpg",
+            context,
+            widget.doctorList,
+            widget.doctorList.organization,
+            widget.doctorList.doctor2day1date.toDate().day.toString() +
+                "/" +
+                widget.doctorList.doctor2day1date.toDate().month.toString() +
+                "/" +
+                widget.doctorList.doctor2day1date.toDate().year.toString(),
+            widget.doctorList.doctor2day1view,
+            widget.doctorList.doctor2day1schedule,
+            widget.doctorList.doctor2day2date.toDate().day.toString() +
+                "/" +
+                widget.doctorList.doctor2day2date.toDate().month.toString() +
+                "/" +
+                widget.doctorList.doctor2day2date.toDate().year.toString(),
+            widget.doctorList.doctor2day2view,
+            widget.doctorList.doctor2day2schedule,
+            widget.doctorList.doctor2day3date.toDate().day.toString() +
+                "/" +
+                widget.doctorList.doctor2day3date.toDate().month.toString() +
+                "/" +
+                widget.doctorList.doctor2day3date.toDate().year.toString(),
+            widget.doctorList.doctor2day3view,
+            widget.doctorList.doctor2day3schedule,
+          ),
           _doctors(
-              widget.doctorList.doctor3,
-              widget.doctorList.doc3des,
-              widget.doctorList.doc3fees,
-              "assets/doctor3.jpg",
-              context,
-              widget.doctorList,
-              widget.doctorList.organization,
-              widget.doctorList.doctor2schedule)
+            widget.doctorList.doctor3,
+            widget.doctorList.doc3des,
+            widget.doctorList.doc3fees,
+            "assets/doctor3.jpg",
+            context,
+            widget.doctorList,
+            widget.doctorList.organization,
+            widget.doctorList.doctor3day1date.toDate().day.toString() +
+                "/" +
+                widget.doctorList.doctor3day1date.toDate().month.toString() +
+                "/" +
+                widget.doctorList.doctor3day1date.toDate().year.toString(),
+            widget.doctorList.doctor3day1view,
+            widget.doctorList.doctor3day1schedule,
+            widget.doctorList.doctor3day2date.toDate().day.toString() +
+                "/" +
+                widget.doctorList.doctor3day2date.toDate().month.toString() +
+                "/" +
+                widget.doctorList.doctor3day2date.toDate().year.toString(),
+            widget.doctorList.doctor3day2view,
+            widget.doctorList.doctor3day2schedule,
+            widget.doctorList.doctor3day3date.toDate().day.toString() +
+                "/" +
+                widget.doctorList.doctor3day3date.toDate().month.toString() +
+                "/" +
+                widget.doctorList.doctor2day3date.toDate().year.toString(),
+            widget.doctorList.doctor3day3view,
+            widget.doctorList.doctor3day3schedule,
+          )
         ]),
       ),
     );
   }
 
-  Widget _doctors(String name, String description, int fee, String imgeurl,
-      BuildContext context, OrgModel orgModel, String orgname, String doctime) {
+  Widget _doctors(
+    String name,
+    String description,
+    int fee,
+    String imgeurl,
+    BuildContext context,
+    OrgModel orgModel,
+    String orgname,
+    String day1time,
+    int day1view,
+    String day1schedule,
+    String day2time,
+    int day2view,
+    String day2schedule,
+    String day3time,
+    int day3view,
+    String day3schedule,
+  ) {
     return InkWell(
       onTap: () => Get.to(DoctorDetails(
         doctorDetails: orgModel,
@@ -73,7 +152,15 @@ class _DoctorListState extends State<DoctorList> {
         fee: fee,
         image: imgeurl,
         orgname: orgname,
-        avail: doctime,
+        day1date: day1time,
+        day1view: day1view,
+        day1schedule: day1schedule,
+        day2date: day2time,
+        day2view: day2view,
+        day2schedule: day2schedule,
+        day3date: day3time,
+        day3view: day3view,
+        day3schedule: day3schedule,
       )),
       child: Container(
         padding: EdgeInsets.all(5.0),

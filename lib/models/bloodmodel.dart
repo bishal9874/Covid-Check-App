@@ -1,58 +1,46 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class VaccineModel {
+class BloodModel {
   String organization;
   Timestamp publishedDate;
-  String dateTime;
+  Timestamp dateTime;
   String userUid;
   String useremail;
   String username;
-  String genderChoice;
   int aadherNumber;
-  int birthyr;
-  int vaccAvailable;
-  String underag;
-  String season;
-  String nameofvacciner;
-  String vacineChoice;
-  String docNo;
-  bool approve;
+  int phonenumber;
+  String genderChoice;
+  String nameofpatient;
+  String bloodChoice;
+  String prescriptionProve;
 
-  VaccineModel(
+  BloodModel(
       {this.organization,
-      this.nameofvacciner,
+      this.nameofpatient,
       this.publishedDate,
       this.aadherNumber,
-      this.birthyr,
       this.dateTime,
-      this.season,
-      this.underag,
+      this.phonenumber,
       this.userUid,
       this.useremail,
       this.username,
-      this.vacineChoice,
-      this.genderChoice,
-      this.vaccAvailable,
-      this.docNo,
-      this.approve});
+      this.bloodChoice,
+      this.prescriptionProve,
+      this.genderChoice});
 
-  VaccineModel.fromJson(Map<String, dynamic> json) {
-    organization = json['vaccineCentre_Name'];
+  BloodModel.fromJson(Map<String, dynamic> json) {
+    organization = json['bloodCentre_Name'];
     publishedDate = json['publishDate'];
     username = json['username'];
     userUid = json['userUI'];
     useremail = json['useremail'];
-    nameofvacciner = json['name'];
+    nameofpatient = json['name'];
     aadherNumber = json['aadharnumber'];
-    birthyr = json['birthyear'];
-    vacineChoice = json['vaccineChoice'];
-    underag = json['underAge'];
-    season = json['seasonChoice'];
+    phonenumber = json['phoneNumber'];
+    bloodChoice = json['bloodchoice'];
+    prescriptionProve = json['precriptionProve'];
     dateTime = json['dateSelection'];
-    genderChoice = json['genderChoice'];
-    vaccAvailable = json['nextAvailable'];
-    docNo = json['docnumber'];
-    approve = json['approval'];
+    genderChoice = json['gender'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,17 +49,15 @@ class VaccineModel {
     data['username'] = this.username;
     data['userUI'] = this.userUid;
     data['useremail'] = this.useremail;
-    data['name'] = this.nameofvacciner;
+    data['name'] = this.nameofpatient;
     data['aadharnumber'] = this.aadherNumber;
-    data['birthyear'] = this.birthyr;
-    data['vaccineChoice'] = this.vacineChoice;
-    data['underAge'] = this.underag;
-    data['seasonChoice'] = this.season;
+    data['phoneNumber'] = this.phonenumber;
+    data['bloodchoice'] = this.bloodChoice;
+    data['precriptionProve'] = this.prescriptionProve;
+
     data['genderChoice'] = this.genderChoice;
-    data['nextAvailable'] = this.vaccAvailable;
+
     data['dateSelection'] = this.dateTime;
-    data['docnumber'] = this.docNo;
-    data['approval'] = this.approve;
 
     // data['price'] = this.price;
     if (this.publishedDate != null) {

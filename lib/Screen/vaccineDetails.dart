@@ -1,4 +1,5 @@
 import 'package:covidcheck/models/orgServiecs.dart';
+import 'package:covidcheck/models/vaccinationModel.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +12,8 @@ import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
 class VaccineDetails extends StatefulWidget {
   final OrgModel vaccine;
-  final List<String> reportList;
-  VaccineDetails({this.vaccine, this.reportList});
+  VaccineModel vaccineModel;
+  VaccineDetails({this.vaccine, this.vaccineModel});
 
   @override
   _VaccineDetailsState createState() => _VaccineDetailsState();
@@ -25,7 +26,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
       new TextEditingController();
   final TextEditingController _birthyearController =
       new TextEditingController();
-
+  bool approval = false;
   String selectedChoice = "";
   String ageselectedChoice = "";
   String genderChoice = "";
@@ -470,8 +471,11 @@ class _VaccineDetailsState extends State<VaccineDetails> {
       "underAge": ageselectedChoice,
       "seasonChoice": seasonChoice,
       "dateSelection": vaccinedatechoice,
+      "nextAvailable": vaccavail,
       "genderChoice": genderChoice,
       "publishDate": DateTime.now(),
+      "approval": approval,
+      "docnumber": widget.vaccine.docnumber,
     });
 
     CovidCheckApp.firestore
@@ -496,6 +500,8 @@ class _VaccineDetailsState extends State<VaccineDetails> {
       "seasonChoice": seasonChoice,
       "dateSelection": vaccinedatechoice,
       "genderChoice": genderChoice,
+      "docnumber": widget.vaccine.docnumber,
+      "approval": approval,
       "publishDate": DateTime.now(),
     }).then((value) {
       return showDialog(

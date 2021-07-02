@@ -1,4 +1,5 @@
 import 'package:covidcheck/admin/organization.dart';
+import 'package:covidcheck/admin/vaccinationDetailsinAdmin.dart';
 import 'package:covidcheck/main.dart';
 
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class AdminHome extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              // Get.to(Vaccineadmin());
+              Get.to(Vaccineadmin());
             },
             child: Container(
               height: 199,

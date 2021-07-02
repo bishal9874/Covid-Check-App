@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class VaccineModel {
+class AppointModel {
   String organization;
   Timestamp publishedDate;
   Timestamp dateTime;
@@ -15,7 +15,7 @@ class VaccineModel {
   String nameofvacciner;
   String vacineChoice;
 
-  VaccineModel(
+  AppointModel(
       {this.organization,
       this.nameofvacciner,
       this.publishedDate,
@@ -30,7 +30,7 @@ class VaccineModel {
       this.vacineChoice,
       this.genderChoice});
 
-  VaccineModel.fromJson(Map<String, dynamic> json) {
+  AppointModel.fromJson(Map<String, dynamic> json) {
     organization = json['vaccineCentre_Name'];
     publishedDate = json['publishDate'];
     username = json['username'];

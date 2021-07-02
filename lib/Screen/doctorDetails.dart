@@ -16,7 +16,21 @@ import 'package:flutter_progress_button/flutter_progress_button.dart';
 // ignore: must_be_immutable
 class DoctorDetails extends StatefulWidget {
   OrgModel doctorDetails;
-  final fee, doctorName, doctordes, herotag, image, orgname, avail;
+  final fee,
+      doctorName,
+      doctordes,
+      herotag,
+      image,
+      orgname,
+      day1date,
+      day1view,
+      day1schedule,
+      day2date,
+      day2view,
+      day2schedule,
+      day3date,
+      day3view,
+      day3schedule;
   DoctorDetails(
       {this.doctorDetails,
       this.fee,
@@ -25,7 +39,15 @@ class DoctorDetails extends StatefulWidget {
       this.herotag,
       this.image,
       this.orgname,
-      this.avail});
+      this.day1date,
+      this.day1view,
+      this.day1schedule,
+      this.day2date,
+      this.day2view,
+      this.day2schedule,
+      this.day3date,
+      this.day3view,
+      this.day3schedule});
 
   @override
   _DoctorDetailsState createState() => _DoctorDetailsState();
@@ -40,6 +62,10 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       new TextEditingController();
   String genderChoice = "";
   String seasonChoice = "";
+  String daydatechoice = "";
+  int viewingPatient;
+  String daySchedule = "";
+
   String name, birthyear, phonenumber;
   DateTime dateTime = DateTime.now();
   String doctorid = DateTime.now().millisecondsSinceEpoch.toString();
@@ -248,7 +274,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       _genderChoiceList("Male"),
                       _genderChoiceList("Female"),
                     ]),
-                    Text("Select Schedule",
+                    Text("Selected Schedule",
                             style: GoogleFonts.comfortaa(
                                 fontSize: 15.0, fontWeight: FontWeight.w700))
                         .p1(),
@@ -258,65 +284,64 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                            onTap: () => selectTimePicker(context),
-                            child: Container(
-                                height: height * 0.05,
-                                width: width * 0.25,
-                                child: Material(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    color: Color(0xFF2877ed),
-                                    elevation: 0.0,
-                                    child: Center(
-                                      child: Text(
-                                          dateTime.day.toString() +
-                                              '/' +
-                                              dateTime.month.toString() +
-                                              '/' +
-                                              dateTime.year.toString(),
-                                          style: GoogleFonts.comfortaa(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15.0)),
-                                    )))),
-                        Container(
-                          child: HStack([
-                            _seasonChoice("Morning"),
-                            _seasonChoice("Afternoon")
-                          ]),
-                        )
+                        if (viewingPatient != null)
+                          HStack([
+                            Container(
+                                height: height * 0.04,
+                                width: width * 0.20,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  color: Color(0xFF11bd0b),
+                                ),
+                                child: Center(
+                                  child: Text(daydatechoice,
+                                      style: GoogleFonts.comfortaa(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15.0)),
+                                )),
+                            SizedBox(
+                              width: width * 0.02,
+                            ),
+                            Container(
+                                height: height * 0.04,
+                                width: width * 0.30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  color: Color(0xFF079aab),
+                                ),
+                                child: Center(
+                                  child: Text(daySchedule,
+                                      style: GoogleFonts.comfortaa(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15.0)),
+                                )),
+                          ])
+                        else
+                          Container(
+                            height: height * 0.04,
+                            width: width * 0.30,
+                            decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(5.0)),
+                            child: Center(
+                              child: Text("Not Selected",
+                                  style: GoogleFonts.comfortaa(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15.0)),
+                            ),
+                          ),
                       ],
                     ),
                     SizedBox(
                       height: height * 0.03,
                     ),
-                    // ProgressButton(
-                    //   type: ProgressButtonType.Raised,
-                    //   color: Color(0xff101beb),
-                    //   height: height * 0.07,
-                    //   defaultWidget: Text(
-                    //     'Book Appointment',
-                    //     style: GoogleFonts.comfortaa(
-                    //       fontSize: width * 0.05,
-                    //       fontWeight: FontWeight.w500,
-                    //       letterSpacing: 1,
-                    //       color: Colors.white,
-                    //     ),
-                    //   ),
-                    //   progressWidget: CircularProgressIndicator(
-                    //     valueColor:
-                    //         AlwaysStoppedAnimation<Color>(Colors.orange),
-                    //   ),
-                    //   width: width * 0.9,
-                    //   onPressed: () async {
-                    //     if (checkFields())
-                    //       addBookToCart(doctorid, context, widget.orgname,
-                    //           widget.doctorName, widget.fee.toString());
-                    //   },
-                    // ).centered(),
+
                     GestureDetector(
                       onTap: () {
-                        if (checkFields())
+                        if (checkFields()) if (viewingPatient != 0)
                           showDialog(
                               context: context,
                               builder: (c) {
@@ -386,6 +411,14 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       )),
                                 );
                               });
+                        else
+                          VxToast.show(context,
+                              msg:
+                                  "Doctor Not Available or Patient's are Full Filled",
+                              position: VxToastPosition.center,
+                              bgColor: Colors.red[400],
+                              showTime: 9000,
+                              textColor: Colors.white);
                       },
                       child: Container(
                           height: height * 0.06,
@@ -463,7 +496,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                           fontSize: 19.0, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
-                      height: 5.0,
+                      height: height * .01,
                     ),
                     Text(
                       description,
@@ -473,6 +506,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                             color: Colors.white,
                           )),
                     ),
+                    SizedBox(
+                      height: height * .01,
+                    ),
                     Text(
                       "₹ " + fee.toString(),
                       style: GoogleFonts.comfortaa(
@@ -480,35 +516,264 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                           color: Colors.yellow,
                           fontWeight: FontWeight.w600),
                     ),
-                    RichText(
-                      text: TextSpan(
-                        style: TextStyle(fontSize: 15.0),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'Availablity: ',
-                              style: GoogleFonts.comfortaa(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.greenAccent)),
-                          TextSpan(
-                              text: widget.avail,
-                              style: GoogleFonts.comfortaa(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.orange)),
-                        ],
-                      ),
-                    ),
                   ],
                 )
               ],
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              FontAwesomeIcons.phone,
-              color: Colors.red,
-              size: 30.0,
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  //margin: EdgeInsets.only(right: 10.0),
+                  child: Text("Availablity",
+                      style: GoogleFonts.comfortaa(
+                          color: Colors.cyanAccent,
+                          fontWeight: FontWeight.w600))),
+              IconButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (c) {
+                        return AlertDialog(
+                          contentPadding: EdgeInsets.all(10.0),
+                          content: Container(
+                              height: height * 0.30,
+                              width: width * 0.50,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Select Schedule",
+                                          style: GoogleFonts.comfortaa(
+                                              color: Colors.orangeAccent,
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.w700))
+                                      .p1(),
+                                  SizedBox(
+                                    height: height * 0.01,
+                                  ),
+                                  Row(
+                                    children: [
+                                      __daydateChoice(widget.day1date,
+                                          widget.day1view, widget.day1schedule),
+                                      SizedBox(
+                                        width: width * .01,
+                                      ),
+                                      if (widget.day1view != 0)
+                                        HStack([
+                                          Container(
+                                              height: height * 0.04,
+                                              width: width * 0.30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.blueGrey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Text(widget.day1schedule,
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color:
+                                                                  Colors.white))
+                                                  .centered()),
+                                          SizedBox(
+                                            width: width * .01,
+                                          ),
+                                          Container(
+                                              height: height * 0.04,
+                                              width: width * 0.08,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.lightGreen,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Text(
+                                                      widget.day1view
+                                                          .toString(),
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color:
+                                                                  Colors.white))
+                                                  .centered())
+                                        ])
+                                      else
+                                        Container(
+                                            height: height * 0.04,
+                                            width: width * 0.40,
+                                            decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Text("Patient's Full Field",
+                                                    style:
+                                                        GoogleFonts.comfortaa(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            color:
+                                                                Colors.white))
+                                                .centered())
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      __daydateChoice(widget.day2date,
+                                          widget.day2view, widget.day2schedule),
+                                      SizedBox(
+                                        width: width * .01,
+                                      ),
+                                      if (widget.day2view != 0)
+                                        HStack([
+                                          Container(
+                                              height: height * 0.04,
+                                              width: width * 0.30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.blueGrey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Text(widget.day2schedule,
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color:
+                                                                  Colors.white))
+                                                  .centered()),
+                                          SizedBox(
+                                            width: width * .01,
+                                          ),
+                                          Container(
+                                              height: height * 0.04,
+                                              width: width * 0.08,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.lightGreen,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Text(
+                                                      widget.day2view
+                                                          .toString(),
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color:
+                                                                  Colors.white))
+                                                  .centered())
+                                        ])
+                                      else
+                                        Container(
+                                            height: height * 0.04,
+                                            width: width * 0.40,
+                                            decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Text("Patient Full Field",
+                                                    style:
+                                                        GoogleFonts.comfortaa(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            color:
+                                                                Colors.white))
+                                                .centered())
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      __daydateChoice(widget.day3date,
+                                          widget.day3view, widget.day3schedule),
+                                      SizedBox(
+                                        width: width * .01,
+                                      ),
+                                      if (widget.day3view != 0)
+                                        HStack([
+                                          Container(
+                                              height: height * 0.04,
+                                              width: width * 0.30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.blueGrey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Text(widget.day3schedule,
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color:
+                                                                  Colors.white))
+                                                  .centered()),
+                                          SizedBox(
+                                            width: width * .01,
+                                          ),
+                                          Container(
+                                              height: height * 0.04,
+                                              width: width * 0.08,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.lightGreen,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Text(
+                                                      widget.day3view
+                                                          .toString(),
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color:
+                                                                  Colors.white))
+                                                  .centered())
+                                        ])
+                                      else
+                                        Container(
+                                            height: height * 0.04,
+                                            width: width * 0.40,
+                                            decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Text("Patient Full Field",
+                                                    style:
+                                                        GoogleFonts.comfortaa(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            color:
+                                                                Colors.white))
+                                                .centered())
+                                    ],
+                                  ),
+
+                                  SizedBox(
+                                    height: height * 0.02,
+                                  ),
+
+                                  SizedBox(
+                                    height: height * 0.01,
+                                  ),
+                                  // Text(
+                                  //   "After click pay Button wait for few Second",
+                                  //   style: GoogleFonts.comfortaa(
+                                  //       fontSize: 12.0,
+                                  //       fontWeight: FontWeight.w200),
+                                  // ),
+                                ],
+                              )),
+                        );
+                      });
+                },
+                icon: Icon(
+                  FontAwesomeIcons.calendarAlt,
+                  color: Colors.lightGreen,
+                  size: 30.0,
+                ),
+              )
+            ],
           ),
         ],
       ),
@@ -575,21 +840,99 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     }
   }
 
-  // void checkdoctorBookCart(
-  //   String doc,
-  //   BuildContext context,
-  //   String orgName,
-  //   String docname,
-  //   String docFee,
-  // ) {
-  //   CovidCheckApp.sharedPreferences
-  //           .getStringList(CovidCheckApp.userCartList)
-  //           .contains(doc)
-  //       ? Toast.show(
-  //           "Your Aadhar Card is Already Registration For Vaccination", context,
-  //           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM)
-  //       : addBookToCart(doc, context, orgName, docname, docFee);
+  ///
+  ///
+  ///
+  ///
+  ///
+  __daydateChoice(String name, int patientView, String schedule) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(name),
+        labelStyle: GoogleFonts.comfortaa(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xff9ee892),
+        selected: daydatechoice == name,
+        onSelected: (selected) {
+          setState(() {
+            daydatechoice = name;
+            viewingPatient = patientView;
+            daySchedule = schedule;
+            print(daydatechoice);
+            print(viewingPatient);
+            print(daySchedule);
+            Navigator.pop(context);
+          });
+        },
+      ),
+    );
+  }
+
+  // __day2dateChoice(String name, int patientView, String schedule) {
+  //   return Container(
+  //     padding: const EdgeInsets.all(2.0),
+  //     child: ChoiceChip(
+  //       label: Text(name),
+  //       labelStyle: GoogleFonts.comfortaa(
+  //           color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(30.0),
+  //       ),
+  //       backgroundColor: Color(0xffededed),
+  //       selectedColor: Color(0xff9ee892),
+  //       selected: day2datechoice == name,
+  //       onSelected: (selected) {
+  //         setState(() {
+  //           day2datechoice = name;
+  //           viewing2Patient = patientView;
+  //           day2Schedule = schedule;
+  //           print(day2datechoice);
+  //           print(viewing2Patient);
+  //           print(day2Schedule);
+  //         });
+  //       },
+  //     ),
+  //   );
   // }
+
+  // __day3dateChoice(String name, int patientView, String schedule) {
+  //   return Container(
+  //     padding: const EdgeInsets.all(2.0),
+  //     child: ChoiceChip(
+  //       label: Text(name),
+  //       labelStyle: GoogleFonts.comfortaa(
+  //           color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(30.0),
+  //       ),
+  //       backgroundColor: Color(0xffededed),
+  //       selectedColor: Color(0xff9ee892),
+  //       selected: day3datechoice == name,
+  //       onSelected: (selected) {
+  //         setState(() {
+  //           day3datechoice = name;
+  //           viewing3Patient = patientView;
+  //           day3Schedule = schedule;
+  //           print(day3datechoice);
+  //           print(viewing3Patient);
+  //           print(day3Schedule);
+  //         });
+  //       },
+  //     ),
+  //   );
+  // }
+  ////
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
 
   addBookToCart(
     String org,
@@ -599,10 +942,160 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     String doctorFee,
   ) {
     CovidCheckApp.firestore
+        .collection("Details")
+        .doc(widget.doctorDetails.docnumber + oranizationName)
+        .update({
+      if (widget.doctorName == widget.doctorDetails.doctor1 &&
+          daydatechoice ==
+              widget.doctorDetails.doctor1day1date.toDate().day.toString() +
+                  "/" +
+                  widget.doctorDetails.doctor1day1date
+                      .toDate()
+                      .month
+                      .toString() +
+                  "/" +
+                  widget.doctorDetails.doctor1day1date
+                      .toDate()
+                      .year
+                      .toString() &&
+          daySchedule == widget.day1schedule &&
+          viewingPatient == widget.day1view)
+        "doctor1day1view": widget.day1view - 1
+      else if (widget.doctorName == widget.doctorDetails.doctor1 &&
+          daydatechoice ==
+              widget.doctorDetails.doctor1day2date.toDate().day.toString() +
+                  "/" +
+                  widget.doctorDetails.doctor1day2date
+                      .toDate()
+                      .month
+                      .toString() +
+                  "/" +
+                  widget.doctorDetails.doctor1day2date
+                      .toDate()
+                      .year
+                      .toString() &&
+          daySchedule == widget.day2schedule &&
+          viewingPatient == widget.day2view)
+        "doctor1day2view": widget.day2view - 1
+      else if (widget.doctorName == widget.doctorDetails.doctor1 &&
+          daydatechoice ==
+              widget.doctorDetails.doctor1day3date.toDate().day.toString() +
+                  "/" +
+                  widget.doctorDetails.doctor1day3date
+                      .toDate()
+                      .month
+                      .toString() +
+                  "/" +
+                  widget.doctorDetails.doctor1day3date
+                      .toDate()
+                      .year
+                      .toString() &&
+          daySchedule == widget.day3schedule &&
+          viewingPatient == widget.day3view)
+        "doctor1day3view": widget.day3view - 1
+      else if (widget.doctorName == widget.doctorDetails.doctor2 &&
+          daydatechoice ==
+              widget.doctorDetails.doctor2day1date.toDate().day.toString() +
+                  "/" +
+                  widget.doctorDetails.doctor2day1date
+                      .toDate()
+                      .month
+                      .toString() +
+                  "/" +
+                  widget.doctorDetails.doctor2day1date
+                      .toDate()
+                      .year
+                      .toString() &&
+          daySchedule == widget.day1schedule &&
+          viewingPatient == widget.day1view)
+        "doctor2day1view": widget.day1view - 1
+      else if (widget.doctorName == widget.doctorDetails.doctor2 &&
+          daydatechoice ==
+              widget.doctorDetails.doctor2day2date.toDate().day.toString() +
+                  "/" +
+                  widget.doctorDetails.doctor2day2date
+                      .toDate()
+                      .month
+                      .toString() +
+                  "/" +
+                  widget.doctorDetails.doctor2day2date
+                      .toDate()
+                      .year
+                      .toString() &&
+          daySchedule == widget.day2schedule &&
+          viewingPatient == widget.day2view)
+        "doctor2day2view": widget.day2view - 1
+      else if (widget.doctorName == widget.doctorDetails.doctor2 &&
+          daydatechoice ==
+              widget.doctorDetails.doctor2day3date.toDate().day.toString() +
+                  "/" +
+                  widget.doctorDetails.doctor2day3date
+                      .toDate()
+                      .month
+                      .toString() +
+                  "/" +
+                  widget.doctorDetails.doctor2day3date
+                      .toDate()
+                      .year
+                      .toString() &&
+          daySchedule == widget.day3schedule &&
+          viewingPatient == widget.day3view)
+        "doctor2day3view": widget.day3view - 1
+      else if (widget.doctorName == widget.doctorDetails.doctor3 &&
+          daydatechoice ==
+              widget.doctorDetails.doctor3day1date.toDate().day.toString() +
+                  "/" +
+                  widget.doctorDetails.doctor3day1date
+                      .toDate()
+                      .month
+                      .toString() +
+                  "/" +
+                  widget.doctorDetails.doctor3day1date
+                      .toDate()
+                      .year
+                      .toString() &&
+          daySchedule == widget.day1schedule &&
+          viewingPatient == widget.day1view)
+        "doctor3day1view": widget.day1view - 1
+      else if (widget.doctorName == widget.doctorDetails.doctor3 &&
+          daydatechoice ==
+              widget.doctorDetails.doctor3day2date.toDate().day.toString() +
+                  "/" +
+                  widget.doctorDetails.doctor3day2date
+                      .toDate()
+                      .month
+                      .toString() +
+                  "/" +
+                  widget.doctorDetails.doctor3day2date
+                      .toDate()
+                      .year
+                      .toString() &&
+          daySchedule == widget.day2schedule &&
+          viewingPatient == widget.day2view)
+        "doctor3day2view": widget.day2view - 1
+      else if (widget.doctorName == widget.doctorDetails.doctor3 &&
+          daydatechoice ==
+              widget.doctorDetails.doctor3day3date.toDate().day.toString() +
+                  "/" +
+                  widget.doctorDetails.doctor3day3date
+                      .toDate()
+                      .month
+                      .toString() +
+                  "/" +
+                  widget.doctorDetails.doctor3day3date
+                      .toDate()
+                      .year
+                      .toString() &&
+          daySchedule == widget.day3schedule &&
+          viewingPatient == widget.day3view)
+        "doctor3day3view": widget.day3view - 1
+    });
+
+    CovidCheckApp.firestore
         .collection(CovidCheckApp.collectionUser)
         .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
         .collection(CovidCheckApp.appointmentcollection)
-        .doc(doctorid)
+        .doc(doctorid + _nameController.text.trim())
         .set({
       "doctorAppointCentre": oranizationName,
       "phone_number": _phonenumberController.text.trim(),
@@ -614,9 +1107,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
           CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
       "name": _nameController.text.trim(),
       "age": _birthyearController.text.trim(),
-      "seasonChoice": seasonChoice,
+      "seasonChoice": daySchedule,
       "gender": genderChoice,
-      "dateSelection": dateTime,
+      "dateSelection": daydatechoice,
       "doctorName": doctorname,
       "doctorFee": doctorFee,
       "submit_time": doctorid,

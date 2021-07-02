@@ -24,9 +24,15 @@ class _OrganizationState extends State<Organization> {
   String blood6Choice = "";
   String blood7Choice = "";
   String blood8Choice = "";
-  String doctor1schedule = "";
-  String doctor2schedule = "";
-  String doctor3schedule = "";
+  String doctor1day1schedule = "";
+  String doctor1day2schedule = "";
+  String doctor1day3schedule = "";
+  String doctor2day1schedule = "";
+  String doctor2day2schedule = "";
+  String doctor2day3schedule = "";
+  String doctor3day1schedule = "";
+  String doctor3day2schedule = "";
+  String doctor3day3schedule = "";
 
   final formKey = new GlobalKey<FormState>();
   String email,
@@ -60,6 +66,9 @@ class _OrganizationState extends State<Organization> {
   String day1vacine1, day2vacine1, day3vacine1, day4vacine1, day5vacine1;
   String day1vacine2, day2vacine2, day3vacine2, day4vacine2, day5vacine2;
   String day1vacine3, day2vacine3, day3vacine3, day4vacine3, day5vacine3;
+  String day1doc1, day2doc1, day3doc1;
+  String day1doc2, day2doc2, day3doc2;
+  String day1doc3, day2doc3, day3doc3;
   String imageUrl = "";
   File _file;
   TextEditingController _organizationName = new TextEditingController();
@@ -98,6 +107,170 @@ class _OrganizationState extends State<Organization> {
 
   ///
   ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  TextEditingController _doctor1Day1view = new TextEditingController();
+  DateTime doctor1Day1dateTime = DateTime.now();
+  Future<Null> selectdoctor1Day1Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: doctor1Day1dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != doctor1Day1dateTime) {
+      setState(() {
+        doctor1Day1dateTime = picked;
+        print("day1doc1 " + doctor1Day1dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _doctor1Day2view = new TextEditingController();
+  DateTime doctor1Day2dateTime = DateTime.now();
+  Future<Null> selectdoctor1Day2Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: doctor1Day2dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != doctor1Day2dateTime) {
+      setState(() {
+        doctor1Day2dateTime = picked;
+        print("day2doc1 " + doctor1Day2dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _doctor1Day3view = new TextEditingController();
+  DateTime doctor1Day3dateTime = DateTime.now();
+  Future<Null> selectdoctor1Day3Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: doctor1Day3dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != doctor1Day3dateTime) {
+      setState(() {
+        doctor1Day3dateTime = picked;
+        print("day3doc1 " + doctor1Day3dateTime.toString());
+      });
+    }
+  }
+
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  TextEditingController _doctor2Day1view = new TextEditingController();
+  DateTime doctor2Day1dateTime = DateTime.now();
+  Future<Null> selectdoctor2Day1Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: doctor2Day1dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != doctor2Day1dateTime) {
+      setState(() {
+        doctor2Day1dateTime = picked;
+        print("day1doc2 " + doctor2Day1dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _doctor2Day2view = new TextEditingController();
+  DateTime doctor2Day2dateTime = DateTime.now();
+  Future<Null> selectdoctor2Day2Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: doctor2Day2dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != doctor2Day2dateTime) {
+      setState(() {
+        doctor2Day2dateTime = picked;
+        print("day3doc2 " + doctor2Day2dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _doctor2Day3view = new TextEditingController();
+  DateTime doctor2Day3dateTime = DateTime.now();
+  Future<Null> selectdoctor2Day3Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: doctor2Day3dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != doctor2Day3dateTime) {
+      setState(() {
+        doctor2Day3dateTime = picked;
+        print("day3doc2 " + doctor2Day3dateTime.toString());
+      });
+    }
+  }
+
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  TextEditingController _doctor3Day1view = new TextEditingController();
+  DateTime doctor3Day1dateTime = DateTime.now();
+  Future<Null> selectdoctor3Day1Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: doctor3Day1dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != doctor3Day1dateTime) {
+      setState(() {
+        doctor3Day1dateTime = picked;
+        print("day1doc3 " + doctor3Day1dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _doctor3Day2view = new TextEditingController();
+  DateTime doctor3Day2dateTime = DateTime.now();
+  Future<Null> selectdoctor3Day2Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: doctor3Day2dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != doctor3Day2dateTime) {
+      setState(() {
+        doctor3Day2dateTime = picked;
+        print("day3doc3 " + doctor3Day2dateTime.toString());
+      });
+    }
+  }
+
+  TextEditingController _doctor3Day3view = new TextEditingController();
+  DateTime doctor3Day3dateTime = DateTime.now();
+  Future<Null> selectdoctor3Day3Picker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: doctor3Day3dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != doctor3Day3dateTime) {
+      setState(() {
+        doctor3Day3dateTime = picked;
+        print("day3doc3 " + doctor3Day3dateTime.toString());
+      });
+    }
+  }
+
   ///
   ///
   ///
@@ -191,6 +364,20 @@ class _OrganizationState extends State<Organization> {
   //
   ///
   ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+
   ///
   ///
   ///
@@ -510,14 +697,246 @@ class _OrganizationState extends State<Organization> {
             ),
             Text("Schedule Time Set",
                 style: GoogleFonts.raleway(fontWeight: FontWeight.w400)),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectdoctor1Day1Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                doctor1Day1dateTime.day.toString() +
+                                    '/' +
+                                    doctor1Day1dateTime.month.toString() +
+                                    '/' +
+                                    doctor1Day1dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _doctor1Day1view,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day1view",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day1doc1 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day1 view Minimum Patient ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
             HStack([
               Wrap(
                 spacing: 2.0,
                 children: [
-                  _doctor1schedule("9am to 2pm"),
-                  _doctor1schedule("8am to 4pm"),
-                  _doctor1schedule("10am to 3pm"),
-                  _doctor1schedule("Not Available"),
+                  _doctor1day1schedule("Not Available"),
+                  _doctor1day1schedule("7am to 10am"),
+                  _doctor1day1schedule("11am to 1pm"),
+                  _doctor1day1schedule("2am to 5pm"),
+                  _doctor1day1schedule("7pm to 9pm"),
+                ],
+              )
+            ]).scrollHorizontal(),
+            SizedBox(
+              height: 15.0,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectdoctor1Day2Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                doctor1Day2dateTime.day.toString() +
+                                    '/' +
+                                    doctor1Day2dateTime.month.toString() +
+                                    '/' +
+                                    doctor1Day2dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _doctor1Day2view,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day2view",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day2doc1 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day2 view Minimum Patient ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+            HStack([
+              Wrap(
+                spacing: 2.0,
+                children: [
+                  _doctor1day2schedule("Not Available"),
+                  _doctor1day2schedule("7am to 10am"),
+                  _doctor1day2schedule("11am to 1pm"),
+                  _doctor1day2schedule("2am to 5pm"),
+                  _doctor1day2schedule("7pm to 9pm"),
+                ],
+              )
+            ]).scrollHorizontal(),
+            SizedBox(
+              height: 15.0,
+            ),
+            //
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectdoctor1Day3Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                doctor1Day3dateTime.day.toString() +
+                                    '/' +
+                                    doctor1Day3dateTime.month.toString() +
+                                    '/' +
+                                    doctor1Day3dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _doctor1Day3view,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day3view",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day3doc1 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day3 view Minimum Patient ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+            HStack([
+              Wrap(
+                spacing: 2.0,
+                children: [
+                  _doctor1day3schedule("Not Available"),
+                  _doctor1day3schedule("7am to 10am"),
+                  _doctor1day3schedule("11am to 1pm"),
+                  _doctor1day3schedule("2am to 5pm"),
+                  _doctor1day3schedule("7pm to 9pm"),
                 ],
               )
             ]).scrollHorizontal(),
@@ -578,20 +997,276 @@ class _OrganizationState extends State<Organization> {
             ),
             Text("Schedule Time Set",
                 style: GoogleFonts.raleway(fontWeight: FontWeight.w400)),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectdoctor2Day1Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                doctor2Day1dateTime.day.toString() +
+                                    '/' +
+                                    doctor2Day1dateTime.month.toString() +
+                                    '/' +
+                                    doctor2Day1dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _doctor2Day1view,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day1view",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day1doc2 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day1 view Minimum Patient ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
             HStack([
               Wrap(
                 spacing: 2.0,
                 children: [
-                  _doctor2schedule("7am to 2pm"),
-                  _doctor2schedule("10am to 4pm"),
-                  _doctor2schedule("12am to 6pm"),
-                  _doctor2schedule("not available"),
+                  _doctor2day1schedule("Not Available"),
+                  _doctor2day1schedule("7am to 10am"),
+                  _doctor2day1schedule("11am to 1pm"),
+                  _doctor2day1schedule("2am to 5pm"),
+                  _doctor2day1schedule("7pm to 9pm"),
                 ],
               )
             ]).scrollHorizontal(),
             SizedBox(
               height: 15.0,
             ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectdoctor2Day2Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                doctor2Day2dateTime.day.toString() +
+                                    '/' +
+                                    doctor2Day2dateTime.month.toString() +
+                                    '/' +
+                                    doctor2Day2dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _doctor2Day2view,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day2view",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day2doc2 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day2 view Minimum Patient ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+            HStack([
+              Wrap(
+                spacing: 2.0,
+                children: [
+                  _doctor2day2schedule("Not Available"),
+                  _doctor2day2schedule("7am to 10am"),
+                  _doctor2day2schedule("11am to 1pm"),
+                  _doctor2day2schedule("2am to 5pm"),
+                  _doctor2day2schedule("7pm to 9pm"),
+                ],
+              )
+            ]).scrollHorizontal(),
+            SizedBox(
+              height: 15.0,
+            ),
+            //
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectdoctor2Day3Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                doctor2Day3dateTime.day.toString() +
+                                    '/' +
+                                    doctor2Day3dateTime.month.toString() +
+                                    '/' +
+                                    doctor2Day3dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _doctor2Day3view,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day3view",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day3doc2 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day3 view Minimum Patient ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+            HStack([
+              Wrap(
+                spacing: 2.0,
+                children: [
+                  _doctor2day3schedule("Not Available"),
+                  _doctor2day3schedule("7am to 10am"),
+                  _doctor2day3schedule("11am to 1pm"),
+                  _doctor2day3schedule("2am to 5pm"),
+                  _doctor2day3schedule("7pm to 9pm"),
+                ],
+              )
+            ]).scrollHorizontal(),
+            SizedBox(
+              height: 15.0,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+
             TextFormField(
                 style: GoogleFonts.raleway(),
                 controller: _doctor3Name,
@@ -646,17 +1321,271 @@ class _OrganizationState extends State<Organization> {
             ),
             Text("Schedule Time Set",
                 style: GoogleFonts.raleway(fontWeight: FontWeight.w400)),
+
+            /////
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectdoctor3Day1Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                doctor3Day1dateTime.day.toString() +
+                                    '/' +
+                                    doctor3Day1dateTime.month.toString() +
+                                    '/' +
+                                    doctor3Day1dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _doctor3Day1view,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day1view",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day1doc3 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day1 view Minimum Patient ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
             HStack([
               Wrap(
                 spacing: 2.0,
                 children: [
-                  _doctor3schedule("7am to 2pm"),
-                  _doctor3schedule("10am to 4pm"),
-                  _doctor3schedule("12am to 6pm"),
-                  _doctor3schedule("Not Available"),
+                  _doctor3day1schedule("Not Available"),
+                  _doctor3day1schedule("7am to 10am"),
+                  _doctor3day1schedule("11am to 1pm"),
+                  _doctor3day1schedule("2am to 5pm"),
+                  _doctor3day1schedule("7pm to 9pm"),
                 ],
               )
             ]).scrollHorizontal(),
+            SizedBox(
+              height: 15.0,
+            ),
+
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectdoctor3Day2Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                doctor3Day2dateTime.day.toString() +
+                                    '/' +
+                                    doctor3Day2dateTime.month.toString() +
+                                    '/' +
+                                    doctor3Day2dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _doctor3Day2view,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day2view",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day2doc3 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day2 view Minimum Patient ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+            HStack([
+              Wrap(
+                spacing: 2.0,
+                children: [
+                  _doctor3day2schedule("Not Available"),
+                  _doctor3day2schedule("7am to 10am"),
+                  _doctor3day2schedule("11am to 1pm"),
+                  _doctor3day2schedule("2am to 5pm"),
+                  _doctor3day2schedule("7pm to 9pm"),
+                ],
+              )
+            ]).scrollHorizontal(),
+            SizedBox(
+              height: 15.0,
+            ),
+            //
+            ///
+            ///
+            ///
+            ///
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              GestureDetector(
+                  onTap: () => selectdoctor3Day3Picker(context),
+                  child: Container(
+                      height: height * 0.05,
+                      width: width * 0.25,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Color(0xFF2877ed),
+                          elevation: 0.0,
+                          child: Center(
+                            child: Text(
+                                doctor3Day3dateTime.day.toString() +
+                                    '/' +
+                                    doctor3Day3dateTime.month.toString() +
+                                    '/' +
+                                    doctor3Day3dateTime.year.toString(),
+                                style: GoogleFonts.comfortaa(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0)),
+                          )))),
+              SizedBox(
+                width: width * 0.01,
+              ),
+              Flexible(
+                child: TextFormField(
+                    controller: _doctor3Day3view,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.blue[80],
+                      hintText: "Day3view",
+                      hintStyle: GoogleFonts.raleway(),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(width: 1, color: Colors.red)),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (value) {
+                      this.day3doc3 = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "please enter day3 view Minimum Patient ";
+                      } else {
+                        return null;
+                      }
+                    }),
+              ),
+            ]),
+            HStack([
+              Wrap(
+                spacing: 2.0,
+                children: [
+                  _doctor3day3schedule("Not Available"),
+                  _doctor3day3schedule("7am to 10am"),
+                  _doctor3day3schedule("11am to 1pm"),
+                  _doctor3day3schedule("2am to 5pm"),
+                  _doctor3day3schedule("7pm to 9pm"),
+                ],
+              )
+            ]).scrollHorizontal(),
+            SizedBox(
+              height: 15.0,
+            ),
+
+            ////
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
+            ///
             SizedBox(
               height: 15.0,
             ),
@@ -2577,7 +3506,7 @@ class _OrganizationState extends State<Organization> {
   ///
   ///
   ///
-  _doctor1schedule(String time) {
+  _doctor1day1schedule(String time) {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
@@ -2589,11 +3518,57 @@ class _OrganizationState extends State<Organization> {
         ),
         backgroundColor: Color(0xffededed),
         selectedColor: Color(0xff9ee892),
-        selected: doctor1schedule == time,
+        selected: doctor1day1schedule == time,
         onSelected: (bool val) {
           setState(() {
-            doctor1schedule = time;
-            print(doctor1schedule);
+            doctor1day1schedule = time;
+            print("doc1Day1time " + doctor1day1schedule);
+          });
+        },
+      ),
+    );
+  }
+
+  _doctor1day2schedule(String time) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(time),
+        labelStyle: GoogleFonts.notoSans(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xff9ee892),
+        selected: doctor1day2schedule == time,
+        onSelected: (bool val) {
+          setState(() {
+            doctor1day2schedule = time;
+            print("doc1Day2time " + doctor1day2schedule);
+          });
+        },
+      ),
+    );
+  }
+
+  _doctor1day3schedule(String time) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(time),
+        labelStyle: GoogleFonts.notoSans(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xff9ee892),
+        selected: doctor1day3schedule == time,
+        onSelected: (bool val) {
+          setState(() {
+            doctor1day3schedule = time;
+            print("doc1Day3time " + doctor1day3schedule);
           });
         },
       ),
@@ -2607,8 +3582,7 @@ class _OrganizationState extends State<Organization> {
   ///
   ///
   ///
-  ///
-  _doctor2schedule(String time) {
+  _doctor2day1schedule(String time) {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
@@ -2620,11 +3594,57 @@ class _OrganizationState extends State<Organization> {
         ),
         backgroundColor: Color(0xffededed),
         selectedColor: Color(0xff9ee892),
-        selected: doctor2schedule == time,
+        selected: doctor2day1schedule == time,
         onSelected: (bool val) {
           setState(() {
-            doctor2schedule = time;
-            print(doctor2schedule);
+            doctor2day1schedule = time;
+            print("doc2Day1time " + doctor2day1schedule);
+          });
+        },
+      ),
+    );
+  }
+
+  _doctor2day2schedule(String time) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(time),
+        labelStyle: GoogleFonts.notoSans(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xff9ee892),
+        selected: doctor2day2schedule == time,
+        onSelected: (bool val) {
+          setState(() {
+            doctor2day2schedule = time;
+            print("doc2Day2time " + doctor2day2schedule);
+          });
+        },
+      ),
+    );
+  }
+
+  _doctor2day3schedule(String time) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(time),
+        labelStyle: GoogleFonts.notoSans(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xff9ee892),
+        selected: doctor2day3schedule == time,
+        onSelected: (bool val) {
+          setState(() {
+            doctor2day3schedule = time;
+            print("doc2Day3time " + doctor2day3schedule);
           });
         },
       ),
@@ -2640,7 +3660,7 @@ class _OrganizationState extends State<Organization> {
   ///
   ///
   ///
-  _doctor3schedule(String time) {
+  _doctor3day1schedule(String time) {
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
@@ -2652,16 +3672,65 @@ class _OrganizationState extends State<Organization> {
         ),
         backgroundColor: Color(0xffededed),
         selectedColor: Color(0xff9ee892),
-        selected: doctor3schedule == time,
+        selected: doctor3day1schedule == time,
         onSelected: (bool val) {
           setState(() {
-            doctor3schedule = time;
-            print(doctor3schedule);
+            doctor3day1schedule = time;
+            print("doc3Day1time " + doctor3day1schedule);
           });
         },
       ),
     );
   }
+
+  _doctor3day2schedule(String time) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(time),
+        labelStyle: GoogleFonts.notoSans(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xff9ee892),
+        selected: doctor3day2schedule == time,
+        onSelected: (bool val) {
+          setState(() {
+            doctor3day2schedule = time;
+            print("doc3Day2time " + doctor3day2schedule);
+          });
+        },
+      ),
+    );
+  }
+
+  _doctor3day3schedule(String time) {
+    return Container(
+      padding: const EdgeInsets.all(2.0),
+      child: ChoiceChip(
+        label: Text(time),
+        labelStyle: GoogleFonts.notoSans(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        selectedColor: Color(0xff9ee892),
+        selected: doctor3day3schedule == time,
+        onSelected: (bool val) {
+          setState(() {
+            doctor3day3schedule = time;
+            print("doc3Day3time " + doctor3day3schedule);
+          });
+        },
+      ),
+    );
+  }
+
+  ///
+  ///
 
 //////////////////////////////**************************************************////////////////////////////// */
   Future<void> captureImage() async {
@@ -2702,15 +3771,6 @@ class _OrganizationState extends State<Organization> {
 
     details.doc(oranizationID + _organizationName.text.trim()).set({
       "organization": _organizationName.text.trim(),
-      "doctor1": _doctor1Name.text.trim(),
-      "doctor1des": _doctor1description.text.trim(),
-      "doctor1fees": int.parse(_doctorfees1.text.trim()),
-      "doctor2": _doctor2Name.text.trim(),
-      "doctor2des": _doctor2description.text.trim(),
-      "doctor2fees": int.parse(_doctorfees2.text.trim()),
-      "doctor3": _doctor3Name.text.trim(),
-      "doctor3des": _doctor3description.text.trim(),
-      "doctor3fees": int.parse(_doctorfees3.text.trim()),
       "vaccine1": _vaccine1Name.text.trim(),
       "vaccine1day1available": int.parse(_vaccine1Day1availity.text.trim()),
       "vaccine1day1date": vaccine1Day1dateTime,
@@ -2761,9 +3821,58 @@ class _OrganizationState extends State<Organization> {
       "blood6Choice": blood6Choice,
       "blood7Choice": blood7Choice,
       "blood8Choice": blood8Choice,
-      "doctor1schedule": doctor1schedule,
-      "doctor2schedule": doctor2schedule,
-      "doctor3schedule": doctor3schedule,
+
+      ///
+      "doctor1": _doctor1Name.text.trim(),
+      "doctor1des": _doctor1description.text.trim(),
+      "doctor1fees": int.parse(_doctorfees1.text.trim()),
+
+      ///
+      "doctor1day1date": doctor1Day1dateTime,
+      "doctor1day1view": int.parse(_doctor1Day1view.text.trim()),
+      "doctor1day1schedule": doctor1day1schedule,
+      "doctor1day2date": doctor1Day2dateTime,
+      "doctor1day2view": int.parse(_doctor1Day2view.text.trim()),
+      "doctor1day2schedule": doctor1day2schedule,
+      "doctor1day3date": doctor1Day3dateTime,
+      "doctor1day3view": int.parse(_doctor1Day3view.text.trim()),
+      "doctor1day3schedule": doctor1day3schedule,
+
+      ///
+      "doctor2": _doctor2Name.text.trim(),
+      "doctor2des": _doctor2description.text.trim(),
+      "doctor2fees": int.parse(_doctorfees2.text.trim()),
+
+      ///
+      "doctor2day1date": doctor2Day1dateTime,
+      "doctor2day1view": int.parse(_doctor2Day1view.text.trim()),
+      "doctor2day1schedule": doctor2day1schedule,
+      "doctor2day2date": doctor2Day2dateTime,
+      "doctor2day2view": int.parse(_doctor2Day2view.text.trim()),
+      "doctor2day2schedule": doctor2day2schedule,
+      "doctor2day3date": doctor2Day3dateTime,
+      "doctor2day3view": int.parse(_doctor2Day3view.text.trim()),
+      "doctor2day3schedule": doctor2day3schedule,
+
+      ///
+      ///
+      "doctor3": _doctor3Name.text.trim(),
+      "doctor3des": _doctor3description.text.trim(),
+      "doctor3fees": int.parse(_doctorfees3.text.trim()),
+
+      ///
+      "doctor3day1date": doctor3Day1dateTime,
+      "doctor3day1view": int.parse(_doctor3Day1view.text.trim()),
+      "doctor3day1schedule": doctor3day1schedule,
+      "doctor3day2date": doctor3Day2dateTime,
+      "doctor3day2view": int.parse(_doctor3Day2view.text.trim()),
+      "doctor3day2schedule": doctor3day2schedule,
+      "doctor3day3date": doctor3Day3dateTime,
+      "doctor3day3view": int.parse(_doctor3Day3view.text.trim()),
+      "doctor3day3schedule": doctor3day3schedule,
+
+      // "doctor2schedule": doctor2schedule,
+      // "doctor3schedule": doctor3schedule,
       "minimumAppointprice":
           int.parse(_minimun_price_of_Appointment.text.trim()),
       "minimumvaccineprice":

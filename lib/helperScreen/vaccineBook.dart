@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidcheck/helperScreen/vaccinationCertificate.dart';
+import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:covidcheck/models/vaccinationModel.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +50,10 @@ class _VaccineBookState extends State<VaccineBook> {
                     VaccineModel model =
                         VaccineModel.fromJson(dataShot.data.docs[index].data());
 
-                    return vaccineinfo(model, context);
+                    return uservaccineinfo(
+                      model,
+                      context,
+                    );
                   },
                 );
               }
@@ -79,7 +84,7 @@ class _VaccineBookState extends State<VaccineBook> {
 
   beginbuildCart() {}
 
-  Widget vaccineinfo(VaccineModel model, BuildContext context,
+  Widget uservaccineinfo(VaccineModel model, BuildContext context,
       {Color background, removeCartFunction}) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -89,14 +94,14 @@ class _VaccineBookState extends State<VaccineBook> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               padding: const EdgeInsets.all(10.0),
-              height: height * 0.30,
+              height: height * 0.34,
               width: width * 0.95,
               decoration: BoxDecoration(
                   color: Colors.blueGrey[700],
                   borderRadius: BorderRadius.circular(10.0)),
               child: VStack([
                 // Text(model.useremail),
-                // Text(model.username),
+
                 RichText(
                   text: TextSpan(
                     style: TextStyle(fontSize: 15.0),
@@ -202,6 +207,26 @@ class _VaccineBookState extends State<VaccineBook> {
                     style: TextStyle(fontSize: 15.0),
                     children: <TextSpan>[
                       TextSpan(
+                          text: 'Vaccine: ',
+                          style: GoogleFonts.comfortaa(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white)),
+                      TextSpan(
+                          text: model.vacineChoice,
+                          style: GoogleFonts.comfortaa(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.orange[200])),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: height * 0.01,
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(fontSize: 15.0),
+                    children: <TextSpan>[
+                      TextSpan(
                           text: 'Booking Date : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
@@ -228,6 +253,7 @@ class _VaccineBookState extends State<VaccineBook> {
                               color: Colors.white)),
                       TextSpan(
                           text: model.season,
+                          // text: model.docNo,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
                               color: Colors.orange[200])),
@@ -241,91 +267,112 @@ class _VaccineBookState extends State<VaccineBook> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: () => showDialog(
-                          context: context,
-                          builder: (c) {
-                            return AlertDialog(
-                              backgroundColor: Colors.blueGrey[700],
-                              contentPadding: EdgeInsets.all(8.0),
-                              content: Container(
-                                  height: height * 0.25,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: height * 0.10,
-                                        width: width * 0.45,
-                                        child: Text(
-                                          "Are Your Sure !! You want to cancel your vaccination",
-                                          style: GoogleFonts.comfortaa(
-                                              fontSize: 17.0),
-                                        ),
-                                      ).centered(),
-                                      SizedBox(
-                                        height: height * 0.03,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Container(
-                                                height: height * 0.06,
-                                                width: width * 0.31,
-                                                child: Material(
-                                                    borderRadius: BorderRadius
-                                                        .circular(5.0),
-                                                    color: Color(0xFF2877ed),
-                                                    elevation: 0.0,
-                                                    child: Center(
-                                                        child: Text('No',
-                                                            style: GoogleFonts
-                                                                .comfortaa(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        18.0))))),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              removecart(model.aadherNumber
-                                                  .toString());
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Container(
-                                                height: height * 0.06,
-                                                width: width * 0.31,
-                                                child: Material(
-                                                    borderRadius: BorderRadius
-                                                        .circular(5.0),
-                                                    color: Colors.red,
-                                                    elevation: 0.0,
-                                                    child: Center(
-                                                        child: Text('Yes',
-                                                            style: GoogleFonts
-                                                                .comfortaa(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        18.0))))),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )),
-                            );
-                          }),
+                      onTap: () {
+                        model.approve
+                            ? VxToast.show(context,
+                                msg:
+                                    "You can't Cancel your vaccination Because its already Approved",
+                                position: VxToastPosition.center,
+                                bgColor: Colors.red[400],
+                                showTime: 5000,
+                                textColor: Colors.white)
+                            : showDialog(
+                                context: context,
+                                builder: (c) {
+                                  return AlertDialog(
+                                    backgroundColor: Colors.blueGrey[700],
+                                    contentPadding: EdgeInsets.all(8.0),
+                                    content: Container(
+                                        height: height * 0.25,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: height * 0.10,
+                                              width: width * 0.45,
+                                              child: Text(
+                                                "Are Your Sure !! You want to cancel your vaccination",
+                                                style: GoogleFonts.comfortaa(
+                                                    fontSize: 17.0),
+                                              ),
+                                            ).centered(),
+                                            SizedBox(
+                                              height: height * 0.03,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Container(
+                                                      height: height * 0.06,
+                                                      width: width * 0.31,
+                                                      child: Material(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.0),
+                                                          color:
+                                                              Color(0xFF2877ed),
+                                                          elevation: 0.0,
+                                                          child: Center(
+                                                              child: Text('No',
+                                                                  style: GoogleFonts.comfortaa(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          18.0))))),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    removecart(
+                                                        model.aadherNumber
+                                                            .toString(),
+                                                        model.organization,
+                                                        model.vacineChoice,
+                                                        model.vaccAvailable,
+                                                        model.dateTime,
+                                                        model.docNo);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Container(
+                                                      height: height * 0.06,
+                                                      width: width * 0.31,
+                                                      child: Material(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.0),
+                                                          color: Colors.red,
+                                                          elevation: 0.0,
+                                                          child: Center(
+                                                              child: Text('Yes',
+                                                                  style: GoogleFonts.comfortaa(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          18.0))))),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        )),
+                                  );
+                                });
+                      },
                       child: Container(
                           height: height * 0.06,
                           width: width * 0.43,
@@ -351,17 +398,34 @@ class _VaccineBookState extends State<VaccineBook> {
                               ))),
                     ),
                     GestureDetector(
+                      onTap: () {
+                        model.approve
+                            ? Get.to(
+                                VaccinationCertificate(vaccineModel: model))
+                            : VxToast.show(context,
+                                msg:
+                                    "Your vaccination process is not Complete !! After Complete your Vaccination process you can get Approval Certificate",
+                                position: VxToastPosition.center,
+                                bgColor: Colors.red[400],
+                                showTime: 9000,
+                                textColor: Colors.white);
+                      },
                       child: Container(
                           height: height * 0.06,
                           width: width * 0.43,
                           child: Material(
                               borderRadius: BorderRadius.circular(5.0),
-                              color: Colors.lightGreen,
+                              color: model.approve
+                                  ? Colors.lightGreen
+                                  : Colors.red[300],
                               elevation: 0.0,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Approved",
+                                  Text(
+                                      model.approve
+                                          ? "Certificate"
+                                          : "Approved",
                                       style: GoogleFonts.comfortaa(
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.w600)),
@@ -369,7 +433,9 @@ class _VaccineBookState extends State<VaccineBook> {
                                     width: width * 0.02,
                                   ),
                                   Icon(
-                                    FontAwesomeIcons.userCheck,
+                                    model.approve
+                                        ? FontAwesomeIcons.userCheck
+                                        : FontAwesomeIcons.user,
                                     size: 18.0,
                                   ),
                                 ],
@@ -378,16 +444,11 @@ class _VaccineBookState extends State<VaccineBook> {
                   ],
                 )
               ]),
-              //   IconButton(
-              //       onPressed: () {
-              //         removecart(model.aadherNumber.toString());
-              //       },
-              //       icon: Icon(Icons.remove_shopping_cart))
-              // ]),
             ).centered()));
   }
 
-  removecart(String mod) {
+  removecart(String mod, String org, String choiceVAc, int vacavail,
+      String vacdate, String doc) {
     List vaccineList = CovidCheckApp.sharedPreferences
         .getStringList(CovidCheckApp.userCartList);
     vaccineList.remove(mod);
@@ -406,7 +467,6 @@ class _VaccineBookState extends State<VaccineBook> {
       );
       CovidCheckApp.sharedPreferences
           .setStringList(CovidCheckApp.userCartList, vaccineList);
-      //Provider.of<BookItemCounter>(context, listen: false).displayResult();
     });
     CovidCheckApp.firestore
         .collection(CovidCheckApp.collectionUser)
