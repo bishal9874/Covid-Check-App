@@ -435,7 +435,7 @@ class _BloodBookingState extends State<BloodBooking> {
       );
     });
     CovidCheckApp.firestore
-        .collection("vaccine")
+        .collection("BloodBank")
         .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
             mod)
         .delete();

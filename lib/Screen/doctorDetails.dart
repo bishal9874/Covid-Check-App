@@ -1090,6 +1090,29 @@ class _DoctorDetailsState extends State<DoctorDetails> {
           viewingPatient == widget.day3view)
         "doctor3day3view": widget.day3view - 1
     });
+    CovidCheckApp.firestore
+        .collection("apppointment")
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
+            doctorid)
+        .set({
+      "doctorAppointCentre": oranizationName,
+      "phone_number": _phonenumberController.text.trim(),
+      "userUI":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
+      "username":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
+      "useremail":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
+      "name": _nameController.text.trim(),
+      "age": _birthyearController.text.trim(),
+      "seasonChoice": daySchedule,
+      "gender": genderChoice,
+      "dateSelection": daydatechoice,
+      "doctorName": doctorname,
+      "doctorFee": doctorFee,
+      "submit_time": doctorid,
+      "docnumber": widget.doctorDetails.docnumber,
+    });
 
     CovidCheckApp.firestore
         .collection(CovidCheckApp.collectionUser)
@@ -1113,6 +1136,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       "doctorName": doctorname,
       "doctorFee": doctorFee,
       "submit_time": doctorid,
+      "docnumber": widget.doctorDetails.docnumber,
     }).then((value) {
       return showDialog(
           context: context,

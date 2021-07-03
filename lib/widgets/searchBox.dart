@@ -36,7 +36,7 @@ class SearchBoxDelegate extends SliverPersistentHeaderDelegate {
                   Padding(
                       padding: EdgeInsets.only(left: 8.0),
                       child: Text(
-                        "Search",
+                        "Search Using Pin Code",
                         style: GoogleFonts.raleway(
                             fontSize: 21.0, color: Colors.black),
                       )),
