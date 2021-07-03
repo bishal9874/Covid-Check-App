@@ -1,5 +1,6 @@
 import 'package:covidcheck/Screen/Auth/login.dart';
 import 'package:covidcheck/helperScreen/BloodBooking.dart';
+import 'package:covidcheck/helperScreen/appointment.dart';
 import 'package:covidcheck/helperScreen/vaccineBook.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +130,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontSize: 15.0))))),
           ),
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.to(AppointmentBooking());
+              },
               child: Container(
                   height: height * 0.06,
                   width: width * 0.40,

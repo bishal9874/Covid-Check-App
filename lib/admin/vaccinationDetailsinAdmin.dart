@@ -94,7 +94,7 @@ class _VaccineadminState extends State<Vaccineadmin> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               padding: const EdgeInsets.all(10.0),
-              height: height * 0.54,
+              height: height * 0.56,
               width: width * 0.95,
               decoration: BoxDecoration(
                   color: Colors.blueGrey[700],

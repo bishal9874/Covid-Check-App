@@ -82,8 +82,6 @@ class _VaccineBookState extends State<VaccineBook> {
     );
   }
 
-  beginbuildCart() {}
-
   Widget uservaccineinfo(VaccineModel model, BuildContext context,
       {Color background, removeCartFunction}) {
     var height = MediaQuery.of(context).size.height;

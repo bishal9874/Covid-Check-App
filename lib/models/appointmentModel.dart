@@ -44,7 +44,7 @@ class AppointModel {
     doctorFee = json['doctorFee'];
     doctorName = json['doctorName'];
     dayselected = json['dateSelection'];
-    genderChoice = json['genderChoice'];
+    genderChoice = json['gender'];
     phoneNumber = json['phone_number'];
     daySchedule = json['seasonChoice'];
   }
@@ -60,7 +60,7 @@ class AppointModel {
     data['docnumber'] = this.docnumber;
     data['doctorFee'] = this.doctorFee;
     data['doctorName'] = this.doctorName;
-    data['genderChoice'] = this.genderChoice;
+    data['gender'] = this.genderChoice;
     data['dateSelection'] = this.dayselected;
     data['submit_time'] = this.refaranceID;
     data['phone_number'] = this.phoneNumber;
