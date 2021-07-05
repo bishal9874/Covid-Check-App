@@ -57,6 +57,7 @@ class _OrganizationState extends State<Organization> {
       eamil,
       normalbed,
       emgBed,
+      quarentine,
       priceOfvacine,
       priceOfappintment,
       priceOfbed,
@@ -92,7 +93,7 @@ class _OrganizationState extends State<Organization> {
   TextEditingController _organizationemail = new TextEditingController();
   TextEditingController _normalBed = new TextEditingController();
   TextEditingController _emergencyBed = new TextEditingController();
-
+  TextEditingController _qurentinebed = new TextEditingController();
   TextEditingController _minimun_price_of_vacination =
       new TextEditingController();
   TextEditingController _minimun_price_of_Appointment =
@@ -1662,6 +1663,26 @@ class _OrganizationState extends State<Organization> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return "please enter Bed Number Number";
+                  }
+                  return null;
+                }),
+            SizedBox(
+              height: 15.0,
+            ),
+            TextFormField(
+                style: GoogleFonts.raleway(),
+                controller: _qurentinebed,
+                decoration: InputDecoration(
+                  labelText: "covid quarantine Bed",
+                  labelStyle:
+                      GoogleFonts.raleway(fontSize: 16.0, color: Colors.white),
+                ),
+                onChanged: (value) {
+                  this.quarentine = value;
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "please enter covid quarantine Bed number";
                   }
                   return null;
                 }),
@@ -3882,6 +3903,7 @@ class _OrganizationState extends State<Organization> {
           int.parse(_minimun_price_of_bloodbankServices.text.trim()),
       "normalbedAvailable": int.parse(_normalBed.text.trim()),
       "emergencybedAvailable": int.parse(_emergencyBed.text.trim()),
+      "covidquarantinebed": int.parse(_qurentinebed.text.trim()),
       "minimumoygenprice":
           int.parse(_minimun_price_of_oxygenServices.text.trim()),
       "AmbulanceNumber": int.parse(_phoneNumber_of_ambulance.text.trim()),
@@ -3950,7 +3972,6 @@ class _OrganizationState extends State<Organization> {
                     ]),
               ));
         }));
-    ;
 
     setState(() {
       _file = null;

@@ -6,10 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:twilio_flutter/twilio_flutter.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
+// ignore: must_be_immutable
 class VaccineDetails extends StatefulWidget {
   final OrgModel vaccine;
   VaccineModel vaccineModel;
@@ -20,6 +22,7 @@ class VaccineDetails extends StatefulWidget {
 }
 
 class _VaccineDetailsState extends State<VaccineDetails> {
+  TwilioFlutter twilioFlutter;
   final formKey = new GlobalKey<FormState>();
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _aadharNumberController =
@@ -37,6 +40,15 @@ class _VaccineDetailsState extends State<VaccineDetails> {
   String aadharNumber, name, birthyear;
   DateTime dateTime = DateTime.now();
   String vaccinationID = DateTime.now().millisecondsSinceEpoch.toString();
+  // @override
+  // void initState() {
+  //   twilioFlutter = TwilioFlutter(
+  //       accountSid: 'ACe23216f98687bf29b23704d4bcf9b0d5',
+  //       authToken: '17c74526c6f43fb29ffd52a755032f2e',
+  //       twilioNumber: '+19195253688');
+
+  //   super.initState();
+  // }
 
   //
   checkFields() {
@@ -47,6 +59,19 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     }
     return false;
   }
+
+  // void sendSms() async {
+  //   twilioFlutter.sendSMS(
+  //       toNumber: '+918337000993',
+  //       messageBody: '$_nameController Vaccination date $vaccinedatechoice .');
+  // }
+
+  // void getSms() async {
+  //   var data = await twilioFlutter.getSmsList();
+  //   print(data);
+
+  //   await twilioFlutter.getSMS('***************************');
+  // }
 
   //Date and time picker
   //
@@ -1426,6 +1451,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                                                   .trim(),
                                               context,
                                               widget.vaccine.organization);
+                                          //sendSms();
                                           Navigator.of(context).pop();
                                         },
                                         child: Container(

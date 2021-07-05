@@ -151,8 +151,10 @@ _buildAppBar(BuildContext context) {
           onTap: () => Get.to(ProfileScreen()),
           child: CircleAvatar(
             radius: 20.0,
-            backgroundImage: NetworkImage(CovidCheckApp.sharedPreferences
-                .getString(CovidCheckApp.userAvatarUrl)),
+            backgroundImage: (CovidCheckApp.userAvatarUrl != null)
+                ? NetworkImage(CovidCheckApp.sharedPreferences
+                    .getString(CovidCheckApp.userAvatarUrl))
+                : AssetImage("assets/av.jpg"),
           ),
         ),
       ],
@@ -167,8 +169,11 @@ Widget sourceInfo(OrgModel model, BuildContext context,
         Get.to(OrgDetailPage(orgModel: model));
       },
       splashColor: Colors.grey,
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         child: Container(
             height: 150,
             decoration: BoxDecoration(

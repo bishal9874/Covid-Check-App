@@ -65,7 +65,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   String daydatechoice = "";
   int viewingPatient;
   String daySchedule = "";
-
+  bool appointmentApproval = false;
   String name, birthyear, phonenumber;
   DateTime dateTime = DateTime.now();
   String doctorid = DateTime.now().millisecondsSinceEpoch.toString();
@@ -1112,6 +1112,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       "doctorFee": doctorFee,
       "submit_time": doctorid,
       "docnumber": widget.doctorDetails.docnumber,
+      "adminApproval": appointmentApproval,
     });
 
     CovidCheckApp.firestore
@@ -1137,6 +1138,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       "doctorFee": doctorFee,
       "submit_time": doctorid,
       "docnumber": widget.doctorDetails.docnumber,
+      "adminApproval": appointmentApproval,
     }).then((value) {
       return showDialog(
           context: context,

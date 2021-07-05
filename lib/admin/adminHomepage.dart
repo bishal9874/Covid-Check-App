@@ -1,9 +1,10 @@
+import 'package:covidcheck/admin/Adminappointment.dart';
 import 'package:covidcheck/admin/organization.dart';
 import 'package:covidcheck/admin/vaccinationDetailsinAdmin.dart';
 import 'package:covidcheck/main.dart';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -14,6 +15,8 @@ class AdminHome extends StatelessWidget {
   const AdminHome({Key key, this.name}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: _buildAppBar(context),
       // body: Center(
@@ -48,8 +51,8 @@ class AdminHome extends StatelessWidget {
               Get.to(Organization());
             },
             child: Container(
-              height: 199,
-              width: 344,
+              height: height * 0.20,
+              width: width * .90,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(28),
                   color: Color(0xFF2877ed)),
@@ -62,21 +65,43 @@ class AdminHome extends StatelessWidget {
           SizedBox(
             height: 20.0,
           ),
-          InkWell(
-            onTap: () {
-              Get.to(Vaccineadmin());
-            },
-            child: Container(
-              height: 199,
-              width: 344,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(28),
-                  color: Color(0xFF2877ed)),
-              child: "vaccine Details"
-                  .text
-                  .textStyle(GoogleFonts.raleway(fontSize: 20.0))
-                  .makeCentered(),
-            ).centered(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  Get.to(Vaccineadmin());
+                },
+                child: Container(
+                  height: height * 0.25,
+                  width: width * .45,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(28),
+                      color: Color(0xFF7a3acf)),
+                  child: "vaccine Details"
+                      .text
+                      .textStyle(GoogleFonts.raleway(fontSize: 20.0))
+                      .makeCentered(),
+                ).centered(),
+              ),
+              InkWell(
+                onTap: () {
+                  Get.to(Appointmentadmin());
+                },
+                child: Container(
+                  height: height * 0.25,
+                  width: width * .45,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(28),
+                      color: Color(0xFF0e20c7)),
+                  child: "Appointment Details"
+                      .text
+                      .textStyle(GoogleFonts.raleway(fontSize: 16.0))
+                      .makeCentered()
+                      .centered(),
+                ).centered(),
+              ),
+            ],
           ),
         ]),
       ).p(10),

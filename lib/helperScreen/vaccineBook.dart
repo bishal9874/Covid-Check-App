@@ -92,7 +92,7 @@ class _VaccineBookState extends State<VaccineBook> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               padding: const EdgeInsets.all(10.0),
-              height: height * 0.34,
+              height: height * 0.35,
               width: width * 0.95,
               decoration: BoxDecoration(
                   color: Colors.blueGrey[700],

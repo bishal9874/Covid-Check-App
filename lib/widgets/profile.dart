@@ -3,6 +3,7 @@ import 'package:covidcheck/helperScreen/BloodBooking.dart';
 import 'package:covidcheck/helperScreen/appointment.dart';
 import 'package:covidcheck/helperScreen/vaccineBook.dart';
 import 'package:covidcheck/services/ser.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -58,8 +59,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         width: width * 0.25,
         child: CircleAvatar(
           radius: 25.0,
-          backgroundImage: NetworkImage(CovidCheckApp.sharedPreferences
-              .getString(CovidCheckApp.userAvatarUrl)),
+          backgroundImage: (CovidCheckApp.userAvatarUrl != null)
+              ? NetworkImage(CovidCheckApp.sharedPreferences
+                  .getString(CovidCheckApp.userAvatarUrl))
+              : AssetImage("assets/av.jpg"),
         ),
       ).centered(),
       SizedBox(
@@ -77,25 +80,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
         height: height * 0.01,
       ),
       Container(
+        child: Center(
+          child: Text(
+            CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
+            style: GoogleFonts.comfortaa(fontSize: 15.0),
+          ),
+        ),
+      ),
+      SizedBox(
+        height: height * 0.01,
+      ),
+      Container(
+        child: Center(
+          child: Text(
+            CovidCheckApp.sharedPreferences
+                .getString(CovidCheckApp.phoneNumber),
+            style: GoogleFonts.comfortaa(fontSize: 15.0),
+          ),
+        ),
+      ),
+      SizedBox(
+        height: height * 0.01,
+      ),
+      Container(
           child: VStack([
-        Text(
-          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.phoneNumber),
-          style: GoogleFonts.comfortaa(fontSize: 15.0),
-        ).centered(),
-        SizedBox(
-          height: height * 0.01,
-        ),
-        Text(
-          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
-          style: GoogleFonts.comfortaa(fontSize: 15.0),
-        ).centered(),
-        SizedBox(
-          height: height * 0.01,
-        ),
         GestureDetector(
-          onTap: () {
-            //Get.to(Profile_Screen());
-          },
+          onTap: () {},
           child: Text(
             "Update Profile",
             style: GoogleFonts.comfortaa(
@@ -425,4 +435,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  // updateProfile() {
+  //   var height = MediaQuery.of(context).size.height;
+  //   var width = MediaQuery.of(context).size.width;
+  //   return showDialog(
+  //       context: context,
+  //       builder: (c) {
+  //         return AlertDialog(
+  //           backgroundColor: Colors.blueGrey[700],
+  //           contentPadding: EdgeInsets.all(8.0),
+  //           content: Container(
+  //               height: height * 0.25,
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   TextFormField(
+  //             controller: ,
+  //             decoration: InputDecoration(
+  //               filled: true,
+  //               fillColor: Colors.blue[80],
+  //               hintText: "Name",
+  //               hintStyle: GoogleFonts.comfortaa(
+  //                 fontSize: 13.0,
+  //               ),
+  //               errorBorder: OutlineInputBorder(
+  //                   borderRadius: BorderRadius.all(Radius.circular(10)),
+  //                   borderSide: BorderSide(width: 1, color: Colors.red)),
+  //               focusedErrorBorder: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.all(Radius.circular(10)),
+  //               ),
+  //               border: OutlineInputBorder(
+  //                 borderSide: BorderSide(color: Colors.white),
+  //                 borderRadius: const BorderRadius.all(
+  //                   const Radius.circular(10.0),
+  //                 ),
+  //               ),
+  //             ),
+  //             onChanged: (value) {
+  //               this.name = value;
+  //             },
+  //             validator: (value) => value.isEmpty ? 'Name is required' : null),],
+  //               )),
+  //         );
+  //       });
+  // }
 }

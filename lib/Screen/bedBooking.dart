@@ -30,7 +30,7 @@ class _BedBookingState extends State<BedBooking> {
               minimumBookingPrice: widget.bedbooking.minimumbedprice.toString(),
             )),
             child: _choiceBed(
-              "Normal Bed",
+              "Normal Ward",
               Color(0xff00b36e),
               context,
               widget.bedbooking.minimumbedprice.toString(),
@@ -38,18 +38,19 @@ class _BedBookingState extends State<BedBooking> {
             ),
           ),
           _choiceBed(
-            "Emergency Bed",
+            "Emergency/ICU Ward",
             Colors.redAccent,
             context,
             widget.bedbooking.minimumbedprice.toString(),
             widget.bedbooking.emergencybedAvailable.toString(),
-          )
-          // _choiceBed(
-          //     "Emergency Bed",
-          //     Colors.redAccent,
-          //     context,
-          //     widget.bedbooking.emergencybedAvailable.toString(),
-          //     widget.bedbooking.minimumbedprice.toString()),
+          ),
+          _choiceBed(
+            "Covid Quarantine Ward",
+            Colors.orange,
+            context,
+            widget.bedbooking.minimumbedprice.toString(),
+            widget.bedbooking.covidquarantinebed.toString(),
+          ),
         ],
       ),
     );
@@ -109,7 +110,7 @@ class _BedBookingState extends State<BedBooking> {
                           style: GoogleFonts.comfortaa(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
-                              fontSize: 20.0)),
+                              fontSize: 17.0)),
                     ),
                     SizedBox(
                       height: height * 0.01,

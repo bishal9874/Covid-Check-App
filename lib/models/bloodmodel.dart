@@ -13,6 +13,7 @@ class BloodModel {
   String nameofpatient;
   String bloodChoice;
   String prescriptionProve;
+  bool adminApproval;
 
   BloodModel(
       {this.organization,
@@ -26,7 +27,8 @@ class BloodModel {
       this.username,
       this.bloodChoice,
       this.prescriptionProve,
-      this.genderChoice});
+      this.genderChoice,
+      this.adminApproval});
 
   BloodModel.fromJson(Map<String, dynamic> json) {
     organization = json['bloodCentre_Name'];
@@ -41,6 +43,7 @@ class BloodModel {
     prescriptionProve = json['precriptionProve'];
     dateTime = json['dateSelection'];
     genderChoice = json['gender'];
+    //adminApproval = json['adminApproval'];
   }
 
   Map<String, dynamic> toJson() {
@@ -54,7 +57,7 @@ class BloodModel {
     data['phoneNumber'] = this.phonenumber;
     data['bloodchoice'] = this.bloodChoice;
     data['precriptionProve'] = this.prescriptionProve;
-
+    //data['adminApproval'] = this.adminApproval;
     data['genderChoice'] = this.genderChoice;
 
     data['dateSelection'] = this.dateTime;

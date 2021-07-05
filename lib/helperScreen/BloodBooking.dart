@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/models/bloodmodel.dart';
-import 'package:covidcheck/models/vaccinationModel.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -71,7 +70,7 @@ class _BloodBookingState extends State<BloodBooking> {
                 Get.back();
               },
               icon: Icon(FontAwesomeIcons.chevronLeft)),
-          Text("Vaccine Booking", style: GoogleFonts.comfortaa(fontSize: 18.0)),
+          Text("Blood Booking", style: GoogleFonts.comfortaa(fontSize: 18.0)),
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
         ],
       ),

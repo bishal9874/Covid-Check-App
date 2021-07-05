@@ -15,7 +15,7 @@ class AppointModel {
   String nameofpatient;
   String docnumber;
   String daySchedule;
-
+  bool adminApproval;
   AppointModel(
       {this.organization,
       this.nameofpatient,
@@ -30,7 +30,8 @@ class AppointModel {
       this.docnumber,
       this.genderChoice,
       this.phoneNumber,
-      this.daySchedule});
+      this.daySchedule,
+      this.adminApproval});
 
   AppointModel.fromJson(Map<String, dynamic> json) {
     organization = json['doctorAppointCentre'];
@@ -47,6 +48,7 @@ class AppointModel {
     genderChoice = json['gender'];
     phoneNumber = json['phone_number'];
     daySchedule = json['seasonChoice'];
+    adminApproval = json['adminApproval'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,10 +64,14 @@ class AppointModel {
     data['doctorName'] = this.doctorName;
     data['gender'] = this.genderChoice;
     data['dateSelection'] = this.dayselected;
-    data['submit_time'] = this.refaranceID;
+
     data['phone_number'] = this.phoneNumber;
     data['seasonChoice'] = this.daySchedule;
+    data['adminApproval'] = this.adminApproval;
     // data['price'] = this.price;
+    if (this.refaranceID != null) {
+      data['submit_time'] = this.refaranceID;
+    }
 
     return data;
   }
