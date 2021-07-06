@@ -155,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               style: GoogleFonts.comfortaa(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 13.0)))))),
+                                  fontSize: 10.0)))))),
         ],
       ),
       SizedBox(
@@ -235,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               style: GoogleFonts.comfortaa(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 14.0)))))),
+                                  fontSize: 10.0)))))),
         ],
       ),
       SizedBox(

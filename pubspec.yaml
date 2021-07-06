@@ -50,6 +50,8 @@ dependencies:
   toast: ^0.1.5
   fluttertoast: ^8.0.7
   twilio_flutter: ^0.0.9
+  agora_rtc_engine: ^4.0.2
+  permission_handler: ^8.1.1
   
   
 

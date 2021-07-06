@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/models/appointmentModel.dart';
-
-import 'package:covidcheck/models/vaccinationModel.dart';
+import 'package:covidcheck/models/virtualAppointModel.dart';
 import 'package:covidcheck/services/ser.dart';
+import 'package:covidcheck/videocall/pages/index.dart';
 
 import 'package:flutter/material.dart';
 
@@ -11,13 +11,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class Appointmentadmin extends StatefulWidget {
+class VirtualAppointmentadmin extends StatefulWidget {
   @override
-  _AppointmentadminState createState() => _AppointmentadminState();
+  _VirtualAppointmentadminState createState() =>
+      _VirtualAppointmentadminState();
 }
 
-class _AppointmentadminState extends State<Appointmentadmin> {
-  bool approval = false;
+class _VirtualAppointmentadminState extends State<VirtualAppointmentadmin> {
   @override
   Widget build(BuildContext context) {
     // var height = MediaQuery.of(context).size.height;
@@ -25,8 +25,10 @@ class _AppointmentadminState extends State<Appointmentadmin> {
     return Scaffold(
         appBar: _buildAppBar(context),
         body: StreamBuilder<QuerySnapshot>(
-          stream:
-              FirebaseFirestore.instance.collection("apppointment").snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection("virtualAppointment")
+              .orderBy("submit_time", descending: true)
+              .snapshots(),
           builder: (context, dataShot) {
             if (!dataShot.hasData) {
               return Container(
@@ -45,8 +47,8 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                 return ListView.builder(
                   itemCount: dataShot.data.docs.length,
                   itemBuilder: (context, index) {
-                    AppointModel model =
-                        AppointModel.fromJson(dataShot.data.docs[index].data());
+                    VirtualAppointModel model = VirtualAppointModel.fromJson(
+                        dataShot.data.docs[index].data());
 
                     return vaccineinfo(
                       model,
@@ -73,8 +75,8 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                 Get.back();
               },
               icon: Icon(FontAwesomeIcons.chevronLeft)),
-          Text("Admin Appointment Booking",
-              style: GoogleFonts.comfortaa(fontSize: 14.0)),
+          Text("Admin Virtual Appointment Booking",
+              style: GoogleFonts.comfortaa(fontSize: 12.0)),
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
         ],
       ),
@@ -83,7 +85,7 @@ class _AppointmentadminState extends State<Appointmentadmin> {
 
   beginbuildCart() {}
 
-  Widget vaccineinfo(AppointModel model, BuildContext context,
+  Widget vaccineinfo(VirtualAppointModel model, BuildContext context,
       {Color background, removeCartFunction}) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -93,11 +95,12 @@ class _AppointmentadminState extends State<Appointmentadmin> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               padding: const EdgeInsets.all(10.0),
-              height: height * 0.75,
+              height: height * 0.80,
               width: width * 0.95,
               decoration: BoxDecoration(
-                  color:
-                      model.adminApproval ? Colors.white : Colors.blueGrey[700],
+                  color: model.virtualAppoint
+                      ? Colors.white
+                      : Colors.blueGrey[700],
                   borderRadius: BorderRadius.circular(10.0)),
               child: VStack([
                 Row(
@@ -116,11 +119,11 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                                   color: Color(0xff5dfc00)))
                           .centered(),
                     ),
-                    model.adminApproval
+                    model.virtualAppoint
                         ? InkWell(
                             onTap: () {
                               CovidCheckApp.firestore
-                                  .collection("apppointment")
+                                  .collection("virtualAppointment")
                                   .doc(model.userUid + model.refaranceID)
                                   .delete()
                                   .then((value) => VxToast.show(
@@ -173,14 +176,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'User UI : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.userUid,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -197,14 +200,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Doc ID : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.docnumber,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -221,14 +224,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'User Email: ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.useremail,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -245,14 +248,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Referance Id: ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.refaranceID,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -269,14 +272,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'User Name : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.username,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -293,14 +296,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Heath-Org : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.organization,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -317,14 +320,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Patient : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.nameofpatient,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -341,14 +344,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Gender: ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.genderChoice,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -365,14 +368,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Age : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.age,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -389,14 +392,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Phone No: ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.phoneNumber,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -413,14 +416,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Doctor Name: ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.doctorName,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -437,14 +440,14 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Appointment Date : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
                           text: model.dayselected,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -461,7 +464,7 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Time : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
@@ -469,7 +472,7 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           // text: model.docNo,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -486,7 +489,7 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           text: 'Doctor Fee : ',
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w700,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.black
                                   : Colors.white)),
                       TextSpan(
@@ -494,7 +497,7 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                           // text: model.docNo,
                           style: GoogleFonts.comfortaa(
                               fontWeight: FontWeight.w600,
-                              color: model.adminApproval
+                              color: model.virtualAppoint
                                   ? Colors.blue[800]
                                   : Colors.orange[200])),
                     ],
@@ -503,63 +506,149 @@ class _AppointmentadminState extends State<Appointmentadmin> {
                 SizedBox(
                   height: height * 0.01,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          model.adminApproval = !model.adminApproval;
-                          CovidCheckApp.firestore
-                              .collection(CovidCheckApp.collectionUser)
-                              .doc(model.userUid)
-                              .collection(CovidCheckApp.appointmentcollection)
-                              .doc(model.refaranceID + model.nameofpatient)
-                              .update({"adminApproval": model.adminApproval});
-                          CovidCheckApp.firestore
-                              .collection("apppointment")
-                              .doc(model.userUid + model.refaranceID)
-                              .update({"adminApproval": model.adminApproval});
-                          CovidCheckApp.firestore
-                              .collection("virtualAppointment")
-                              .doc(model.userUid + model.refaranceID)
-                              .update({"adminApproval": model.adminApproval});
-                          print(model.adminApproval);
-                        });
-                      },
-                      child: Container(
-                          height: height * 0.06,
-                          width: width * 0.43,
-                          child: Material(
-                              borderRadius: BorderRadius.circular(5.0),
-                              color: model.adminApproval
-                                  ? Colors.lightGreen
-                                  : Colors.red,
-                              elevation: 0.0,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      model.adminApproval
-                                          ? "Not Visited"
-                                          : "Visited",
-                                      style: GoogleFonts.comfortaa(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w600)),
-                                  SizedBox(
-                                    width: width * 0.02,
-                                  ),
-                                  Icon(
-                                    model.adminApproval
-                                        ? FontAwesomeIcons.userCheck
-                                        : FontAwesomeIcons.user,
-                                    size: 18.0,
-                                  ),
-                                ],
-                              ))),
-                    )
-                  ],
-                )
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(fontSize: 16.0),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'Pay for Virtual Appointment : ',
+                          style: GoogleFonts.comfortaa(
+                              fontWeight: FontWeight.w700,
+                              color: model.virtualAppoint
+                                  ? Colors.black
+                                  : Colors.white)),
+                      TextSpan(
+                          text: model.payvirtualAppoint.toString(),
+                          style: GoogleFonts.comfortaa(
+                              fontWeight: FontWeight.w600,
+                              color: model.virtualAppoint
+                                  ? Colors.blue[800]
+                                  : Colors.greenAccent)),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: height * 0.01,
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(fontSize: 16.0),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'Virtual Appointment Approval: ',
+                          style: GoogleFonts.comfortaa(
+                              fontWeight: FontWeight.w700,
+                              color: model.virtualAppoint
+                                  ? Colors.black
+                                  : Colors.white)),
+                      TextSpan(
+                          text: model.virtualAppoint.toString(),
+                          style: GoogleFonts.comfortaa(
+                              fontWeight: FontWeight.w600,
+                              color: model.virtualAppoint
+                                  ? Colors.blue[800]
+                                  : Colors.orange[200])),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: height * 0.01,
+                ),
+                model.adminApproval
+                    ? Text(
+                        "Appointment Completed",
+                        style: GoogleFonts.comfortaa(
+                            color: model.virtualAppoint
+                                ? Colors.deepPurple
+                                : Color(0xffeeff00),
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w600),
+                      ).centered()
+                    : Row(
+                        mainAxisAlignment: model.virtualAppoint
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  model.virtualAppoint = !model.virtualAppoint;
+                                  CovidCheckApp.firestore
+                                      .collection(CovidCheckApp.collectionUser)
+                                      .doc(model.userUid)
+                                      .collection(
+                                          CovidCheckApp.appointmentcollection)
+                                      .doc(model.refaranceID +
+                                          model.nameofpatient)
+                                      .update({
+                                    "virtualAppoint": model.virtualAppoint
+                                  });
+                                  CovidCheckApp.firestore
+                                      .collection("apppointment")
+                                      .doc(model.userUid + model.refaranceID)
+                                      .update({
+                                    "virtualAppoint": model.virtualAppoint
+                                  });
+                                  CovidCheckApp.firestore
+                                      .collection("virtualAppointment")
+                                      .doc(model.userUid + model.refaranceID)
+                                      .update({
+                                    "virtualAppoint": model.virtualAppoint
+                                  });
+                                  print(model.virtualAppoint);
+                                });
+                              },
+                              child: Container(
+                                  height: height * 0.06,
+                                  width: width * 0.50,
+                                  child: Material(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      color: model.virtualAppoint
+                                          ? Colors.lightGreen
+                                          : Colors.red,
+                                      elevation: 0.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text("Approved Call",
+                                              style: GoogleFonts.comfortaa(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600)),
+                                          SizedBox(
+                                            width: width * 0.02,
+                                          ),
+                                          Icon(
+                                            model.virtualAppoint
+                                                ? FontAwesomeIcons.userCheck
+                                                : FontAwesomeIcons.user,
+                                            size: 18.0,
+                                          ),
+                                        ],
+                                      )))),
+                          if (model.virtualAppoint)
+                            GestureDetector(
+                                onTap: () {
+                                  Get.to(IndexPage(
+                                    doctorName: model.doctorName,
+                                  ));
+                                },
+                                child: Container(
+                                    height: height * 0.04,
+                                    width: width * 0.25,
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      color: Colors.blue,
+                                      elevation: 0.0,
+                                      child: Center(
+                                        child: Text("Join",
+                                            style: GoogleFonts.comfortaa(
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w600)),
+                                      ),
+                                    )))
+                        ],
+                      )
               ]),
             ).centered()));
   }

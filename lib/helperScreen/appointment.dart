@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/models/appointmentModel.dart';
 import 'package:covidcheck/services/ser.dart';
+import 'package:covidcheck/videocall/pages/index.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ class AppointmentBooking extends StatefulWidget {
 }
 
 class _AppointmentBookingState extends State<AppointmentBooking> {
+  bool payVirtualAppoint = false;
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -93,7 +95,7 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               padding: const EdgeInsets.all(10.0),
-              height: model.adminApproval ? height * 0.33 : height * 0.38,
+              height: model.adminApproval ? height * 0.33 : height * 0.40,
               width: width * 0.95,
               decoration: BoxDecoration(
                   color: model.adminApproval
@@ -279,7 +281,7 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                                     fontWeight: FontWeight.w700,
                                     color: Colors.white)),
                             TextSpan(
-                                text: model.doctorFee,
+                                text: "₹ " + model.doctorFee,
                                 style: GoogleFonts.comfortaa(
                                     fontWeight: FontWeight.w600,
                                     color: Colors.orange[200])),
@@ -296,6 +298,7 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                                 color: Colors.blueGrey[800]),
                             child: Text("Check Up Complete",
                                     style: GoogleFonts.comfortaa(
+                                        fontSize: 12.0,
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xff5dfc00)))
                                 .centered(),
@@ -308,6 +311,7 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                                 color: Colors.blueGrey[300]),
                             child: Text("Check Up Not Complete",
                                     style: GoogleFonts.comfortaa(
+                                        fontSize: 12.0,
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xfffc0000)))
                                 .centered(),
@@ -447,18 +451,276 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              //model.approve
-                              // ?
-                              // Get.to(
-                              //     VaccinationCertificate(vaccineModel: model))
-                              //:
-                              VxToast.show(context,
-                                  msg:
-                                      "Your vaccination process is not Complete !! After Complete your Vaccination process you can get Approval Certificate",
-                                  position: VxToastPosition.center,
-                                  bgColor: Colors.red[400],
-                                  showTime: 9000,
-                                  textColor: Colors.white);
+                              showDialog(
+                                  context: context,
+                                  builder: (c) {
+                                    return AlertDialog(
+                                      backgroundColor: Colors.blueGrey[700],
+                                      contentPadding: EdgeInsets.all(8.0),
+                                      content: Container(
+                                          height: height * 0.25,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              model.payvirtualAppoint
+                                                  ? model.virtualAppoint
+                                                      ? Container(
+                                                          height: height * 0.10,
+                                                          width: width * 0.48,
+                                                          child: Text(
+                                                            "Approval Complete join Covidcheck Agora Video Call",
+                                                            style: GoogleFonts
+                                                                .comfortaa(
+                                                                    fontSize:
+                                                                        17.0),
+                                                          ),
+                                                        ).centered()
+                                                      : Container(
+                                                          height: height * 0.10,
+                                                          width: width * 0.48,
+                                                          child: Text(
+                                                            "Wait For Admin Approval and try between ${model.daySchedule} on ${model.dayselected}",
+                                                            style: GoogleFonts
+                                                                .comfortaa(
+                                                                    fontSize:
+                                                                        17.0),
+                                                          ),
+                                                        ).centered()
+                                                  : Container(
+                                                      height: height * 0.10,
+                                                      width: width * 0.48,
+                                                      child: Text(
+                                                        "If you want virtual Appointment So you just pay ₹ ${model.doctorFee} For Doctor Fee",
+                                                        style: GoogleFonts
+                                                            .comfortaa(
+                                                                fontSize: 17.0),
+                                                      ),
+                                                    ).centered(),
+                                              SizedBox(
+                                                height: height * 0.02,
+                                              ),
+                                              model.payvirtualAppoint
+                                                  ? model.virtualAppoint
+                                                      ? GestureDetector(
+                                                          onTap: () {
+                                                            Get.to(IndexPage(
+                                                              doctorName: model
+                                                                  .doctorName,
+                                                            ));
+                                                            // Navigator.pop(
+                                                            //     context);
+                                                          },
+                                                          child: Container(
+                                                              height:
+                                                                  height * 0.06,
+                                                              width:
+                                                                  width * 0.31,
+                                                              child: Material(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                  color: Color(
+                                                                      0xff0d98de),
+                                                                  elevation:
+                                                                      0.0,
+                                                                  child: Center(
+                                                                      child: Text(
+                                                                          'join',
+                                                                          style: GoogleFonts.comfortaa(
+                                                                              color: Colors.white,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 18.0))))),
+                                                        )
+                                                      : Container(
+                                                          height: height * 0.06,
+                                                          width: width * 0.31,
+                                                          child: Material(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5.0),
+                                                              color: Color(
+                                                                  0xffd43f00),
+                                                              elevation: 0.0,
+                                                              child: Center(
+                                                                  child: Text(
+                                                                      'Waiting.....',
+                                                                      style: GoogleFonts.comfortaa(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          fontSize:
+                                                                              18.0)))))
+                                                  : Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Container(
+                                                              height:
+                                                                  height * 0.06,
+                                                              width:
+                                                                  width * 0.31,
+                                                              child: Material(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                  color: Color(
+                                                                      0xFF7228c7),
+                                                                  elevation:
+                                                                      0.0,
+                                                                  child: Center(
+                                                                      child: Text(
+                                                                          'No',
+                                                                          style: GoogleFonts.comfortaa(
+                                                                              color: Colors.white,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 18.0))))),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              model.payvirtualAppoint =
+                                                                  !model
+                                                                      .payvirtualAppoint;
+                                                              CovidCheckApp
+                                                                  .firestore
+                                                                  .collection(
+                                                                      CovidCheckApp
+                                                                          .collectionUser)
+                                                                  .doc(model
+                                                                      .userUid)
+                                                                  .collection(
+                                                                      CovidCheckApp
+                                                                          .appointmentcollection)
+                                                                  .doc(model
+                                                                          .refaranceID +
+                                                                      model
+                                                                          .nameofpatient)
+                                                                  .update({
+                                                                "payvirtualAppoint":
+                                                                    model
+                                                                        .payvirtualAppoint
+                                                              });
+                                                              CovidCheckApp
+                                                                  .firestore
+                                                                  .collection(
+                                                                      "apppointment")
+                                                                  .doc(model
+                                                                          .userUid +
+                                                                      model
+                                                                          .refaranceID)
+                                                                  .update({
+                                                                "payvirtualAppoint":
+                                                                    model
+                                                                        .payvirtualAppoint
+                                                              });
+                                                              CovidCheckApp
+                                                                  .firestore
+                                                                  .collection(
+                                                                      "virtualAppointment")
+                                                                  .doc(model
+                                                                          .userUid +
+                                                                      model
+                                                                          .refaranceID)
+                                                                  .set({
+                                                                "doctorAppointCentre":
+                                                                    model
+                                                                        .organization,
+                                                                "phone_number":
+                                                                    model
+                                                                        .phoneNumber,
+                                                                "userUI": CovidCheckApp
+                                                                    .sharedPreferences
+                                                                    .getString(
+                                                                        CovidCheckApp
+                                                                            .userUID),
+                                                                "username": CovidCheckApp
+                                                                    .sharedPreferences
+                                                                    .getString(
+                                                                        CovidCheckApp
+                                                                            .userName),
+                                                                "useremail": CovidCheckApp
+                                                                    .sharedPreferences
+                                                                    .getString(
+                                                                        CovidCheckApp
+                                                                            .userEmail),
+                                                                "name": model
+                                                                    .nameofpatient,
+                                                                "age":
+                                                                    model.age,
+                                                                "seasonChoice":
+                                                                    model
+                                                                        .daySchedule,
+                                                                "gender": model
+                                                                    .genderChoice,
+                                                                "dateSelection":
+                                                                    model
+                                                                        .dayselected,
+                                                                "doctorName": model
+                                                                    .doctorName,
+                                                                "doctorFee": model
+                                                                    .doctorFee,
+                                                                "submit_time": model
+                                                                    .refaranceID,
+                                                                "docnumber": model
+                                                                    .docnumber,
+                                                                "adminApproval":
+                                                                    model
+                                                                        .adminApproval,
+                                                                "virtualAppoint":
+                                                                    model
+                                                                        .virtualAppoint,
+                                                                "payvirtualAppoint":
+                                                                    model
+                                                                        .payvirtualAppoint
+                                                              });
+                                                              Navigator.pop(
+                                                                  context);
+                                                              print(model
+                                                                  .payvirtualAppoint);
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                              height:
+                                                                  height * 0.06,
+                                                              width:
+                                                                  width * 0.31,
+                                                              child: Material(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                  color: Color(
+                                                                      0xff0d98de),
+                                                                  elevation:
+                                                                      0.0,
+                                                                  child: Center(
+                                                                      child: Text(
+                                                                          'Pay',
+                                                                          style: GoogleFonts.comfortaa(
+                                                                              color: Colors.white,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 18.0))))),
+                                                        ),
+                                                      ],
+                                                    )
+                                            ],
+                                          )),
+                                    );
+                                  });
                             },
                             child: Container(
                                 height: height * 0.06,
@@ -493,7 +755,7 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
                                           //ontAwesomeIcons.userCheck
                                           // :
                                           FontAwesomeIcons.user,
-                                          size: 18.0,
+                                          size: 12.0,
                                         ),
                                       ],
                                     ))),

@@ -66,6 +66,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   int viewingPatient;
   String daySchedule = "";
   bool appointmentApproval = false;
+  bool virtualAppoint = false;
+  bool payvirtualAppoint = false;
   String name, birthyear, phonenumber;
   DateTime dateTime = DateTime.now();
   String doctorid = DateTime.now().millisecondsSinceEpoch.toString();
@@ -1113,6 +1115,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       "submit_time": doctorid,
       "docnumber": widget.doctorDetails.docnumber,
       "adminApproval": appointmentApproval,
+      "virtualAppoint": virtualAppoint,
+      "payvirtualAppoint": payvirtualAppoint,
     });
 
     CovidCheckApp.firestore
@@ -1139,6 +1143,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       "submit_time": doctorid,
       "docnumber": widget.doctorDetails.docnumber,
       "adminApproval": appointmentApproval,
+      "virtualAppoint": virtualAppoint,
+      "payvirtualAppoint": payvirtualAppoint
     }).then((value) {
       return showDialog(
           context: context,

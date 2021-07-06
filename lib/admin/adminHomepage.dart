@@ -1,3 +1,4 @@
+import 'package:covidcheck/admin/ADvirtualAppoint.dart';
 import 'package:covidcheck/admin/Adminappointment.dart';
 import 'package:covidcheck/admin/organization.dart';
 import 'package:covidcheck/admin/vaccinationDetailsinAdmin.dart';
@@ -103,7 +104,26 @@ class AdminHome extends StatelessWidget {
               ),
             ],
           ),
-        ]),
+          SizedBox(
+            height: 20.0,
+          ),
+          InkWell(
+            onTap: () {
+              Get.to(VirtualAppointmentadmin());
+            },
+            child: Container(
+              height: height * 0.15,
+              width: width * .90,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(28),
+                  color: Color(0xFF18b581)),
+              child: "Virtual Appointment"
+                  .text
+                  .textStyle(GoogleFonts.raleway(fontSize: 20.0))
+                  .makeCentered(),
+            ).centered(),
+          ),
+        ]).scrollVertical(),
       ).p(10),
     );
   }

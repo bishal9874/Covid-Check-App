@@ -89,7 +89,7 @@ class _BloodBookingState extends State<BloodBooking> {
           padding: EdgeInsets.all(10.0),
           child: Container(
             padding: const EdgeInsets.all(10.0),
-            height: height * 0.30,
+            height: height * 0.35,
             width: width * 0.95,
             decoration: BoxDecoration(
                 color: Colors.blueGrey[700],

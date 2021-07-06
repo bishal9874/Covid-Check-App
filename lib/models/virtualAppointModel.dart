@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AppointModel {
+class VirtualAppointModel {
   String organization;
   String refaranceID;
   String dayselected;
@@ -18,7 +18,7 @@ class AppointModel {
   bool adminApproval;
   bool virtualAppoint;
   bool payvirtualAppoint;
-  AppointModel(
+  VirtualAppointModel(
       {this.organization,
       this.nameofpatient,
       this.refaranceID,
@@ -37,7 +37,7 @@ class AppointModel {
       this.virtualAppoint,
       this.payvirtualAppoint});
 
-  AppointModel.fromJson(Map<String, dynamic> json) {
+  VirtualAppointModel.fromJson(Map<String, dynamic> json) {
     organization = json['doctorAppointCentre'];
     refaranceID = json['submit_time'];
     username = json['username'];

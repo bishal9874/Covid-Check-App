@@ -406,8 +406,9 @@ class _SignupPageState extends State<SignupPage> {
         });
 
     String imageFileName = DateTime.now().millisecondsSinceEpoch.toString();
-    Reference reference = fstorage.ref().child(imageFileName);
-    UploadTask uploadTask = reference.putFile(_file);
+    Reference reference = fstorage.ref().child("profileiamge");
+    UploadTask uploadTask =
+        reference.child("${_nameController}_$imageFileName ").putFile(_file);
     TaskSnapshot taskSnapshot = await uploadTask;
     await taskSnapshot.ref.getDownloadURL().then((url) {
       userImageUrl = url;
