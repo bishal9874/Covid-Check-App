@@ -41,6 +41,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       return null;
   }
 
+  // ignore: unused_element
   _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,

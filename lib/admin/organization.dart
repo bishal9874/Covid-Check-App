@@ -3773,6 +3773,7 @@ class _OrganizationState extends State<Organization> {
     });
   }
 
+  // ignore: non_constant_identifier_names
   upload_data() async {
     String imageDownURl = await uploadImage();
     updateDetails(imageDownURl);
@@ -3828,7 +3829,7 @@ class _OrganizationState extends State<Organization> {
       "address": _organizationAddress.text.trim(),
       "city": _organizationcity.text.trim(),
       "district": _organizationDistrict.text.trim(),
-      "pin_number": int.parse(_organizationAddresspin.text.trim()),
+      "pin_number": _organizationAddresspin.text.trim(),
       "contact": int.parse(_organizationcontact.text.trim()),
       "email": _organizationemail.text.trim(),
       "thumbnailUrl": downloadUrl,

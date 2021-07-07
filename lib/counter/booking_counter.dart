@@ -9,6 +9,7 @@ class BookItemCounter extends ChangeNotifier {
   int get count => _counter;
 
   Future<void> displayResult() async {
+    // ignore: unused_local_variable
     int _counter = CovidCheckApp.sharedPreferences
             .getStringList(CovidCheckApp.userCartList)
             .length -

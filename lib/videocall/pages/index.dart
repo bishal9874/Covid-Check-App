@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
-import 'package:covidcheck/models/appointmentModel.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -37,7 +37,7 @@ class IndexState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    //var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: _buildAppBar(context),
       body: Container(

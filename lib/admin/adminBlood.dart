@@ -7,24 +7,19 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class BloodBooking extends StatefulWidget {
+class AdminBloodBooking extends StatefulWidget {
   @override
-  _BloodBookingState createState() => _BloodBookingState();
+  _AdminBloodBookingState createState() => _AdminBloodBookingState();
 }
 
-class _BloodBookingState extends State<BloodBooking> {
+class _AdminBloodBookingState extends State<AdminBloodBooking> {
   @override
   Widget build(BuildContext context) {
-    // var height = MediaQuery.of(context).size.height;
-    // var width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: _buildAppBar(context),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-              .collection(CovidCheckApp.collectionUser)
-              .doc(CovidCheckApp.sharedPreferences
-                  .getString(CovidCheckApp.userUID))
-              .collection(CovidCheckApp.bloodbankcollection)
+              .collection("BloodBank")
               .orderBy("publishDate", descending: true)
               .snapshots(),
           builder: (context, dataShot) {
@@ -89,7 +84,7 @@ class _BloodBookingState extends State<BloodBooking> {
           padding: EdgeInsets.all(10.0),
           child: Container(
             padding: const EdgeInsets.all(10.0),
-            height: model.adminApproval ? height * 0.30 : height * 0.35,
+            height: height * 0.54,
             width: width * 0.95,
             decoration: BoxDecoration(
                 color: Colors.blueGrey[700],
@@ -97,6 +92,131 @@ class _BloodBookingState extends State<BloodBooking> {
             child: VStack([
               // Text(model.useremail),
               // Text(model.username),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: height * 0.04,
+                    width: width * 0.65,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.blueGrey[800]),
+                    child: Text(model.nameofpatient,
+                            style: GoogleFonts.comfortaa(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xff5dfc00)))
+                        .centered(),
+                  ),
+                  model.adminApproval
+                      ? InkWell(
+                          onTap: () {
+                            CovidCheckApp.firestore
+                                .collection("virtualAppointment")
+                                .doc(model.userUid +
+                                    model.aadherNumber.toString())
+                                .delete()
+                                .then((value) => VxToast.show(
+                                      context,
+                                      msg:
+                                          "Patient ${model.nameofpatient}  ${model.bloodChoice} blood will received and deleted from the database",
+                                      showTime: 4000,
+                                      bgColor: Colors.redAccent,
+                                      textColor: Colors.white,
+                                      position: VxToastPosition.bottom,
+                                    ));
+                          },
+                          child: Container(
+                            height: height * 0.04,
+                            width: width * 0.20,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.red),
+                            child: Text("Delete",
+                                    style: GoogleFonts.comfortaa(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white))
+                                .centered(),
+                          ),
+                        )
+                      : Container(
+                          height: height * 0.04,
+                          width: width * 0.20,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: Text("Delete",
+                                  style: GoogleFonts.comfortaa(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white))
+                              .centered(),
+                        )
+                ],
+              ),
+              SizedBox(
+                height: height * 0.01,
+              ),
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 16.0),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'User UI : ',
+                        style: GoogleFonts.comfortaa(
+                            fontWeight: FontWeight.w700, color: Colors.white)),
+                    TextSpan(
+                        text: model.userUid,
+                        style: GoogleFonts.comfortaa(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.orange[200])),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: height * 0.01,
+              ),
+
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 16.0),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'User Email: ',
+                        style: GoogleFonts.comfortaa(
+                            fontWeight: FontWeight.w700, color: Colors.white)),
+                    TextSpan(
+                        text: model.useremail,
+                        style: GoogleFonts.comfortaa(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.orange[200])),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: height * 0.01,
+              ),
+
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 16.0),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'User Name : ',
+                        style: GoogleFonts.comfortaa(
+                            fontWeight: FontWeight.w700, color: Colors.white)),
+                    TextSpan(
+                        text: model.username,
+                        style: GoogleFonts.comfortaa(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.orange[200])),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: height * 0.01,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -294,125 +414,58 @@ class _BloodBookingState extends State<BloodBooking> {
               SizedBox(
                 height: height * 0.01,
               ),
-              model.adminApproval
-                  ? SizedBox(height: height * 0.01)
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () => showDialog(
-                              context: context,
-                              builder: (c) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.blueGrey[700],
-                                  contentPadding: EdgeInsets.all(8.0),
-                                  content: Container(
-                                      height: height * 0.25,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            height: height * 0.10,
-                                            width: width * 0.45,
-                                            child: Text(
-                                              "Are Your Sure !! You want to cancel your ${model.bloodChoice} group BloodBooking",
-                                              style: GoogleFonts.comfortaa(
-                                                  fontSize: 17.0),
-                                            ),
-                                          ).centered(),
-                                          SizedBox(
-                                            height: height * 0.03,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Container(
-                                                    height: height * 0.06,
-                                                    width: width * 0.31,
-                                                    child: Material(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5.0),
-                                                        color:
-                                                            Color(0xFF2877ed),
-                                                        elevation: 0.0,
-                                                        child: Center(
-                                                            child: Text('No',
-                                                                style: GoogleFonts.comfortaa(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        18.0))))),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  removecart(model.aadherNumber
-                                                      .toString());
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Container(
-                                                    height: height * 0.06,
-                                                    width: width * 0.31,
-                                                    child: Material(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5.0),
-                                                        color: Colors.red,
-                                                        elevation: 0.0,
-                                                        child: Center(
-                                                            child: Text('Yes',
-                                                                style: GoogleFonts.comfortaa(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        18.0))))),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      )),
-                                );
-                              }),
-                          child: Container(
-                              height: height * 0.06,
-                              width: width * 0.43,
-                              child: Material(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.red,
-                                  elevation: 0.0,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Cancel",
-                                          style: GoogleFonts.comfortaa(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w600)),
-                                      SizedBox(
-                                        width: width * 0.02,
-                                      ),
-                                      Icon(
-                                        FontAwesomeIcons.trashAlt,
-                                        size: 18.0,
-                                      ),
-                                    ],
-                                  ))),
-                        ),
-                      ],
-                    )
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        model.adminApproval = !model.adminApproval;
+                        CovidCheckApp.firestore
+                            .collection(CovidCheckApp.collectionUser)
+                            .doc(model.userUid)
+                            .collection(CovidCheckApp.bloodbankcollection)
+                            .doc(model.userUid + model.aadherNumber.toString())
+                            .update({"adminapproval": model.adminApproval});
+                        CovidCheckApp.firestore
+                            .collection("BloodBank")
+                            .doc(model.userUid + model.aadherNumber.toString())
+                            .update({"adminapproval": model.adminApproval});
+                      });
+                    },
+                    child: Container(
+                        height: height * 0.06,
+                        width: width * 0.43,
+                        child: Material(
+                            borderRadius: BorderRadius.circular(5.0),
+                            color:
+                                model.adminApproval ? Colors.green : Colors.red,
+                            elevation: 0.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                    model.adminApproval
+                                        ? "Approved"
+                                        : "Approve",
+                                    style: GoogleFonts.comfortaa(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w600)),
+                                SizedBox(
+                                  width: width * 0.02,
+                                ),
+                                Icon(
+                                  model.adminApproval
+                                      ? FontAwesomeIcons.userCheck
+                                      : FontAwesomeIcons.user,
+                                  size: 18.0,
+                                ),
+                              ],
+                            ))),
+                  ),
+                ],
+              )
             ]),
 
             //   IconButton(
@@ -423,28 +476,5 @@ class _BloodBookingState extends State<BloodBooking> {
             // ]),
           ).centered(),
         ));
-  }
-
-  removecart(String mod) {
-    CovidCheckApp.firestore
-        .collection(CovidCheckApp.collectionUser)
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
-        .collection(CovidCheckApp.bloodbankcollection)
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
-            mod)
-        .delete()
-        .then((value) {
-      VxToast.show(
-        context,
-        msg: "Your Blood Booking Cancel Successfully",
-        showTime: 6000,
-        position: VxToastPosition.bottom,
-      );
-    });
-    CovidCheckApp.firestore
-        .collection("BloodBank")
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
-            mod)
-        .delete();
   }
 }

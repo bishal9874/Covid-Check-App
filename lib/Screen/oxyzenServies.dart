@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:covidcheck/models/orgServiecs.dart';
+import 'package:covidcheck/services/ser.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// ignore: must_be_immutable
 class OxygenServices extends StatefulWidget {
   OrgModel oxygen;
   OxygenServices({Key key, this.oxygen}) : super(key: key);
@@ -22,21 +25,35 @@ class _OxygenServicesState extends State<OxygenServices> {
   final formKey = new GlobalKey<FormState>();
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _addressController = new TextEditingController();
-  final TextEditingController _districtController = new TextEditingController();
-  final TextEditingController _cityController = new TextEditingController();
+
   final TextEditingController _pinController = new TextEditingController();
   final TextEditingController _phonenumberController =
       new TextEditingController();
   final TextEditingController _reasonsController = new TextEditingController();
-
+  bool adminApproval = false;
   String literOrMlChoice = "";
   String rentOrbuyChoice = "";
   String address, name, reason, phonenumber, pin, city, district;
-
+  String imageUrl = "";
+  File _file;
   DateTime birthDate = DateTime.now();
   DateTime dateTime = DateTime.now();
-  String bedbookingID = DateTime.now().millisecondsSinceEpoch.toString();
-  File _file;
+  String oxygenID = DateTime.now().millisecondsSinceEpoch.toString();
+
+  Future<Null> selectTimePicker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: dateTime,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != dateTime) {
+      setState(() {
+        dateTime = picked;
+        print(dateTime.toString());
+      });
+    }
+  }
+
   checkFields() {
     final form = formKey.currentState;
     if (form.validate()) {
@@ -54,8 +71,8 @@ class _OxygenServicesState extends State<OxygenServices> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    // var height = MediaQuery.of(context).size.height;
+    // var width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: _buildAppBar(context),
         body: Form(key: formKey, child: VStack([_buildCoursePanel(context)])));
@@ -226,140 +243,17 @@ class _OxygenServicesState extends State<OxygenServices> {
                 SizedBox(
                   height: height * 0.01,
                 ),
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     TextFormField(
-                //         controller: _addressController,
-                //         decoration: InputDecoration(
-                //           filled: true,
-                //           fillColor: Colors.blue[80],
-                //           hintText: "Area Name",
-                //           hintStyle: GoogleFonts.comfortaa(),
-                //           errorBorder: OutlineInputBorder(
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(10)),
-                //               borderSide:
-                //                   BorderSide(width: 1, color: Colors.red)),
-                //           focusedErrorBorder: OutlineInputBorder(
-                //             borderRadius: BorderRadius.all(Radius.circular(10)),
-                //           ),
-                //           border: OutlineInputBorder(
-                //             borderSide: BorderSide(color: Colors.white),
-                //             borderRadius: const BorderRadius.all(
-                //               const Radius.circular(10.0),
-                //             ),
-                //           ),
-                //         ),
-                //         onChanged: (value) {
-                //           this.address = value;
-                //         },
-                //         validator: (value) =>
-                //             value.isEmpty ? 'Address is required' : null),
-                //     SizedBox(
-                //       height: height * 0.01,
-                //     ),
-                //     TextFormField(
-                //         controller: _phonenumberController,
-                //         decoration: InputDecoration(
-                //           filled: true,
-                //           fillColor: Colors.blue[80],
-                //           hintText: "District",
-                //           hintStyle: GoogleFonts.comfortaa(),
-                //           errorBorder: OutlineInputBorder(
-                //               borderRadius:
-                //                   BorderRadius.all(Radius.circular(10)),
-                //               borderSide:
-                //                   BorderSide(width: 1, color: Colors.red)),
-                //           focusedErrorBorder: OutlineInputBorder(
-                //             borderRadius: BorderRadius.all(Radius.circular(10)),
-                //           ),
-                //           border: OutlineInputBorder(
-                //             borderSide: BorderSide(color: Colors.white),
-                //             borderRadius: const BorderRadius.all(
-                //               const Radius.circular(10.0),
-                //             ),
-                //           ),
-                //         ),
-                //         keyboardType: TextInputType.number,
-                //         inputFormatters: <TextInputFormatter>[
-                //           FilteringTextInputFormatter.digitsOnly
-                //         ],
-                //         onChanged: (value) {
-                //           this.district = value;
-                //         },
-                //         validator: (value) {
-                //           if (value.isEmpty) {
-                //             return "Address Required";
-                //           }
-                //           return null;
-                //         }),
-                //   ],
-                // ),
-                // Text("Select Vaccine",
-                //         style: GoogleFonts.comfortaa(
-                //             fontSize: 15.0, fontWeight: FontWeight.w700))
-                //     .p1(),
-                // Container(
-                //   child: Wrap(
-                //     spacing: 8.0,
-                //     children: <Widget>[
-                //       _buildChoiceList(widget.vaccine.vaccine1),
-                //       _buildChoiceList(widget.vaccine.vaccine2),
-                //       _buildChoiceList(widget.vaccine.vaccine3),
-                //     ],
-                //   ),
-                // ),
-
-                ///
-                ///
-                ///
-                ///
-                ///
-
-////
-                ///
-                ///
-                ///
-                ///
-                ///
-                ///
-                // SizedBox(
-                //   height: 15.0,
-                // ),
-                // Text("Under Age",
-                //         style: GoogleFonts.comfortaa(
-                //             fontSize: 13.0, fontWeight: FontWeight.w700))
-                //     .p1(),
-                // Container(
-                //   child: Wrap(
-                //     spacing: 8.0,
-                //     children: <Widget>[
-                //       _ageChoiceList("18+"),
-                //       _ageChoiceList("45+"),
-                //     ],
-                //   ),
-                // ),
-                // if (widget.vaccine.vaccine1day1available != 0)
-                //   Text(widget.vaccine.vaccine1day1available.toString())
-                // else
-                //   Text("out of stock"),
                 SizedBox(
                   height: 15.0,
                 ),
-
                 Text("Select Varient",
                         style: GoogleFonts.comfortaa(
                             fontSize: 13.0, fontWeight: FontWeight.w700))
                     .p1(),
-                // SizedBox(
-                //   height: height * 0.01,
-                // ),
                 HStack([
                   _rentOrBuyChoiceList("Rent"),
                   _rentOrBuyChoiceList("Buy"),
                 ]),
-
                 SizedBox(
                   height: height * 0.01,
                 ),
@@ -377,40 +271,39 @@ class _OxygenServicesState extends State<OxygenServices> {
                     _mlOrliterChoiceList("10 lt"),
                   ],
                 ).scrollHorizontal(),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     // GestureDetector(
-                //     //     onTap: () => selectTimePicker(context),
-                //     //     child: Container(
-                //     //         height: height * 0.05,
-                //     //         width: width * 0.25,
-                //     //         child: Material(
-                //     //             borderRadius: BorderRadius.circular(12.0),
-                //     //             color: Color(0xFF2877ed),
-                //     //             elevation: 0.0,
-                //     //             child: Center(
-                //     //               child: Text(
-                //     //                   dateTime.day.toString() +
-                //     //                       '/' +
-                //     //                       dateTime.month.toString() +
-                //     //                       '/' +
-                //     //                       dateTime.year.toString(),
-                //     //                   style: GoogleFonts.comfortaa(
-                //     //                       color: Colors.white,
-                //     //                       fontWeight: FontWeight.w600,
-                //     //                       fontSize: 15.0)),
-                //     //             )))),
-                //     Container(
-                //       child: Wrap(
-                //         spacing: 8.0,
-                //         children: <Widget>[
-
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
+                Text("Select Schedule",
+                        style: GoogleFonts.comfortaa(
+                            fontSize: 15.0, fontWeight: FontWeight.w700))
+                    .p1(),
+                SizedBox(
+                  height: height * 0.01,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                        onTap: () => selectTimePicker(context),
+                        child: Container(
+                            height: height * 0.05,
+                            width: width * 0.25,
+                            child: Material(
+                                borderRadius: BorderRadius.circular(12.0),
+                                color: Color(0xFF2877ed),
+                                elevation: 0.0,
+                                child: Center(
+                                  child: Text(
+                                      dateTime.day.toString() +
+                                          '/' +
+                                          dateTime.month.toString() +
+                                          '/' +
+                                          dateTime.year.toString(),
+                                      style: GoogleFonts.comfortaa(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15.0)),
+                                )))),
+                  ],
+                ),
                 SizedBox(
                   height: height * 0.03,
                 ),
@@ -426,12 +319,23 @@ class _OxygenServicesState extends State<OxygenServices> {
                                         return AlertDialog(
                                           contentPadding: EdgeInsets.all(8.0),
                                           content: Container(
-                                              height: height * 0.50,
+                                              height: height * 0.40,
                                               width: width * 0.80,
                                               child: Column(
-                                                // mainAxisAlignment:
-                                                //     MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 children: [
+                                                  Text("Add Address",
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                              color:
+                                                                  Colors.orange,
+                                                              fontSize: 19.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700)),
+
                                                   TextFormField(
                                                       controller:
                                                           _addressController,
@@ -483,116 +387,7 @@ class _OxygenServicesState extends State<OxygenServices> {
                                                               .isEmpty
                                                           ? 'Address is required'
                                                           : null),
-                                                  SizedBox(
-                                                    height: height * 0.01,
-                                                  ),
-                                                  TextFormField(
-                                                      controller:
-                                                          _cityController,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        filled: true,
-                                                        fillColor:
-                                                            Colors.blue[80],
-                                                        hintText: "City Name",
-                                                        hintStyle: GoogleFonts
-                                                            .comfortaa(),
-                                                        errorBorder: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            10)),
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    width: 1,
-                                                                    color: Colors
-                                                                        .red)),
-                                                        focusedErrorBorder:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10)),
-                                                        ),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .white),
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                  .all(
-                                                            const Radius
-                                                                .circular(10.0),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      onChanged: (value) {
-                                                        this.city = value;
-                                                      },
-                                                      validator: (value) => value
-                                                              .isEmpty
-                                                          ? 'Field is required'
-                                                          : null),
-                                                  SizedBox(
-                                                    height: height * 0.01,
-                                                  ),
-                                                  TextFormField(
-                                                      controller:
-                                                          _districtController,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        filled: true,
-                                                        fillColor:
-                                                            Colors.blue[80],
-                                                        hintText: "District",
-                                                        hintStyle: GoogleFonts
-                                                            .comfortaa(),
-                                                        errorBorder: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            10)),
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    width: 1,
-                                                                    color: Colors
-                                                                        .red)),
-                                                        focusedErrorBorder:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10)),
-                                                        ),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .white),
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                  .all(
-                                                            const Radius
-                                                                .circular(10.0),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      onChanged: (value) {
-                                                        this.district = value;
-                                                      },
-                                                      validator: (value) {
-                                                        if (value.isEmpty) {
-                                                          return "District Required";
-                                                        }
-                                                        return null;
-                                                      }),
+
                                                   TextFormField(
                                                       controller:
                                                           _pinController,
@@ -653,32 +448,33 @@ class _OxygenServicesState extends State<OxygenServices> {
                                                         }
                                                         return null;
                                                       }),
+                                                  // SizedBox(
+                                                  //     height: height * 0.01),
                                                   Text(
                                                       "You Just Pay ₹ ${widget.oxygen.minimumoygenprice} for Oxyzen Services"),
                                                   SizedBox(
-                                                    height: height * 0.05,
+                                                    height: height * 0.01,
                                                   ),
                                                   GestureDetector(
                                                     onTap: () {
-                                                      if (checkFields())
-                                                        VxToast.show(context,
-                                                            msg: "hello Fucker",
-                                                            position:
-                                                                VxToastPosition
-                                                                    .bottom,
-                                                            bgColor:
-                                                                Colors.red[400],
-                                                            showTime: 5000,
-                                                            textColor:
-                                                                Colors.white);
-
-                                                      // checkvaccineBookCart(
-                                                      //     widget.vaccine.docnumber,
-                                                      //     _aadharNumberController.text
-                                                      //         .trim(),
-                                                      //     context,
-                                                      //     widget.vaccine.organization);
-                                                      // //sendSms();
+                                                      (_addressController ==
+                                                                  null &&
+                                                              _pinController ==
+                                                                  null)
+                                                          ? VxToast.show(
+                                                              context,
+                                                              msg:
+                                                                  "Field's are empty",
+                                                              position:
+                                                                  VxToastPosition
+                                                                      .bottom,
+                                                              bgColor: Colors
+                                                                  .red[400],
+                                                              showTime: 5000,
+                                                              textColor:
+                                                                  Colors.white)
+                                                          : uploadData();
+                                                      Navigator.pop(context);
                                                     },
                                                     child: Container(
                                                         height: height * 0.06,
@@ -791,5 +587,147 @@ class _OxygenServicesState extends State<OxygenServices> {
         },
       ),
     );
+  }
+
+  uploadData() async {
+    String imageDownURl = await uploadImage();
+    update(imageDownURl);
+  }
+
+  Future<String> uploadImage() async {
+    final Reference ref = FirebaseStorage.instance.ref().child("OxygenService");
+    UploadTask uploadTask =
+        ref.child("OxygenService$oxygenID.jpg").putFile(_file);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    imageUrl = await taskSnapshot.ref.getDownloadURL();
+    return imageUrl;
+  }
+
+  update(String downloadUrl) {
+    CovidCheckApp.firestore
+        .collection("oxygen")
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
+            oxygenID)
+        .set({
+      "oxygenCentre": widget.oxygen.organization,
+      "phone_number": _phonenumberController.text.trim(),
+      "userUI":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
+      "username":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
+      "useremail":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
+      "name": _nameController.text.trim(),
+      "Reason": _reasonsController.text.trim(),
+      "rentorbuy": rentOrbuyChoice,
+      "selectLt/ml": literOrMlChoice,
+      "submit_time": oxygenID,
+      "docnumber": widget.oxygen.docnumber,
+      "adminApproval": adminApproval,
+      "areaName": _addressController.text.trim(),
+      "pin": int.parse(_pinController.text.trim()),
+      "dateSelected": dateTime,
+      "verificationUrl": downloadUrl
+    });
+
+    CovidCheckApp.firestore
+        .collection(CovidCheckApp.collectionUser)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .collection(CovidCheckApp.oxygencollection)
+        .doc(oxygenID + _nameController.text.trim())
+        .set({
+      "oxygenCentre": widget.oxygen.organization,
+      "phone_number": _phonenumberController.text.trim(),
+      "userUI":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
+      "username":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
+      "useremail":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
+      "name": _nameController.text.trim(),
+      "Reason": _reasonsController.text.trim(),
+      "rentorbuy": rentOrbuyChoice,
+      "selectLt/ml": literOrMlChoice,
+      "submit_time": oxygenID,
+      "docnumber": widget.oxygen.docnumber,
+      "areaName": _addressController.text.trim(),
+      "pin": int.parse(_pinController.text.trim()),
+      "adminApproval": adminApproval,
+      "dateSelected": dateTime,
+      "verificationUrl": downloadUrl
+    }).then((value) {
+      return showDialog(
+          context: context,
+          builder: (c) {
+            Future.delayed(Duration(seconds: 5), () {
+              Navigator.of(context).pop(true);
+            });
+            return AlertDialog(
+                contentPadding: EdgeInsets.all(5.0),
+                content: Container(
+                  height: 100.0,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          backgroundColor: Colors.cyanAccent,
+                          valueColor:
+                              new AlwaysStoppedAnimation<Color>(Colors.red),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          "Oxygen cylinder Booking.........",
+                          style: GoogleFonts.comfortaa(),
+                        )
+                      ]),
+                ));
+          });
+    }).whenComplete(() => showDialog(
+            context: context,
+            builder: (c) {
+              Future.delayed(Duration(seconds: 12), () {
+                Navigator.of(context).pop(true);
+              });
+              return AlertDialog(
+                  backgroundColor: Color(0xffd0f2e7),
+                  contentPadding: EdgeInsets.all(10.0),
+                  content: Container(
+                    height: 120.0,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                          Text(
+                            "Your cylinder Booking Successfully Done!! Please Kindly Visit Our Hospital/Organization on your mentioned Date and Time Thank You",
+                            style: GoogleFonts.comfortaa(
+                                fontSize: 15.0, color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          LinearProgressIndicator(
+                            backgroundColor: Colors.cyanAccent,
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(Colors.red),
+                          ),
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                        ]),
+                  ));
+            }));
+    setState(() {
+      _file = null;
+      _nameController.clear();
+      _phonenumberController.clear();
+      _pinController.clear();
+      _reasonsController.clear();
+      rentOrbuyChoice = "";
+      literOrMlChoice = "";
+    });
   }
 }

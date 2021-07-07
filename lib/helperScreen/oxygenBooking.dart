@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidcheck/models/OxygenModels.dart';
 import 'package:covidcheck/models/bloodmodel.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +8,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class BloodBooking extends StatefulWidget {
+class OxygenBooking extends StatefulWidget {
   @override
-  _BloodBookingState createState() => _BloodBookingState();
+  _OxygenBookingState createState() => _OxygenBookingState();
 }
 
-class _BloodBookingState extends State<BloodBooking> {
+class _OxygenBookingState extends State<OxygenBooking> {
   @override
   Widget build(BuildContext context) {
-    // var height = MediaQuery.of(context).size.height;
-    // var width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: _buildAppBar(context),
         body: StreamBuilder<QuerySnapshot>(
@@ -24,8 +23,8 @@ class _BloodBookingState extends State<BloodBooking> {
               .collection(CovidCheckApp.collectionUser)
               .doc(CovidCheckApp.sharedPreferences
                   .getString(CovidCheckApp.userUID))
-              .collection(CovidCheckApp.bloodbankcollection)
-              .orderBy("publishDate", descending: true)
+              .collection(CovidCheckApp.oxygencollection)
+              .orderBy("submit_time", descending: true)
               .snapshots(),
           builder: (context, dataShot) {
             if (!dataShot.hasData) {
@@ -38,15 +37,15 @@ class _BloodBookingState extends State<BloodBooking> {
               if (dataShot.data.docs.length == 0) {
                 return Container(
                   child: Center(
-                    child: Text("Your Blood Booking is Empty"),
+                    child: Text("Your Oxygen Booking is Empty"),
                   ),
                 );
               } else {
                 return ListView.builder(
                   itemCount: dataShot.data.docs.length,
                   itemBuilder: (context, index) {
-                    BloodModel model =
-                        BloodModel.fromJson(dataShot.data.docs[index].data());
+                    OxygenModel model =
+                        OxygenModel.fromJson(dataShot.data.docs[index].data());
 
                     return bloodinfo(model, context);
                   },
@@ -70,7 +69,7 @@ class _BloodBookingState extends State<BloodBooking> {
                 Get.back();
               },
               icon: Icon(FontAwesomeIcons.chevronLeft)),
-          Text("Blood Booking", style: GoogleFonts.comfortaa(fontSize: 18.0)),
+          Text("Oxygen Booking", style: GoogleFonts.comfortaa(fontSize: 18.0)),
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
         ],
       ),
@@ -79,7 +78,7 @@ class _BloodBookingState extends State<BloodBooking> {
 
   beginbuildCart() {}
 
-  Widget bloodinfo(BloodModel model, BuildContext context,
+  Widget bloodinfo(OxygenModel model, BuildContext context,
       {Color background, removeCartFunction}) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -89,7 +88,7 @@ class _BloodBookingState extends State<BloodBooking> {
           padding: EdgeInsets.all(10.0),
           child: Container(
             padding: const EdgeInsets.all(10.0),
-            height: model.adminApproval ? height * 0.30 : height * 0.35,
+            height: model.adminApproval ? height * 0.40 : height * 0.45,
             width: width * 0.95,
             decoration: BoxDecoration(
                 color: Colors.blueGrey[700],
@@ -126,12 +125,12 @@ class _BloodBookingState extends State<BloodBooking> {
                         style: TextStyle(fontSize: 14.0),
                         children: <TextSpan>[
                           TextSpan(
-                              text: 'Patient : ',
+                              text: 'Booking Name : ',
                               style: GoogleFonts.comfortaa(
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white)),
                           TextSpan(
-                              text: model.nameofpatient,
+                              text: model.bookingName,
                               style: GoogleFonts.comfortaa(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.orange[200])),
@@ -146,12 +145,12 @@ class _BloodBookingState extends State<BloodBooking> {
                         style: TextStyle(fontSize: 14.0),
                         children: <TextSpan>[
                           TextSpan(
-                              text: 'Gender: ',
+                              text: 'Phone Number: ',
                               style: GoogleFonts.comfortaa(
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white)),
                           TextSpan(
-                              text: model.genderChoice,
+                              text: model.phonenumber,
                               style: GoogleFonts.comfortaa(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.orange[200])),
@@ -166,12 +165,12 @@ class _BloodBookingState extends State<BloodBooking> {
                         style: TextStyle(fontSize: 14.0),
                         children: <TextSpan>[
                           TextSpan(
-                              text: 'Phone Number : ',
+                              text: 'Reason : ',
                               style: GoogleFonts.comfortaa(
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white)),
                           TextSpan(
-                              text: model.phonenumber.toString(),
+                              text: model.reason,
                               style: GoogleFonts.comfortaa(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.orange[200])),
@@ -180,23 +179,6 @@ class _BloodBookingState extends State<BloodBooking> {
                     ),
                     SizedBox(
                       height: height * 0.01,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        style: TextStyle(fontSize: 14.0),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'Aadhar No: ',
-                              style: GoogleFonts.comfortaa(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white)),
-                          TextSpan(
-                              text: model.aadherNumber.toString(),
-                              style: GoogleFonts.comfortaa(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.orange[200])),
-                        ],
-                      ),
                     ),
                     SizedBox(
                       height: height * 0.01,
@@ -211,7 +193,11 @@ class _BloodBookingState extends State<BloodBooking> {
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white)),
                           TextSpan(
-                              text: model.dateTime.toDate().toString(),
+                              text: model.dateTime.toDate().day.toString() +
+                                  "-" +
+                                  model.dateTime.toDate().month.toString() +
+                                  "-" +
+                                  model.dateTime.toDate().year.toString(),
                               style: GoogleFonts.comfortaa(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.orange[200])),
@@ -226,12 +212,72 @@ class _BloodBookingState extends State<BloodBooking> {
                         style: TextStyle(fontSize: 14.0),
                         children: <TextSpan>[
                           TextSpan(
-                              text: 'Blood Group : ',
+                              text: 'Cylinder Type : ',
                               style: GoogleFonts.comfortaa(
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white)),
                           TextSpan(
-                              text: model.bloodChoice,
+                              text: model.rentOrbuy,
+                              style: GoogleFonts.comfortaa(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.orange[200])),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(fontSize: 14.0),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'Cylinder Weight: ',
+                              style: GoogleFonts.comfortaa(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white)),
+                          TextSpan(
+                              text: model.selectLtorMl,
+                              style: GoogleFonts.comfortaa(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.orange[200])),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(fontSize: 14.0),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'Area Name: ',
+                              style: GoogleFonts.comfortaa(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white)),
+                          TextSpan(
+                              text: model.areaname,
+                              style: GoogleFonts.comfortaa(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.orange[200])),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(fontSize: 14.0),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'Pincode: ',
+                              style: GoogleFonts.comfortaa(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white)),
+                          TextSpan(
+                              text: model.pinCode.toString(),
                               style: GoogleFonts.comfortaa(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.orange[200])),
@@ -269,25 +315,27 @@ class _BloodBookingState extends State<BloodBooking> {
                                 .centered(),
                           )
                   ]),
-                  VStack([
-                    Text("Prescription",
-                        style: GoogleFonts.comfortaa(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13.0,
-                            color: Colors.white)),
-                    SizedBox(
-                      height: height * .01,
-                    ),
-                    Container(
-                      height: height * 0.10,
-                      width: width * .20,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.0),
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(model.prescriptionProve))),
-                    ),
-                  ]).centered(),
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Verification Prove",
+                            style: GoogleFonts.comfortaa(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13.0,
+                                color: Colors.white)),
+                        SizedBox(
+                          height: height * .01,
+                        ),
+                        Container(
+                          height: height * 0.10,
+                          width: width * .15,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(model.verificationUrl))),
+                        ).centered(),
+                      ]),
                 ],
               ),
 
@@ -295,156 +343,143 @@ class _BloodBookingState extends State<BloodBooking> {
                 height: height * 0.01,
               ),
               model.adminApproval
-                  ? SizedBox(height: height * 0.01)
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () => showDialog(
-                              context: context,
-                              builder: (c) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.blueGrey[700],
-                                  contentPadding: EdgeInsets.all(8.0),
-                                  content: Container(
-                                      height: height * 0.25,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            height: height * 0.10,
-                                            width: width * 0.45,
-                                            child: Text(
-                                              "Are Your Sure !! You want to cancel your ${model.bloodChoice} group BloodBooking",
-                                              style: GoogleFonts.comfortaa(
-                                                  fontSize: 17.0),
-                                            ),
-                                          ).centered(),
-                                          SizedBox(
-                                            height: height * 0.03,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Container(
-                                                    height: height * 0.06,
-                                                    width: width * 0.31,
-                                                    child: Material(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5.0),
-                                                        color:
-                                                            Color(0xFF2877ed),
-                                                        elevation: 0.0,
-                                                        child: Center(
-                                                            child: Text('No',
-                                                                style: GoogleFonts.comfortaa(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        18.0))))),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  removecart(model.aadherNumber
-                                                      .toString());
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Container(
-                                                    height: height * 0.06,
-                                                    width: width * 0.31,
-                                                    child: Material(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5.0),
-                                                        color: Colors.red,
-                                                        elevation: 0.0,
-                                                        child: Center(
-                                                            child: Text('Yes',
-                                                                style: GoogleFonts.comfortaa(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        18.0))))),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      )),
-                                );
-                              }),
-                          child: Container(
-                              height: height * 0.06,
-                              width: width * 0.43,
-                              child: Material(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.red,
-                                  elevation: 0.0,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Cancel",
-                                          style: GoogleFonts.comfortaa(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w600)),
-                                      SizedBox(
-                                        width: width * 0.02,
-                                      ),
-                                      Icon(
-                                        FontAwesomeIcons.trashAlt,
-                                        size: 18.0,
-                                      ),
-                                    ],
-                                  ))),
-                        ),
-                      ],
+                  ? SizedBox(
+                      height: height * 0.01,
                     )
+                  : GestureDetector(
+                      onTap: () => showDialog(
+                          context: context,
+                          builder: (c) {
+                            return AlertDialog(
+                              backgroundColor: Colors.blueGrey[700],
+                              contentPadding: EdgeInsets.all(8.0),
+                              content: Container(
+                                  height: height * 0.25,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: height * 0.10,
+                                        width: width * 0.45,
+                                        child: Text(
+                                          "Are Your Sure !! You want to cancel your ${model.selectLtorMl} Oxygen Cyliender",
+                                          style: GoogleFonts.comfortaa(
+                                              fontSize: 17.0),
+                                        ),
+                                      ).centered(),
+                                      SizedBox(
+                                        height: height * 0.03,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Container(
+                                                height: height * 0.06,
+                                                width: width * 0.31,
+                                                child: Material(
+                                                    borderRadius: BorderRadius
+                                                        .circular(5.0),
+                                                    color: Color(0xFF2877ed),
+                                                    elevation: 0.0,
+                                                    child: Center(
+                                                        child: Text('No',
+                                                            style: GoogleFonts
+                                                                .comfortaa(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        18.0))))),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              removecart(model.submitTime,
+                                                  model.bookingName);
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Container(
+                                                height: height * 0.06,
+                                                width: width * 0.31,
+                                                child: Material(
+                                                    borderRadius: BorderRadius
+                                                        .circular(5.0),
+                                                    color: Colors.red,
+                                                    elevation: 0.0,
+                                                    child: Center(
+                                                        child: Text('Yes',
+                                                            style: GoogleFonts
+                                                                .comfortaa(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        18.0))))),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )),
+                            );
+                          }),
+                      child: Container(
+                          height: height * 0.06,
+                          width: width * 0.43,
+                          child: Material(
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: Colors.red,
+                              elevation: 0.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Cancel",
+                                      style: GoogleFonts.comfortaa(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600)),
+                                  SizedBox(
+                                    width: width * 0.02,
+                                  ),
+                                  Icon(
+                                    FontAwesomeIcons.trashAlt,
+                                    size: 18.0,
+                                  ),
+                                ],
+                              ))),
+                    ).centered(),
             ]),
-
-            //   IconButton(
-            //       onPressed: () {
-            //         removecart(model.aadherNumber.toString());
-            //       },
-            //       icon: Icon(Icons.remove_shopping_cart))
-            // ]),
           ).centered(),
         ));
   }
 
-  removecart(String mod) {
+  removecart(String oxygenID, String name) {
     CovidCheckApp.firestore
         .collection(CovidCheckApp.collectionUser)
         .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
-        .collection(CovidCheckApp.bloodbankcollection)
-        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
-            mod)
+        .collection(CovidCheckApp.oxygencollection)
+        .doc(oxygenID + name)
         .delete()
         .then((value) {
       VxToast.show(
         context,
-        msg: "Your Blood Booking Cancel Successfully",
+        msg: "Your oxygen Booking Cancel Successfully",
         showTime: 6000,
         position: VxToastPosition.bottom,
       );
     });
     CovidCheckApp.firestore
-        .collection("BloodBank")
+        .collection("oxygen")
         .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
-            mod)
+            oxygenID)
         .delete();
   }
 }

@@ -92,7 +92,7 @@ class OrgModel {
   String orgCity;
   String orgDistrict;
   String email;
-  int pinNumber;
+  String pinNumber;
   int contact;
   String blood1Choice;
   String blood2Choice;

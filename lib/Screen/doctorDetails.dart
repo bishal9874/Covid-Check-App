@@ -1,17 +1,14 @@
-import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:covidcheck/services/ser.dart';
-import 'package:covidcheck/widgets/link_icon.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+
 import 'package:velocity_x/velocity_x.dart';
-import 'package:flutter_progress_button/flutter_progress_button.dart';
 
 // ignore: must_be_immutable
 class DoctorDetails extends StatefulWidget {
@@ -805,28 +802,28 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     );
   }
 
-  _seasonChoice(String name) {
-    return Container(
-      padding: const EdgeInsets.all(4.0),
-      child: ChoiceChip(
-        label: Text(name),
-        labelStyle: GoogleFonts.comfortaa(
-            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        backgroundColor: Color(0xffededed),
-        selectedColor: Color(0xffe6aab7),
-        selected: seasonChoice == name,
-        onSelected: (selected) {
-          setState(() {
-            seasonChoice = name;
-            print(seasonChoice);
-          });
-        },
-      ),
-    );
-  }
+  // _seasonChoice(String name) {
+  //   return Container(
+  //     padding: const EdgeInsets.all(4.0),
+  //     child: ChoiceChip(
+  //       label: Text(name),
+  //       labelStyle: GoogleFonts.comfortaa(
+  //           color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(30.0),
+  //       ),
+  //       backgroundColor: Color(0xffededed),
+  //       selectedColor: Color(0xffe6aab7),
+  //       selected: seasonChoice == name,
+  //       onSelected: (selected) {
+  //         setState(() {
+  //           seasonChoice = name;
+  //           print(seasonChoice);
+  //         });
+  //       },
+  //     ),
+  //   );
+  // }
 
   Future<Null> selectTimePicker(BuildContext context) async {
     final DateTime picked = await showDatePicker(

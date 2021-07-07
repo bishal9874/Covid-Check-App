@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// ignore: must_be_immutable
 class NormalBed extends StatefulWidget {
   OrgModel normalbed;
   final wardname, bedavailable, minimumBookingPrice;
@@ -87,8 +88,8 @@ class _NormalBedState extends State<NormalBed> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    // var height = MediaQuery.of(context).size.height;
+    // var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: _buildAppBar(context),
       body: Form(key: formKey, child: VStack([_buildCoursePanel(context)])),

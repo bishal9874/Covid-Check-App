@@ -24,6 +24,7 @@ class BloodServices extends StatefulWidget {
 
 class _BloodServicesState extends State<BloodServices> {
   final formKey = new GlobalKey<FormState>();
+  bool approval = false;
   String genderChoice = "";
   String bloodgroupChoice = "";
   DateTime dateTime = DateTime.now();
@@ -125,6 +126,7 @@ class _BloodServicesState extends State<BloodServices> {
     ).centered();
   }
 
+  // ignore: non_constant_identifier_names
   upload_data() async {
     String imageDownURl = await uploadImage();
     updateDetails(imageDownURl);
@@ -158,6 +160,7 @@ class _BloodServicesState extends State<BloodServices> {
       "bloodchoice": bloodgroupChoice,
       "dateSelection": dateTime,
       "precriptionProve": downloadUrl,
+      "adminapproval": approval,
       "gender": genderChoice,
       "publishDate": DateTime.now(),
     });
@@ -181,6 +184,7 @@ class _BloodServicesState extends State<BloodServices> {
       "bloodchoice": bloodgroupChoice,
       "dateSelection": dateTime,
       "precriptionProve": downloadUrl,
+      "adminapproval": approval,
       "gender": genderChoice,
       "publishDate": DateTime.now(),
     }).then((value) {
@@ -494,7 +498,7 @@ class _BloodServicesState extends State<BloodServices> {
                                                       fontWeight:
                                                           FontWeight.w700))),
                                           SizedBox(
-                                            height: height * 0.05,
+                                            height: height * 0.03,
                                           ),
                                           GestureDetector(
                                             onTap: () async {
@@ -521,6 +525,15 @@ class _BloodServicesState extends State<BloodServices> {
                                                                             .w600,
                                                                     fontSize:
                                                                         18.0))))),
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.01,
+                                          ),
+                                          Text(
+                                            "After click pay Button wait for few Second",
+                                            style: GoogleFonts.comfortaa(
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.w200),
                                           ),
                                         ],
                                       )),

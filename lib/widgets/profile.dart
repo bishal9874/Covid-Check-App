@@ -1,6 +1,7 @@
 import 'package:covidcheck/Screen/Auth/login.dart';
 import 'package:covidcheck/helperScreen/BloodBooking.dart';
 import 'package:covidcheck/helperScreen/appointment.dart';
+import 'package:covidcheck/helperScreen/oxygenBooking.dart';
 import 'package:covidcheck/helperScreen/vaccineBook.dart';
 import 'package:covidcheck/services/ser.dart';
 
@@ -183,7 +184,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontSize: 15.0))))),
           ),
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.to(OxygenBooking());
+              },
               child: Container(
                   height: height * 0.06,
                   width: width * 0.40,
@@ -289,7 +292,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _showMyDialog(BuildContext context) async {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    //var width = MediaQuery.of(context).size.width;
     return showDialog<void>(
       context: context,
       barrierDismissible: true, // user must tap button!

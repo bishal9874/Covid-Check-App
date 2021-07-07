@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidcheck/models/appointmentModel.dart';
 
-import 'package:covidcheck/models/vaccinationModel.dart';
 import 'package:covidcheck/services/ser.dart';
 
 import 'package:flutter/material.dart';

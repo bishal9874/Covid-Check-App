@@ -43,7 +43,7 @@ class BloodModel {
     prescriptionProve = json['precriptionProve'];
     dateTime = json['dateSelection'];
     genderChoice = json['gender'];
-    //adminApproval = json['adminApproval'];
+    adminApproval = json['adminapproval'];
   }
 
   Map<String, dynamic> toJson() {
@@ -57,7 +57,7 @@ class BloodModel {
     data['phoneNumber'] = this.phonenumber;
     data['bloodchoice'] = this.bloodChoice;
     data['precriptionProve'] = this.prescriptionProve;
-    //data['adminApproval'] = this.adminApproval;
+    data['adminapproval'] = this.adminApproval;
     data['genderChoice'] = this.genderChoice;
 
     data['dateSelection'] = this.dateTime;

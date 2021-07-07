@@ -17,8 +17,8 @@ class VaccineBook extends StatefulWidget {
 class _VaccineBookState extends State<VaccineBook> {
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    // var height = MediaQuery.of(context).size.height;
+    // var width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: _buildAppBar(context),
         body: StreamBuilder<QuerySnapshot>(

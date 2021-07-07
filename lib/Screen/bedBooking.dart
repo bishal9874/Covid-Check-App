@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// ignore: must_be_immutable
 class BedBooking extends StatefulWidget {
   OrgModel bedbooking;
   BedBooking({Key key, this.bedbooking}) : super(key: key);

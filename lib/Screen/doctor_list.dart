@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:velocity_x/velocity_x.dart';
 
+// ignore: must_be_immutable
 class DoctorList extends StatefulWidget {
   OrgModel doctorList;
   DoctorList({this.doctorList});

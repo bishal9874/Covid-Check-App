@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:covidcheck/Screen/cart_page.dart';
+
 import 'package:covidcheck/Screen/catagories.dart';
-import 'package:covidcheck/counter/booking_counter.dart';
+
 import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:covidcheck/services/ser.dart';
-import 'package:covidcheck/widgets/drawer.dart';
+
 import 'package:covidcheck/widgets/profile.dart';
 import 'package:covidcheck/widgets/searchBox.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {

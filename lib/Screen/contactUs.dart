@@ -1,16 +1,17 @@
 import 'package:covidcheck/blocs/application_bloc.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:covidcheck/services/geolocator.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
+// ignore: must_be_immutable
 class ContactUS extends StatefulWidget {
   OrgModel contact;
   ContactUS({this.contact});
@@ -61,7 +62,7 @@ class _ContactUSState extends State<ContactUS> {
     if (await canLaunch(comand)) {
       await launch(comand);
     } else {
-      Fluttertoast.showToast(msg: 'could not Launch $comand');
+      VxToast.show(context, msg: "could not Launch $comand");
     }
   }
 
@@ -95,7 +96,7 @@ class _ContactUSState extends State<ContactUS> {
       String district,
       String email,
       int contactNumber,
-      int pinCode,
+      String pinCode,
       String orgaName) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;

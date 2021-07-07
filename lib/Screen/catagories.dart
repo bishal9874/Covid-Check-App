@@ -1,20 +1,18 @@
+import 'package:covidcheck/Screen/ambulence.dart';
 import 'package:covidcheck/Screen/bedBooking.dart';
 import 'package:covidcheck/Screen/bloodbook.dart';
 import 'package:covidcheck/Screen/contactUs.dart';
 import 'package:covidcheck/Screen/doctor_list.dart';
 import 'package:covidcheck/Screen/oxyzenServies.dart';
 import 'package:covidcheck/Screen/vaccineDetails.dart';
-import 'package:covidcheck/counter/booking_counter.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:covidcheck/models/vaccinationModel.dart';
-import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// ignore: must_be_immutable
 class OrgDetailPage extends StatefulWidget {
   final OrgModel orgModel;
   VaccineModel vaccineModel;
@@ -265,7 +263,7 @@ class _OrgDetailPageState extends State<OrgDetailPage> {
     var width = MediaQuery.of(context).size.width;
     return InkWell(
         onTap: () {
-          // Get.to(VaccineDetails(vaccine: widget.orgModel));
+          Get.to(AmbulanceBooking(ambulance: widget.orgModel));
         },
         splashColor: Colors.grey,
         child: Padding(

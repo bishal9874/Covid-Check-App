@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:covidcheck/models/appointmentModel.dart';
+
 import 'package:covidcheck/models/virtualAppointModel.dart';
 import 'package:covidcheck/services/ser.dart';
 import 'package:covidcheck/videocall/pages/index.dart';

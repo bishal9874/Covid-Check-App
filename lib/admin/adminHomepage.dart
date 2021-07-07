@@ -1,5 +1,8 @@
 import 'package:covidcheck/admin/ADvirtualAppoint.dart';
 import 'package:covidcheck/admin/Adminappointment.dart';
+import 'package:covidcheck/admin/admin%20organization/organixationView.dart';
+import 'package:covidcheck/admin/adminBlood.dart';
+import 'package:covidcheck/admin/adminoxygen.dart';
 import 'package:covidcheck/admin/organization.dart';
 import 'package:covidcheck/admin/vaccinationDetailsinAdmin.dart';
 import 'package:covidcheck/main.dart';
@@ -59,12 +62,33 @@ class AdminHome extends StatelessWidget {
                   color: Color(0xFF2877ed)),
               child: "Add Organization and Details"
                   .text
-                  .textStyle(GoogleFonts.raleway(fontSize: 20.0))
+                  .textStyle(GoogleFonts.raleway(
+                      fontSize: 20.0, fontWeight: FontWeight.w600))
                   .makeCentered(),
             ).centered(),
           ),
           SizedBox(
-            height: 20.0,
+            height: height * 0.01,
+          ),
+          InkWell(
+            onTap: () {
+              Get.to(AdminOrg());
+            },
+            child: Container(
+              height: height * 0.10,
+              width: width * .90,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.blueGrey[800]),
+              child: "Organization View"
+                  .text
+                  .textStyle(GoogleFonts.comfortaa(
+                      fontSize: 16.0, fontWeight: FontWeight.w600))
+                  .makeCentered(),
+            ).centered(),
+          ),
+          SizedBox(
+            height: height * 0.01,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +105,8 @@ class AdminHome extends StatelessWidget {
                       color: Color(0xFF7a3acf)),
                   child: "vaccine Details"
                       .text
-                      .textStyle(GoogleFonts.raleway(fontSize: 20.0))
+                      .textStyle(GoogleFonts.comfortaa(
+                          fontSize: 15.0, fontWeight: FontWeight.w600))
                       .makeCentered(),
                 ).centered(),
               ),
@@ -97,7 +122,8 @@ class AdminHome extends StatelessWidget {
                       color: Color(0xFF0e20c7)),
                   child: "Appointment Details"
                       .text
-                      .textStyle(GoogleFonts.raleway(fontSize: 16.0))
+                      .textStyle(GoogleFonts.comfortaa(
+                          fontSize: 12.0, fontWeight: FontWeight.w600))
                       .makeCentered()
                       .centered(),
                 ).centered(),
@@ -105,7 +131,7 @@ class AdminHome extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 20.0,
+            height: height * 0.01,
           ),
           InkWell(
             onTap: () {
@@ -119,9 +145,53 @@ class AdminHome extends StatelessWidget {
                   color: Color(0xFF18b581)),
               child: "Virtual Appointment"
                   .text
-                  .textStyle(GoogleFonts.raleway(fontSize: 20.0))
+                  .textStyle(GoogleFonts.comfortaa(
+                      fontSize: 20.0, fontWeight: FontWeight.w600))
                   .makeCentered(),
             ).centered(),
+          ),
+          SizedBox(
+            height: height * 0.01,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  Get.to(AdminBloodBooking());
+                },
+                child: Container(
+                  height: height * 0.10,
+                  width: width * .46,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color(0xFFf22929)),
+                  child: "Blood Booking Details"
+                      .text
+                      .textStyle(GoogleFonts.comfortaa(
+                          fontSize: 13.0, fontWeight: FontWeight.w600))
+                      .makeCentered(),
+                ).centered(),
+              ),
+              InkWell(
+                onTap: () {
+                  Get.to(AdminoxygenBooking());
+                },
+                child: Container(
+                  height: height * 0.10,
+                  width: width * .46,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color(0xFF0f964c)),
+                  child: "Oxygen Servies Details"
+                      .text
+                      .textStyle(GoogleFonts.comfortaa(
+                          fontSize: 13.0, fontWeight: FontWeight.w600))
+                      .makeCentered()
+                      .centered(),
+                ).centered(),
+              ),
+            ],
           ),
         ]).scrollVertical(),
       ).p(10),
