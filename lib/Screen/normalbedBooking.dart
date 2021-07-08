@@ -1,4 +1,5 @@
 import 'package:covidcheck/models/orgServiecs.dart';
+import 'package:covidcheck/services/ser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,14 +9,14 @@ import 'package:velocity_x/velocity_x.dart';
 
 // ignore: must_be_immutable
 class NormalBed extends StatefulWidget {
-  OrgModel normalbed;
+  OrgModel bedInfo;
   final wardname, bedavailable, minimumBookingPrice;
   NormalBed({
     Key key,
     this.bedavailable,
     this.minimumBookingPrice,
-    this.normalbed,
     this.wardname,
+    this.bedInfo,
   }) : super(key: key);
 
   @override
@@ -33,11 +34,12 @@ class _NormalBedState extends State<NormalBed> {
       new TextEditingController();
   final TextEditingController _symptomsController = new TextEditingController();
   String selectedChoice = "";
-  String ageselectedChoice = "";
+  //String ageselectedChoice = "";
   String genderChoice = "";
   String aadharNumber, name, reason, phonenumber;
   DateTime birthDate = DateTime.now();
   DateTime dateTime = DateTime.now();
+  bool adminapproval = false;
   String bedbookingID = DateTime.now().millisecondsSinceEpoch.toString();
 
   checkFields() {
@@ -93,6 +95,7 @@ class _NormalBedState extends State<NormalBed> {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: Form(key: formKey, child: VStack([_buildCoursePanel(context)])),
+      // body: VStack([Text(widget.bedInfo.docnumber)]),
     );
   }
 
@@ -190,6 +193,7 @@ class _NormalBedState extends State<NormalBed> {
                   height: height * 0.01,
                 ),
                 TextFormField(
+                    maxLength: 12,
                     controller: _aadharNumberController,
                     decoration: InputDecoration(
                       filled: true,
@@ -228,6 +232,7 @@ class _NormalBedState extends State<NormalBed> {
                   height: height * 0.01,
                 ),
                 TextFormField(
+                    maxLength: 10,
                     controller: _phonenumberController,
                     decoration: InputDecoration(
                       filled: true,
@@ -266,6 +271,7 @@ class _NormalBedState extends State<NormalBed> {
                   height: height * 0.01,
                 ),
                 TextFormField(
+                    maxLength: 30,
                     maxLines: 4,
                     controller: _symptomsController,
                     decoration: InputDecoration(
@@ -419,16 +425,8 @@ class _NormalBedState extends State<NormalBed> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          // setState(() {
-                                          //   bed--;
-                                          // });
-                                          // print(bed);
-                                          // checkvaccineBookCart(
-                                          //     _aadharNumberController.text
-                                          //         .trim(),
-                                          //     context,
-                                          //     widget.vaccine.organization);
-                                          // Navigator.of(context).pop();
+                                          update();
+                                          Navigator.of(context).pop();
                                         },
                                         child: Container(
                                             height: height * 0.06,
@@ -500,5 +498,138 @@ class _NormalBedState extends State<NormalBed> {
     );
   }
 
-  counter() {}
+  update() {
+    CovidCheckApp.firestore
+        .collection("Details")
+        .doc(widget.bedInfo.docnumber + widget.bedInfo.organization)
+        .update({
+      if (widget.wardname == "Normal Ward")
+        "normalbedAvailable": widget.bedInfo.normalbedAvailable - 1
+      else if (widget.wardname == "Emergency/ICU Ward")
+        "emergencybedAvailable": widget.bedInfo.emergencybedAvailable - 1
+      else if (widget.wardname == "Covid Quarantine Ward")
+        "covidquarantinebed": widget.bedInfo.covidquarantinebed - 1
+    });
+    CovidCheckApp.firestore
+        .collection("Bed")
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
+            _aadharNumberController.text.trim())
+        .set({
+      "Hospital/health_home": widget.bedInfo.organization,
+      "userUI":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
+      "username":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
+      "useremail":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
+      "name": _nameController.text.trim(),
+      "aadharnumber": int.parse(_aadharNumberController.text.trim()),
+      "reason": _symptomsController.text.trim(),
+      "phoneNumber": int.parse(_phonenumberController.text.trim()),
+      "gender": genderChoice,
+      "Birthdate": birthDate,
+      "dateTime": dateTime,
+      "bedreferID": bedbookingID,
+      "adminapproval": adminapproval,
+      "bedVerient": widget.wardname,
+    });
+
+    CovidCheckApp.firestore
+        .collection(CovidCheckApp.collectionUser)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID))
+        .collection(CovidCheckApp.bedBookingcollection)
+        .doc(CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID) +
+            _aadharNumberController.text.trim())
+        .set({
+      "Hospital/health_home": widget.bedInfo.organization,
+      "userUI":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userUID),
+      "username":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userName),
+      "useremail":
+          CovidCheckApp.sharedPreferences.getString(CovidCheckApp.userEmail),
+      "name": _nameController.text.trim(),
+      "aadharnumber": int.parse(_aadharNumberController.text.trim()),
+      "reason": _symptomsController.text.trim(),
+      "phoneNumber": int.parse(_phonenumberController.text.trim()),
+      "gender": genderChoice,
+      "Birthdate": birthDate,
+      "dateTime": dateTime,
+      "bedreferID": bedbookingID,
+      "adminapproval": adminapproval,
+      "bedVerient": widget.wardname,
+    }).then((value) {
+      return showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (c) {
+            Future.delayed(Duration(seconds: 5), () {
+              Navigator.of(context).pop(true);
+            });
+            return AlertDialog(
+                contentPadding: EdgeInsets.all(5.0),
+                content: Container(
+                  height: 100.0,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          backgroundColor: Colors.cyanAccent,
+                          valueColor:
+                              new AlwaysStoppedAnimation<Color>(Colors.red),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          "Uploading Data.........",
+                          style: GoogleFonts.comfortaa(),
+                        )
+                      ]),
+                ));
+          });
+    }).whenComplete(() => showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (c) {
+              Future.delayed(Duration(seconds: 5), () {
+                Navigator.of(context).pop(true);
+              });
+              return AlertDialog(
+                  backgroundColor: Color(0xffd0f2e7),
+                  contentPadding: EdgeInsets.all(10.0),
+                  content: Container(
+                    height: 120.0,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                          Text(
+                            "Bed Booking Successfully !!Please Kindly received your registerd Vaccine from Our Hospital/Organization ",
+                            style: GoogleFonts.comfortaa(color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          LinearProgressIndicator(
+                            backgroundColor: Colors.cyanAccent,
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(Colors.red),
+                          ),
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                        ]),
+                  ));
+            }));
+    setState(() {
+      _nameController.clear();
+      _aadharNumberController.clear();
+      _symptomsController.clear();
+      _phonenumberController.clear();
+      genderChoice = "";
+    });
+  }
 }

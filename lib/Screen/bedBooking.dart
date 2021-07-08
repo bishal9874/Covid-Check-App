@@ -1,4 +1,4 @@
-import 'package:covidcheck/helperScreen/normalbedBooking.dart';
+import 'package:covidcheck/Screen/normalbedBooking.dart';
 import 'package:covidcheck/models/orgServiecs.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,40 +20,34 @@ class _BedBookingState extends State<BedBooking> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(
-            onTap: () => Get.to(NormalBed(
-              wardname: "Normal Bed",
-              normalbed: widget.bedbooking,
-              bedavailable: widget.bedbooking.normalbedAvailable.toString(),
-              minimumBookingPrice: widget.bedbooking.minimumbedprice.toString(),
-            )),
-            child: _choiceBed(
+      body: VStack([
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _choiceBed(
               "Normal Ward",
               Color(0xff00b36e),
               context,
               widget.bedbooking.minimumbedprice.toString(),
               widget.bedbooking.normalbedAvailable.toString(),
             ),
-          ),
-          _choiceBed(
-            "Emergency/ICU Ward",
-            Colors.redAccent,
-            context,
-            widget.bedbooking.minimumbedprice.toString(),
-            widget.bedbooking.emergencybedAvailable.toString(),
-          ),
-          _choiceBed(
-            "Covid Quarantine Ward",
-            Colors.orange,
-            context,
-            widget.bedbooking.minimumbedprice.toString(),
-            widget.bedbooking.covidquarantinebed.toString(),
-          ),
-        ],
-      ),
+            _choiceBed(
+              "Emergency/ICU Ward",
+              Colors.redAccent,
+              context,
+              widget.bedbooking.minimumbedprice.toString(),
+              widget.bedbooking.emergencybedAvailable.toString(),
+            ),
+            _choiceBed(
+              "Covid Quarantine Ward",
+              Colors.orange,
+              context,
+              widget.bedbooking.minimumbedprice.toString(),
+              widget.bedbooking.covidquarantinebed.toString(),
+            ),
+          ],
+        ).centered(),
+      ]).scrollVertical(),
     );
   }
 
@@ -80,11 +74,24 @@ class _BedBookingState extends State<BedBooking> {
     );
   }
 
-  Widget _choiceBed(String bedname, Color bgcolor, BuildContext context,
-      String bedbookingcharge, String bedAvailable) {
+  Widget _choiceBed(
+    String bedname,
+    Color bgcolor,
+    BuildContext context,
+    String bedbookingcharge,
+    String bedAvailable,
+  ) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return InkWell(
+      onTap: () {
+        Get.to(NormalBed(
+          wardname: bedname,
+          bedavailable: bedAvailable,
+          minimumBookingPrice: bedbookingcharge,
+          bedInfo: widget.bedbooking,
+        ));
+      },
       child: Container(
         height: height * 0.18,
         width: width * 1.0,

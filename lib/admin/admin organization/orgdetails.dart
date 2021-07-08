@@ -53,7 +53,7 @@ class _OrgDetailsUpdateState extends State<OrgDetailsUpdate> {
               },
               icon: Icon(FontAwesomeIcons.chevronLeft)),
           Text(widget.orgdetailsUpdate.organization + " Admin Pannel",
-              style: GoogleFonts.comfortaa(fontSize: 18.0)),
+              style: GoogleFonts.comfortaa(fontSize: 12.0)),
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
         ],
       ),

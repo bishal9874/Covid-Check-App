@@ -16,6 +16,7 @@ class CovidCheckApp {
   static String appointmentcollection = "DoctorAppoint";
   static String bloodbankcollection = "bloodbank";
   static String oxygencollection = "oxygen";
+  static String bedBookingcollection = "BedBooking";
   static String collectionOrders = "orders";
   static String userCartList = 'userCart';
   // static String bloodbank = 'bloodbank';

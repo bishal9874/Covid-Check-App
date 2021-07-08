@@ -1,4 +1,5 @@
 import 'package:covidcheck/Screen/Auth/login.dart';
+import 'package:covidcheck/helperScreen/Bedbooking.dart';
 import 'package:covidcheck/helperScreen/BloodBooking.dart';
 import 'package:covidcheck/helperScreen/appointment.dart';
 import 'package:covidcheck/helperScreen/oxygenBooking.dart';
@@ -209,7 +210,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Get.to(BedBookingHisBook());
+            },
             child: Container(
                 height: height * 0.06,
                 width: width * 0.40,

@@ -532,6 +532,7 @@ class _VaccineDetailsState extends State<VaccineDetails> {
     }).then((value) {
       return showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (c) {
             Future.delayed(Duration(seconds: 5), () {
               Navigator.of(context).pop(true);
@@ -559,9 +560,10 @@ class _VaccineDetailsState extends State<VaccineDetails> {
                 ));
           });
     }).whenComplete(() => showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (c) {
-              Future.delayed(Duration(seconds: 8), () {
+              Future.delayed(Duration(seconds: 5), () {
                 Navigator.of(context).pop(true);
               });
               return AlertDialog(

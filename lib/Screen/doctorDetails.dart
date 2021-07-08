@@ -1144,6 +1144,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       "payvirtualAppoint": payvirtualAppoint
     }).then((value) {
       return showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (c) {
             Future.delayed(Duration(seconds: 5), () {
@@ -1172,9 +1173,10 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 ));
           });
     }).whenComplete(() => showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (c) {
-              Future.delayed(Duration(seconds: 12), () {
+              Future.delayed(Duration(seconds: 8), () {
                 Navigator.of(context).pop(true);
               });
               return AlertDialog(

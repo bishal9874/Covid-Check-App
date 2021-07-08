@@ -657,6 +657,7 @@ class _OxygenServicesState extends State<OxygenServices> {
       "verificationUrl": downloadUrl
     }).then((value) {
       return showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (c) {
             Future.delayed(Duration(seconds: 5), () {
@@ -685,9 +686,10 @@ class _OxygenServicesState extends State<OxygenServices> {
                 ));
           });
     }).whenComplete(() => showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (c) {
-              Future.delayed(Duration(seconds: 12), () {
+              Future.delayed(Duration(seconds: 8), () {
                 Navigator.of(context).pop(true);
               });
               return AlertDialog(
